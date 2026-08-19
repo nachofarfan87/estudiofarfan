@@ -93,7 +93,25 @@
   var afUma = document.getElementById("af-uma");
   if (afUma){
     var ars = new Intl.NumberFormat("es-AR", { style:"currency", currency:"ARS", maximumFractionDigits:0 });
-    var pintarArancel = function(valor, mes){
+    // Mismo umbral que /honorarios/: pasado eso el valor se avisa como
+    // pendiente de confirmar, para que las dos páginas digan lo mismo.
+    var DIAS_VENCE = 45;
+
+    // El Colegio no publica el UMA todos los meses, así que en agosto el valor
+    // vigente puede ser el de julio y estar perfectamente al día. Sin esta
+    // leyenda no hay forma de distinguir un período viejo legítimo de un sitio
+    // abandonado.
+    var leyendaVerificado = function(ms){
+      if (!ms || isNaN(ms)) return null;
+      var dias = Math.floor((Date.now() - ms) / 86400000);
+      if (dias < 0) return null;
+      if (dias > DIAS_VENCE) return { txt:"Valor a confirmar", warn:true };
+      if (dias === 0) return { txt:"Verificado hoy", warn:false };
+      if (dias === 1) return { txt:"Verificado ayer", warn:false };
+      return { txt:"Verificado hace " + dias + " días", warn:false };
+    };
+
+    var pintarArancel = function(valor, mes, verificadoMs){
       var v = parseInt(String(valor).replace(/[^\d]/g, ""), 10);
       if (!v) return false;
       var put = function(id, n){
@@ -103,17 +121,25 @@
       put("af-uma", v); put("af-virtual", v * 4); put("af-oral", v * 5); put("af-escrita", v * 8);
       var elMes = document.getElementById("af-mes");
       if (elMes && mes){ elMes.textContent = "UMA de " + mes; }
+      var elChk = document.getElementById("af-chk");
+      if (elChk){
+        var leyenda = leyendaVerificado(verificadoMs);
+        elChk.textContent = leyenda ? leyenda.txt : "";
+        elChk.className = "af-chk" + (leyenda && leyenda.warn ? " warn" : "");
+      }
       return true;
     };
 
     var cacheado = null;
     try { cacheado = JSON.parse(localStorage.getItem("hjf_cache") || "null"); } catch(e){}
-    var listo = cacheado && cacheado.valor ? pintarArancel(cacheado.valor, cacheado.mes) : false;
+    var listo = cacheado && cacheado.valor
+      ? pintarArancel(cacheado.valor, cacheado.mes, cacheado.ts)
+      : false;
 
     if (!listo && "fetch" in window){
       fetch("/honorarios/uma.json", { headers:{ "Accept":"application/json" } })
         .then(function(r){ return r.ok ? r.json() : null; })
-        .then(function(d){ if (d){ pintarArancel(d.valor, d.mes); } })
+        .then(function(d){ if (d){ pintarArancel(d.valor, d.mes, Date.parse(d.actualizado)); } })
         .catch(function(){});
     }
   }

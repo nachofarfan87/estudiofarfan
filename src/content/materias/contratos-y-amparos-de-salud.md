@@ -8,7 +8,7 @@ deck: "Lo que se resuelve fuera del expediente, o antes de que el expediente exi
 resumen: "Esta sección reúne tres cosas que tienen algo en común: se resuelven antes o fuera del juicio largo. El amparo de salud, para cuando la obra social o la prepaga niega una prestación que no puede esperar. Los contratos, para que digan lo que las partes creen que dicen. Y las denuncias y cartas documento, que fijan una fecha y una posición cuando todavía se está a tiempo."
 seo:
   title: "Amparo de salud en Jujuy — Obra social y prepaga | Estudio Farfán"
-  description: "Orientación ante negativas de obras sociales o prepagas, amparos de salud, contratos, cartas documento y denuncias en Jujuy."
+  description: "Amparo de salud en Jujuy cuando la obra social o la prepaga niega una prestación, medicación o cobertura por discapacidad. Contratos, cartas documento y denuncias."
   ogTitle: "Amparos de salud, contratos y denuncias en Jujuy — Estudio Jurídico Farfán"
   ogDescription: "Si la obra social o la prepaga le niega una prestación, el amparo con medida cautelar puede resolverse en días. También contratos y cartas documento."
 home:

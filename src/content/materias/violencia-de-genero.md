@@ -8,7 +8,7 @@ deck: "Medidas de protección con la prioridad que el caso exige y el cuidado qu
 resumen: "Si está en peligro en este momento, llame al 911. La Línea 144 brinda orientación, contención y asesoramiento de forma gratuita, las 24 horas y en todo el país. Si el peligro no es inmediato pero la situación se repite, este estudio orienta sobre la solicitud y el seguimiento de medidas de protección, con tratamiento reservado."
 seo:
   title: "Abogado de violencia de género en Jujuy | Estudio Farfán"
-  description: "Orientación para solicitar medidas de protección ante situaciones de violencia de género o familiar en Jujuy."
+  description: "Medidas de protección en Jujuy: exclusión del hogar, prohibición de acercamiento y botón antipánico. Emergencias: 911 y línea 144."
   ogTitle: "Violencia de género y familiar en Jujuy — Estudio Jurídico Farfán"
   ogDescription: "Orientación sobre medidas de protección ante situaciones de violencia de género o familiar en la provincia de Jujuy."
 home:

@@ -8,7 +8,7 @@ deck: "El ciudadano frente al Estado. Materia fundacional de esta casa: el Códi
 resumen: "Litigar contra la administración tiene una dificultad que no tienen los otros fueros: los plazos. Casi todo lo que se puede reclamar contra el Estado está sujeto a plazos de caducidad breves y perentorios, que empiezan a correr con la notificación del acto y que, una vez vencidos, no se recuperan por más razón que se tenga en el fondo. Si recibió una notificación de un organismo provincial o municipal, consulte antes de que el plazo corra."
 seo:
   title: "Abogado contencioso administrativo en Jujuy | Estudio Farfán"
-  description: "Orientación en amparos por mora, recursos, empleo público y demandas vinculadas con organismos provinciales y municipales de Jujuy."
+  description: "Abogado contencioso administrativo en Jujuy: amparo por mora, amparo genérico, empleo público, recursos y demandas contra la provincia y los municipios."
   ogTitle: "Abogado contencioso administrativo en Jujuy — Estudio Jurídico Farfán"
   ogDescription: "El ciudadano frente al Estado. Amparos, recursos y demandas contra la administración provincial y municipal en Jujuy."
 home:

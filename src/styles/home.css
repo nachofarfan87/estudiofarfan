@@ -71,6 +71,9 @@ body{
 .site-head:not(.over-hero) .brand small{color:var(--brass-ink)}
 .site-head:not(.over-hero) .head-cta{color:var(--ink)}
 .site-head:not(.over-hero) .head-cta:hover{background:var(--ink);border-color:var(--ink);color:var(--bone)}
+html:not(.js-enabled) .site-head.over-hero{
+  background:var(--ink);border-bottom-color:var(--brass-line)
+}
 
 /* ============ HERO ============ */
 .hero{
@@ -170,6 +173,12 @@ body{
   padding-block:.62rem;border-top:1px solid rgba(176,143,79,.22)}
 .af-rows dt{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.1em;color:rgba(251,248,241,.68)}
 .af-rows dd{font-family:"Fraunces",Georgia,serif;font-size:1.08rem;font-weight:380;color:var(--bone);white-space:nowrap}
+/* El período del UMA puede ser de un mes anterior: el Colegio no publica
+   todos los meses. Este renglón dice cuándo se verificó, para que un valor
+   legítimamente viejo no se confunda con un sitio desactualizado. */
+.af-chk{margin-top:.35rem;font-family:"IBM Plex Mono",monospace;font-size:.62rem;
+  letter-spacing:.1em;text-transform:uppercase;color:rgba(251,248,241,.45);min-height:.9rem}
+.af-chk.warn{color:#E4B7A0}
 .af-src{margin-top:1.2rem;font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.1em;color:rgba(251,248,241,.42)}
 
 /* ============ INTRO / DEL ESTUDIO ============ */
@@ -346,7 +355,7 @@ body{
 .field{display:grid;gap:.55rem}
 .field label{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--brass-soft)}
 .field input,.field select,.field textarea{
-  background:transparent;border:0;border-bottom:1px solid rgba(176,143,79,.4);
+  background:transparent;border:0;border-bottom:2px solid var(--brass-soft);
   color:var(--bone);font-family:"Hanken Grotesk",sans-serif;font-size:1.02rem;padding:.6rem 0;
   transition:border-color .3s var(--ease)
 }
@@ -354,7 +363,7 @@ body{
 .field select{appearance:none;cursor:pointer}
 .field select option{background:var(--ink);color:var(--bone)}
 .field input::placeholder,.field textarea::placeholder{color:rgba(251,248,241,.35)}
-.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-bottom-color:var(--brass)}
+.field input:focus,.field select:focus,.field textarea:focus{border-bottom-color:var(--bone)}
 .form .btn-brass{justify-self:start;margin-top:.4rem}
 .form-note{font-family:"IBM Plex Mono",monospace;font-size:.68rem;color:rgba(251,248,241,.5);letter-spacing:.04em}
 .form-error{font-family:"IBM Plex Mono",monospace;font-size:.72rem;line-height:1.6;letter-spacing:.02em;color:#E4B7A0;border-left:2px solid #E4B7A0;padding:.7rem 0 .7rem .9rem}

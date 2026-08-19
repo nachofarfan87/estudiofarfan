@@ -8,7 +8,7 @@ deck: "El derecho que toca la vida de todos los días. Se resuelve mejor cuanto 
 resumen: "Si está buscando un abogado de familia en Jujuy, probablemente ya sepa que el problema no empezó ayer. En esta materia el tiempo trabaja en contra: cada mes que pasa sin una cuota fijada, sin un régimen de comunicación claro o sin el divorcio inscripto es un mes que después hay que reconstruir. Atendemos divorcios, alimentos, cuidado personal, régimen comunicacional, filiación y autorizaciones de viaje en toda la provincia."
 seo:
   title: "Abogado de familia en Jujuy — Divorcio y alimentos | Estudio Farfán"
-  description: "Orientación en divorcio, alimentos, cuidado personal, régimen de comunicación, filiación y autorizaciones de viaje en Jujuy."
+  description: "Abogado de familia en Jujuy: divorcio, cuota alimentaria, cuidado personal, régimen comunicacional, filiación y autorizaciones de viaje."
   ogTitle: "Abogado de familia en Jujuy — Estudio Jurídico Farfán"
   ogDescription: "Divorcio, alimentos, cuidado personal y régimen comunicacional en toda la provincia de Jujuy. Honorarios publicados de antemano."
 home:

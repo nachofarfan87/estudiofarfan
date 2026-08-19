@@ -8,7 +8,7 @@ deck: "Defensa desde la primera diligencia policial hasta el último recurso. La
 resumen: "Si detuvieron a un familiar o lo citaron a declarar, lo más importante que puede saber es esto: nadie está obligado a declarar en su contra, y negarse a hacerlo no puede ser usado como indicio de culpabilidad. Escríbanos antes de la declaración, no después. Atendemos defensas y querellas en el fuero penal de la provincia de Jujuy, con tratamiento reservado."
 seo:
   title: "Abogado penalista en Jujuy — Defensa penal | Estudio Farfán"
-  description: "Defensa y asistencia jurídica en causas penales de Jujuy, desde las primeras diligencias hasta el juicio y los recursos disponibles."
+  description: "Abogado penalista en Jujuy: defensa desde las primeras diligencias hasta el juicio oral, cese de detención, juicio abreviado, probation y habeas corpus."
   ogTitle: "Abogado penalista en Jujuy — Estudio Jurídico Farfán"
   ogDescription: "Defensa penal en toda la provincia de Jujuy, desde la primera diligencia policial hasta el último recurso. Consulta reservada."
 home:
