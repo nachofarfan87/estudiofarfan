@@ -41,9 +41,8 @@
     var focusableSelector = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
     var setNav = function(open, restoreFocus){
       if (open){ previousFocus = document.activeElement; }
+      if (open && !mobileNav.open){ mobileNav.showModal(); }
       mobileNav.classList.toggle("open", open);
-      mobileNav.setAttribute("aria-hidden", open ? "false" : "true");
-      mobileNav.inert = !open;
       navToggle.setAttribute("aria-expanded", open ? "true" : "false");
       navToggle.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
       document.body.style.overflow = open ? "hidden" : "";
@@ -52,12 +51,14 @@
           var first = mobileNav.querySelector(focusableSelector);
           if (first){ first.focus(); }
         });
-      } else if (restoreFocus !== false && previousFocus && previousFocus.focus){
-        previousFocus.focus();
+      } else {
+        if (mobileNav.open){ mobileNav.close(); }
+        if (restoreFocus !== false && previousFocus && previousFocus.focus){ previousFocus.focus(); }
       }
     };
     navToggle.addEventListener("click", function(){ setNav(true); });
     if (mobileClose){ mobileClose.addEventListener("click", function(){ setNav(false); }); }
+    mobileNav.addEventListener("cancel", function(e){ e.preventDefault(); setNav(false); });
     mobileNav.querySelectorAll("a").forEach(function(a){
       a.addEventListener("click", function(){ setNav(false); });
     });
@@ -157,6 +158,16 @@
   var form = document.getElementById("consulta-form");
   if (form){
     var errBox = document.getElementById("consulta-error");
+    var submitButton = form.querySelector('button[type="submit"]');
+    var submitLabel = submitButton ? submitButton.innerHTML : "";
+    var setSending = function(sending){
+      form.setAttribute("aria-busy", sending ? "true" : "false");
+      if (submitButton){
+        submitButton.disabled = sending;
+        submitButton.textContent = sending ? "Enviando…" : "";
+        if (!sending){ submitButton.innerHTML = submitLabel; }
+      }
+    };
     var showOk = function(){
       var ok = document.getElementById("consulta-ok");
       form.hidden = true;
@@ -169,10 +180,11 @@
       ev.preventDefault();
       if (!form.checkValidity()){ form.reportValidity(); return; }
       if (errBox){ errBox.hidden = true; }
+      setSending(true);
       var body = new URLSearchParams(new FormData(form)).toString();
       fetch("/", { method:"POST", headers:{ "Content-Type":"application/x-www-form-urlencoded" }, body:body })
-        .then(function(res){ if (res.ok){ showOk(); } else { showErr(); } })
-        .catch(showErr);
+        .then(function(res){ if (res.ok){ setSending(false); showOk(); } else { setSending(false); showErr(); } })
+        .catch(function(){ setSending(false); showErr(); });
     });
   }
 })();

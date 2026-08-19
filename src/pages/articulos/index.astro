@@ -32,7 +32,11 @@ const schema = [
       author: { '@id': ID.abogado },
     })),
   },
-  nodoMigas(url, [{ nombre: 'Inicio', url: publicUrl('/') }, { nombre: 'Doctrina' }]),
+  nodoMigas(url, [
+    { nombre: 'Inicio', url: publicUrl('/') },
+    { nombre: 'El estudio', url: publicUrl('/#articulos') },
+    { nombre: 'Doctrina' },
+  ]),
 ];
 ---
 

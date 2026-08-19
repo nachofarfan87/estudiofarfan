@@ -84,10 +84,13 @@ a {
 .skip {
   position: fixed;
   z-index: 200;
-  top: 0.6rem;
+  top: calc(0.6rem + env(safe-area-inset-top, 0px));
   left: 50%;
   padding: 0.7rem 1.2rem;
-  transform: translate(-50%, -200%);
+  transform: translate(
+    -50%,
+    calc(-200% - env(safe-area-inset-top, 0px))
+  );
   background: var(--ink);
   color: var(--bone);
   border-radius: 2px;
@@ -101,15 +104,16 @@ a {
 }
 
 :where(a, button, input, select, textarea, summary):focus-visible {
-  outline: 3px solid var(--brass);
-  outline-offset: 3px;
+  outline: 2px solid var(--bone);
+  outline-offset: 2px;
   border-radius: 1px;
+  box-shadow: 0 0 0 4px var(--ink);
 }
 
 .foot-registration {
   margin-top: 0.6rem;
   font-size: 0.8rem !important;
-  opacity: 0.7;
+  opacity: 1;
 }
 
 .foot-links {

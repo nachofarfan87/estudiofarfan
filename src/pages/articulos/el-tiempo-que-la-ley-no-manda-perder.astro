@@ -3,7 +3,7 @@
 import Base from '../../layouts/Base.astro';
 import Footer from '../../components/Footer.astro';
 import Header from '../../components/Header.astro';
-import { publicUrl } from '../../config/site';
+import { absoluteUrl, publicUrl } from '../../config/site';
 import { whatsappUrl } from '../../data/estudio';
 import { ID, nodoSitio, nodoEstudio, nodoAbogado, nodoMigas } from '../../lib/schema';
 import { articulos } from '../../data/articulos';
@@ -43,6 +43,7 @@ const schema = [
     articleSection: a.seccion,
     url,
     mainEntityOfPage: url,
+    ...(absoluteUrl('/og-farfan.jpg') ? { image: absoluteUrl('/og-farfan.jpg') } : {}),
     isPartOf: { '@id': ID.sitio },
     breadcrumb: { '@id': `${url}#crumbs` },
   },
@@ -54,6 +55,7 @@ const schema = [
   description="Análisis de la confección de cédulas y oficios en el fuero civil y comercial de Jujuy, sus normas aplicables y sus efectos prácticos."
   ogTitle={a.titulo}
   ogDescription="Una práctica extendida en los juzgados civiles de Jujuy obliga a los abogados a confeccionar las diligencias del propio juzgado. Este artículo muestra por qué esa carga es ilegítima."
+  ogType="article"
   ruta={ruta}
   schema={schema}
   whatsapp={whatsapp}
@@ -64,7 +66,7 @@ const schema = [
   <Header
     variant="document"
     backLinks={[
-      { href: '/#articulos', label: 'Doctrina', direction: 'back' },
+      { href: '/articulos/', label: 'Doctrina', direction: 'back' },
       { href: '/honorarios/', label: 'Honorarios' },
     ]}
     ctaLabel="Consulta"
@@ -221,7 +223,7 @@ const schema = [
   <Footer
     variant="document"
     links={[
-      { href: '/#articulos', label: 'Volver a Doctrina', direction: 'back' },
+      { href: '/articulos/', label: 'Volver a Doctrina', direction: 'back' },
       { href: '/honorarios/', label: 'Honorarios', direction: 'forward' },
     ]}
   />

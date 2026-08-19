@@ -67,14 +67,10 @@ const {
         {links.map((link) => <a href={link.href}>{link.label}</a>)}
       </nav>
 
-      <div
+      <dialog
         class="mobile-nav"
         id="mobile-nav"
-        role="dialog"
-        aria-modal="true"
         aria-label="Menú principal"
-        aria-hidden="true"
-        inert
       >
         <span class="m-brand" aria-hidden="true">Farfán</span>
         <button class="mobile-close" type="button" aria-label="Cerrar menú">
@@ -86,7 +82,7 @@ const {
         <a class="m-cta" href={ctaHref}>
           Solicitar consulta <span aria-hidden="true">→</span>
         </a>
-      </div>
+      </dialog>
     </>
   ) : (
     <header class="doc-head">

@@ -32,7 +32,9 @@ npm run build
 npm run preview
 ```
 
-La salida de producción se genera en `dist/`.
+La salida de producción se genera en `dist/`. La etapa `postbuild` prerenderiza en
+Honorarios el catálogo de `servicios.json` con el UMA vigente y completa sus metadatos
+públicos sólo cuando existe `PUBLIC_SITE_URL`.
 
 ## Dominio público
 
@@ -62,8 +64,11 @@ src/
 └── styles/           Sistema global y estilos por tipo de página
 ```
 
-La aplicación de honorarios permanece en `public/honorarios/`. Es una superficie
-independiente, con su propio HTML, JavaScript, manifiesto y service worker.
+La aplicación de honorarios permanece en `public/honorarios/`, junto con sus datos,
+manifiesto y service worker. En desarrollo, Astro mapea `/honorarios/` a su documento
+estático; en producción la estructura de directorios ya publica esa URL de forma
+nativa. Su catálogo también queda disponible sin JavaScript gracias a la etapa
+`postbuild`.
 
 ## Datos que deben confirmarse antes de publicar
 

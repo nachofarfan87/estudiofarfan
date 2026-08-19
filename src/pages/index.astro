@@ -131,7 +131,7 @@ const schema = [
       class="arancel"
       id="arancel"
       aria-labelledby="arancel-h"
-      style="scroll-margin-top:5.5rem"
+      style="scroll-margin-top:calc(5.5rem + env(safe-area-inset-top, 0px))"
     >
       <div class="wrap arancel-inner">
         <div>
@@ -166,7 +166,11 @@ const schema = [
     </section>
 
     {/* ============ § I — DEL ESTUDIO ============ */}
-    <section class="section" id="estudio" style="scroll-margin-top:5.5rem">
+    <section
+      class="section"
+      id="estudio"
+      style="scroll-margin-top:calc(5.5rem + env(safe-area-inset-top, 0px))"
+    >
       <div class="wrap codex">
         <div class="codex-margin">
           <div class="codex-run">
@@ -187,25 +191,24 @@ const schema = [
               En 1953 nuestro abuelo, Ciro Alberto Farfán, abrió el estudio; fue además uno
               de los autores del Código Procesal Administrativo y del Código de Minería de
               la provincia. Nuestro padre, Julio Alberto Farfán, continuó la obra: ejerció
-              el derecho con pasión y presidió el Colegio de Abogados de Jujuy. Hoy somos
-              nosotros quienes firmamos las causas, con la misma convicción con la que fue
-              fundado: el derecho no se ejerce por parcelas. Un mismo abogado debe poder
-              ver el problema entero antes de recortar su parte.
+              el derecho con pasión y presidió el Colegio de Abogados de Jujuy. Hoy la práctica
+              continúa con la misma convicción con la que fue fundada: el derecho no se ejerce
+              por parcelas. Un mismo abogado debe poder ver el problema entero antes de
+              recortar su parte.
             </p>
             <p>
-              Por eso trabajamos en todas las especialidades. No porque la amplitud sea un
+              Por eso el estudio trabaja en distintas áreas. No porque la amplitud sea un
               mérito en sí, sino porque los problemas reales rara vez respetan las
               fronteras del derecho: un conflicto societario toca lo laboral, una sucesión
               toca lo tributario, una operación inmobiliaria toca lo administrativo.
             </p>
             <p>
-              Cada consulta la recibimos personalmente. No hay filtros ni derivaciones
-              automáticas. Si el caso lo exige, coordinamos con otros profesionales de
-              nuestra confianza; pero la responsabilidad y la conversación son siempre
-              nuestras.
+              Cada consulta se recibe personalmente. No hay filtros ni derivaciones
+              automáticas. Si el caso lo exige, se coordina con otros profesionales; la
+              responsabilidad sobre el seguimiento y la conversación permanece en el estudio.
             </p>
           </div>
-          <h3 class="section-head subhead reveal">Bajo una misma <em>firma</em>.</h3>
+          <p class="section-head subhead reveal">Bajo una misma <em>firma</em>.</p>
 
           <div class="abogado-card reveal">
             <div class="abogado-mono" aria-hidden="true">JF</div>
@@ -221,9 +224,9 @@ const schema = [
             </div>
           </div>
 
-          <p class="linaje-head reveal">Linaje del estudio — Farfán, tres generaciones</p>
-          <div class="linaje reveal">
-            <div class="linaje-gen">
+          <h3 class="linaje-head reveal">Linaje del estudio — Farfán, tres generaciones</h3>
+          <ol class="linaje reveal">
+            <li class="linaje-gen">
               <div class="linaje-year">1953</div>
               <p class="linaje-rol">Fundador</p>
               <p class="linaje-name">Ciro Alberto Farfán</p>
@@ -232,8 +235,8 @@ const schema = [
                 mirada sobre el caso completo. Fue uno de los autores del Código Procesal
                 Administrativo y del Código de Minería de la provincia.
               </p>
-            </div>
-            <div class="linaje-gen">
+            </li>
+            <li class="linaje-gen">
               <div class="linaje-year">2.ª gen.</div>
               <p class="linaje-rol">Continuador</p>
               <p class="linaje-name">Julio Alberto Farfán</p>
@@ -242,24 +245,27 @@ const schema = [
                 Colegio de Abogados de Jujuy, ante el que en 2014 llevó un planteo sobre la
                 labor forense que la tercera generación retoma hoy.
               </p>
-            </div>
-            <div class="linaje-gen current">
+            </li>
+            <li class="linaje-gen current">
               <div class="linaje-year">Hoy</div>
-              <p class="linaje-rol">Titulares actuales</p>
-              <p class="linaje-name">Juan Ignacio y Marianela Farfán</p>
+              <p class="linaje-rol">Continuidad del estudio</p>
+              <p class="linaje-name">Una nueva generación</p>
               <p class="linaje-note">
-                Continuamos el legado con la misma convicción y el mismo profesionalismo
-                con que fue fundado el estudio: distintas áreas de práctica y una sola
-                mirada sobre cada caso.
+                La práctica continúa con el mismo principio: distintas áreas de trabajo y
+                una sola mirada sobre cada caso.
               </p>
-            </div>
-          </div>
+            </li>
+          </ol>
         </div>
       </div>
     </section>
 
     {/* ============ § II — DE LA DOCTRINA ============ */}
-    <section class="section" id="articulos" style="scroll-margin-top:5.5rem">
+    <section
+      class="section"
+      id="articulos"
+      style="scroll-margin-top:calc(5.5rem + env(safe-area-inset-top, 0px))"
+    >
       <div class="wrap codex">
         <div class="codex-margin">
           <div class="codex-run">
@@ -293,7 +299,11 @@ const schema = [
     </section>
 
     {/* ============ § III — DE LAS MATERIAS ============ */}
-    <section class="section" id="materias" style="scroll-margin-top:5.5rem">
+    <section
+      class="section"
+      id="materias"
+      style="scroll-margin-top:calc(5.5rem + env(safe-area-inset-top, 0px))"
+    >
       <div class="wrap codex">
         <div class="codex-margin">
           <div class="codex-run">
@@ -351,7 +361,11 @@ const schema = [
     </section>
 
     {/* ============ § IV — DE LAS CONSULTAS ============ */}
-    <section class="section" id="contacto" style="scroll-margin-top:5.5rem">
+    <section
+      class="section"
+      id="contacto"
+      style="scroll-margin-top:calc(5.5rem + env(safe-area-inset-top, 0px))"
+    >
       <div class="wrap codex">
         <div class="codex-margin">
           <div class="codex-run">
@@ -467,7 +481,14 @@ const schema = [
                 </p>
               </form>
 
-              <div class="confirm" id="consulta-ok" hidden tabindex="-1">
+              <div
+                class="confirm"
+                id="consulta-ok"
+                role="status"
+                aria-live="polite"
+                hidden
+                tabindex="-1"
+              >
                 <span class="tag">Consulta recibida</span>
                 <h3>Gracias. Recibimos su mensaje.</h3>
                 <p>

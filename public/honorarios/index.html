@@ -6,30 +6,31 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light">
 <title>Arancel y honorarios de consulta — Estudio Jurídico Farfán</title>
-<meta name="description" content="Honorarios de consulta y de más de cien trámites, calculados sobre el valor vigente del UMA del Colegio de Abogados de Jujuy. Estudio Jurídico Farfán.">
+<meta name="description" content="Honorarios de consulta y de más de noventa trámites, calculados sobre el valor vigente del UMA del Colegio de Abogados de Jujuy. Estudio Jurídico Farfán.">
 <meta name="theme-color" content="#15251C">
-<link rel="canonical" href="/honorarios/">
-<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20fill='%2315251C'/%3E%3Ctext%20x='32'%20y='45'%20font-family='Georgia,serif'%20font-size='40'%20fill='%23B08F4F'%20text-anchor='middle'%3EF%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<!-- PUBLIC_URL_META_START -->
+<!-- PUBLIC_URL_META_END -->
 
 <!-- Open Graph / compartir -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Estudio Jurídico Farfán">
 <meta property="og:locale" content="es_AR">
 <meta property="og:title" content="Arancel y honorarios de consulta — Estudio Jurídico Farfán">
-<meta property="og:description" content="Cuánto cuesta una consulta jurídica en Jujuy, según el valor vigente del UMA del Colegio de Abogados. Más de cien trámites con su honorario al día.">
-<!-- og:url y la imagen social absoluta se agregan al confirmar el dominio. -->
+<meta property="og:description" content="Cuánto cuesta una consulta jurídica en Jujuy, según el valor vigente del UMA del Colegio de Abogados. Más de noventa trámites con su honorario al día.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Arancel y honorarios de consulta — Estudio Jurídico Farfán">
-<meta name="twitter:description" content="Honorarios de consulta y de más de cien trámites, sobre el valor vigente del UMA del Colegio de Abogados de Jujuy.">
+<meta name="twitter:description" content="Honorarios de consulta y de más de noventa trámites, sobre el valor vigente del UMA del Colegio de Abogados de Jujuy.">
 
 <!-- Datos estructurados: estudio jurídico local -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "LegalService",
+  "@id": "/#estudio",
   "name": "Estudio Jurídico Farfán",
   "description": "Estudio jurídico integral en Jujuy desde 1953. Honorarios de consulta calculados según el valor vigente del UMA del Colegio de Abogados de Jujuy.",
-  "url": "/honorarios/",
+  "url": "/",
   "areaServed": { "@type": "AdministrativeArea", "name": "Jujuy, Argentina" },
   "address": { "@type": "PostalAddress", "streetAddress": "Carrizo N° 672", "addressRegion": "Jujuy", "addressCountry": "AR" },
   "telephone": "+543885800175",
@@ -37,6 +38,21 @@
   "founder": { "@type": "Person", "name": "Ciro Alberto Farfán" },
   "foundingDate": "1953",
   "knowsLanguage": "es-AR"
+}
+</script>
+
+<!-- Datos estructurados: página de honorarios -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "/honorarios/#page",
+  "url": "/honorarios/",
+  "name": "Arancel y honorarios de consulta — Estudio Jurídico Farfán",
+  "description": "Honorarios de consulta y de más de noventa trámites, calculados sobre el valor vigente del UMA del Colegio de Abogados de Jujuy.",
+  "inLanguage": "es-AR",
+  "isPartOf": { "@id": "/#website" },
+  "about": { "@id": "/#estudio" }
 }
 </script>
 
@@ -210,10 +226,10 @@ a{color:inherit;text-decoration:none}
 /* ============ BUSCADOR ============ */
 .catalog-search{position:relative;max-width:32rem}
 .catalog-search input{width:100%;font-family:"Hanken Grotesk",sans-serif;font-size:1rem;color:var(--text);
-  background:var(--bone);border:1px solid var(--line-strong);padding:.85rem 2.6rem .85rem 2.7rem;
+  background:var(--bone);border:2px solid var(--brass-ink);padding:.85rem 2.6rem .85rem 2.7rem;
   transition:border-color .25s var(--ease)}
 .catalog-search input::placeholder{color:var(--text-soft);opacity:.75}
-.catalog-search input:focus{outline:none;border-color:var(--brass)}
+.catalog-search input:focus{border-color:var(--ink)}
 .search-icon{position:absolute;left:1rem;top:50%;transform:translateY(-50%);color:var(--brass-ink);pointer-events:none}
 .search-clear{position:absolute;right:.55rem;top:50%;transform:translateY(-50%);border:0;background:none;cursor:pointer;
   color:var(--text-soft);font-size:1.15rem;line-height:1;padding:.45rem .6rem;transition:color .2s}
@@ -243,6 +259,10 @@ a{color:inherit;text-decoration:none}
 .servicio-nota{margin-top:.2rem;font-family:"IBM Plex Mono",monospace;font-size:.68rem;line-height:1.5;letter-spacing:.02em;color:var(--text-soft)}
 .servicio-precio{font-family:"IBM Plex Mono",monospace;font-size:.86rem;letter-spacing:-.01em;color:var(--brass-ink);white-space:nowrap}
 .catalog-empty{padding:2rem .4rem;font-family:"IBM Plex Mono",monospace;font-size:.78rem;letter-spacing:.04em;color:var(--text-soft)}
+.catalog-fallback{padding:1rem .4rem 2rem;color:var(--text-soft)}
+.catalog-fallback p{margin-bottom:1rem}
+.catalog-fallback ul{display:grid;gap:.7rem;list-style:none}
+.catalog-fallback li{scroll-margin-top:5rem;border-left:2px solid var(--brass-ink);padding-left:.8rem;color:var(--text)}
 mark{background:rgba(176,143,79,.28);color:var(--ink);padding:0 .12em}
 @keyframes artIn{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:none}}
 
@@ -283,8 +303,8 @@ tbody td:first-child{font-family:"Fraunces",serif;font-size:1rem;color:var(--ink
 .field{display:grid;gap:.5rem}
 .field label,.field .lbl{font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--brass-ink)}
 .field input{width:100%;font-family:"Hanken Grotesk",sans-serif;font-size:1rem;color:var(--text);
-  background:var(--bone);border:1px solid var(--line-strong);padding:.7rem .9rem;transition:border-color .25s var(--ease)}
-.field input:focus{outline:none;border-color:var(--brass)}
+  background:var(--bone);border:2px solid var(--brass-ink);padding:.7rem .9rem;transition:border-color .25s var(--ease)}
+.field input:focus{border-color:var(--ink)}
 .hint{font-size:.88rem;color:var(--text-soft);line-height:1.5}
 .hint a{color:var(--brass-ink);border-bottom:1px solid var(--brass-line)}
 .inline{display:flex;gap:.7rem;align-items:flex-end;flex-wrap:wrap}
@@ -347,7 +367,7 @@ tbody td:first-child{font-family:"Fraunces",serif;font-size:1rem;color:var(--ink
 .prose p{text-align:justify;text-justify:inter-word;hyphens:auto;-webkit-hyphens:auto;hyphenate-limit-chars:6 3 3}
 
 /* ============ FOCUS / MOVIMIENTO ============ */
-a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--brass);outline-offset:3px;border-radius:1px}
+a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--bone);outline-offset:2px;border-radius:1px;box-shadow:0 0 0 4px var(--ink)}
 .reveal-ready .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
 .reveal-ready .reveal.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){
@@ -389,7 +409,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{o
 }
 .wa-float svg{width:1.65rem;height:1.65rem;fill:currentColor}
 .wa-float:hover{background:var(--brass);color:var(--ink);border-color:var(--brass);box-shadow:0 .9rem 2rem rgba(21,37,28,.34)}
-.wa-float:focus-visible{outline:2px solid var(--brass);outline-offset:3px;border-radius:50%}
+.wa-float:focus-visible{outline:2px solid var(--bone);outline-offset:2px;border-radius:50%;box-shadow:0 0 0 4px var(--ink)}
 .wa-float .wa-tip{
   position:absolute;right:calc(100% + .7rem);white-space:nowrap;
   font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;
@@ -460,7 +480,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{o
             <span class="cite-v">Vigente</span>
           </div>
           <span class="updated" id="umaUpdated"></span>
-          <button class="btn btn-ghost" id="btnActualizar" type="button">Actualizar</button>
+          <button class="btn btn-ghost" id="btnActualizar" type="button" hidden>Actualizar</button>
         </aside>
       </section>
 
@@ -523,7 +543,24 @@ a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{o
         </div>
         <p class="search-count" id="searchCount" role="status" aria-live="polite"></p>
       </div>
-      <div class="servicios-catalog reveal" id="serviciosCatalog"></div>
+      <div class="servicios-catalog reveal" id="serviciosCatalog">
+        <!-- HONORARIOS_STATIC_CATALOG_START -->
+        <noscript>
+          <div class="catalog-fallback">
+            <p>Active JavaScript para consultar el detalle y los importes actualizados. Las áreas disponibles son:</p>
+            <ul>
+              <li id="area-contencioso">Contencioso administrativo</li>
+              <li id="area-civil">Civil y comercial</li>
+              <li id="area-familia">Familia</li>
+              <li id="area-contratos">Contratos y amparos de salud</li>
+              <li id="area-penal">Penal</li>
+              <li id="area-laboral">Laboral</li>
+              <li id="area-genero">Violencia de género y familiar</li>
+            </ul>
+          </div>
+        </noscript>
+        <!-- HONORARIOS_STATIC_CATALOG_END -->
+      </div>
     </div>
   </section>
 
@@ -592,9 +629,9 @@ a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{o
         </div>
       </div>
 
-      <!-- Ajustes (uso interno del estudio) -->
+      <!-- Ajustes técnicos locales -->
       <details class="settings reveal">
-        <summary>Ajustes <span class="chev" aria-hidden="true">›</span></summary>
+        <summary>Ajustes técnicos <span class="chev" aria-hidden="true">›</span></summary>
         <div class="settings-body">
           <div class="field">
             <label for="manualInput">Ingresar el UMA manualmente</label>
@@ -614,7 +651,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{o
               <button class="btn btn-line" id="btnSetKey" type="button">Configurar clave</button>
               <button class="btn btn-line" id="btnResetKey" type="button">Borrar clave</button>
             </div>
-            <p class="hint">Se usa solo si falla la lectura directa del sitio del Colegio. La clave nunca sale de este dispositivo.</p>
+            <p class="hint">Se usa solo si falla la lectura directa del sitio del Colegio. Se guarda en este navegador y, al consultar, se envía directamente a la API de Google; no pasa por servidores del Estudio. No la cargue en un dispositivo compartido.</p>
           </div>
         </div>
       </details>
@@ -668,15 +705,15 @@ a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{o
   </div>
 </footer>
 
-<!-- ===== Modal clave Gemini (uso interno) ===== -->
+<!-- ===== Modal clave Gemini (herramienta local opcional) ===== -->
 <div class="overlay" id="keyModal" role="dialog" aria-modal="true" aria-labelledby="keyModalTitle">
   <div class="modal">
     <h2 id="keyModalTitle">Clave de Gemini</h2>
-    <p>Opcional y solo para el administrador del sitio. Si la carga, la página intentará buscar el valor con Gemini cuando no pueda leer el sitio del Colegio. Se guarda únicamente en este dispositivo: los visitantes nunca ven este paso.</p>
+    <p>Esta herramienta es opcional. Si carga una clave, la página intentará buscar el valor con Gemini cuando no pueda leer el sitio del Colegio. La clave se guarda en este navegador y se envía directamente a la API de Google al realizar la consulta; no pasa por servidores del Estudio. No la use en un dispositivo compartido.</p>
     <div class="field">
       <label for="keyInput">Clave de API</label>
       <input type="password" id="keyInput" placeholder="AIza…" autocomplete="off" spellcheck="false">
-      <p class="hint">Se obtiene gratis en <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a>.</p>
+      <p class="hint">Puede crear una clave en <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Google AI Studio</a>. Google puede requerir facturación y aplicar límites o cargos para la búsqueda web.</p>
     </div>
     <div class="actions">
       <button class="btn btn-line" id="btnSkipKey" type="button">Ahora no</button>
@@ -707,7 +744,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{o
   // WhatsApp del estudio. Formato internacional para móviles argentinos: 54 + 9 + área + número.
   const WA = '5493885800175';
   const SITE_URL = 'https://colabogadosjujuy.com.ar/';
-  const GEMINI_MODEL = 'gemini-2.0-flash';
+  const GEMINI_MODEL = 'gemini-3.6-flash';
   const LS = { key:'hjf_gemini_key', cache:'hjf_cache', history:'hjf_history' };
 
   // ===================== Utilidades =====================
@@ -830,7 +867,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{o
   // 2) Gemini Flash con grounding de búsqueda web
   async function fetchGemini(key){
     const url = 'https://generativelanguage.googleapis.com/v1beta/models/' +
-                GEMINI_MODEL + ':generateContent?key=' + encodeURIComponent(key);
+                GEMINI_MODEL + ':generateContent';
     const prompt =
       'Buscá en la web el valor ACTUAL del UMA (Unidad de Medida Arancelaria) del ' +
       'Colegio de Abogados de Jujuy, publicado en colabogadosjujuy.com.ar. ' +
@@ -839,7 +876,9 @@ a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{o
       'sin separadores ni símbolos. Ejemplo de formato: Junio|51186';
     const body = { contents:[{ parts:[{ text: prompt }] }], tools:[{ google_search:{} }] };
     const res = await fetchWithTimeout(url, {
-      method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(body)
+      method:'POST',
+      headers:{ 'Content-Type':'application/json', 'x-goog-api-key':key },
+      body: JSON.stringify(body)
     }, 15000);
     if (!res.ok){
       const t = await res.text().catch(() => '');
@@ -1179,7 +1218,8 @@ a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{o
   }
 
   // Busca el valor más actual: sitio oficial -> (Gemini solo si el dueño cargó clave) -> base.
-  // Nunca pide la clave: un visitante jamás ve ese paso.
+  // No pide la clave automáticamente: el respaldo sólo se activa si alguien
+  // la configuró de forma explícita en los ajustes técnicos de este navegador.
   async function refreshLive({ showLoading = false } = {}){
     if (showLoading) setLoading(true);
     try {
@@ -1229,6 +1269,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{o
   }
 
   // ===================== Eventos =====================
+  $('btnActualizar').hidden = false;
   $('btnActualizar').addEventListener('click', () => resolveValue({ force:true }));
 
   $('btnManual').addEventListener('click', () => {

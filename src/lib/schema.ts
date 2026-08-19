@@ -31,7 +31,7 @@ export const nodoSitio = () => ({
 });
 
 export const nodoEstudio = () => ({
-  '@type': ['LegalService', 'Attorney'],
+  '@type': 'LegalService',
   '@id': ID.estudio,
   name: estudio.nombre,
   alternateName: estudio.alternativo,
@@ -83,7 +83,7 @@ export const nodoEstudio = () => ({
 });
 
 export const nodoAbogado = () => ({
-  '@type': ['Person', 'Attorney'],
+  '@type': 'Person',
   '@id': ID.abogado,
   name: abogado.nombre,
   jobTitle: abogado.cargo,

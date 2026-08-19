@@ -18,6 +18,35 @@ const env = loadEnv(process.env.NODE_ENV ?? 'production', process.cwd(), '');
 const rawSite = (env.PUBLIC_SITE_URL ?? process.env.PUBLIC_SITE_URL)?.trim();
 const site = rawSite ? new URL(rawSite).origin : undefined;
 
+/**
+ * Vite sirve literalmente los archivos de `public/`, pero no resuelve un
+ * `index.html` dentro de sus subdirectorios. Este alias existe sólo durante
+ * desarrollo; la salida estática de producción ya publica la URL esperada.
+ *
+ * @returns {import('vite').Plugin}
+ */
+const honorariosDirectoryIndex = () => ({
+  name: 'honorarios-directory-index',
+  enforce: 'pre',
+  apply: 'serve',
+  configureServer(server) {
+    server.middlewares.use((request, _response, next) => {
+      if (!request.url) return next();
+
+      const queryIndex = request.url.indexOf('?');
+      const pathname =
+        queryIndex === -1 ? request.url : request.url.slice(0, queryIndex);
+      const query = queryIndex === -1 ? '' : request.url.slice(queryIndex);
+
+      if (pathname === '/honorarios/') {
+        request.url = `/honorarios/index.html${query}`;
+      }
+
+      return next();
+    });
+  },
+});
+
 export default defineConfig({
   site,
 
@@ -26,10 +55,13 @@ export default defineConfig({
   build: { format: 'directory' },
   trailingSlash: 'always',
 
+  vite: {
+    plugins: [honorariosDirectoryIndex()],
+  },
+
   integrations: site
     ? [
         sitemap({
-          // Honorarios vive en public/ y no es una ruta compilada por Astro.
           customPages: [new URL('/honorarios/', site).href],
           serialize(item) {
             // Sin priority ni changefreq: Google los ignora desde hace años.

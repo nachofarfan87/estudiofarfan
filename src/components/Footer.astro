@@ -32,18 +32,18 @@ const year = new Date().getFullYear();
           <div class="foot-brand">
             <div class="b">Farfán</div>
             <p>
-              Estudio jurídico en Jujuy. Tres generaciones en los siete fueros de la
-              provincia, bajo un mismo criterio desde 1953.
+              Estudio jurídico en Jujuy. Una práctica orientada a comprender el caso completo y
+              explicar con claridad las alternativas posibles.
             </p>
           </div>
 
           <nav class="foot-col" aria-label="Materias">
-            <h4>Materias</h4>
+            <h2>Materias</h2>
             {materias.map((materia) => <a href={materia.href}>{materia.label}</a>)}
           </nav>
 
           <nav class="foot-col" aria-label="El estudio">
-            <h4>El estudio</h4>
+            <h2>El estudio</h2>
             <a href="#estudio">Historia y firma</a>
             <a href="/honorarios/">Honorarios y arancel</a>
             <a href="/articulos/">Artículos</a>
@@ -52,7 +52,7 @@ const year = new Date().getFullYear();
           </nav>
 
           <div class="foot-col">
-            <h4>Contacto</h4>
+            <h2>Contacto</h2>
             <p>{estudio.domicilio.calle}</p>
             <a href={estudio.whatsapp} target="_blank" rel="noopener">
               WhatsApp {estudio.telefonoVisible}
