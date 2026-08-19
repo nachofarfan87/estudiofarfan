@@ -1,17 +1,490 @@
 ---
+// src/pages/index.astro
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { publicUrl } from '../config/site';
+import { estudio } from '../data/estudio';
+import { articulosPorFecha } from '../data/articulos';
+import { nodoSitio, nodoEstudio, nodoAbogado } from '../lib/schema';
+import '../styles/home.css';
 
+const materias = (await getCollection('materias')).sort(
+  (a, b) => a.data.orden - b.data.orden,
+);
+const articulos = articulosPorFecha();
+const navLinks = [
+  { href: '#estudio', label: 'El estudio' },
+  { href: '/honorarios/', label: 'Honorarios' },
+  { href: '#articulos', label: 'Artículos' },
+  { href: '#materias', label: 'Materias' },
+  { href: '#contacto', label: 'Contacto' },
+];
+const footerMaterias = materias.map((materia) => ({
+  href: `/materias/${materia.id}/`,
+  label: materia.data.home.pie,
+}));
+
+const schema = [
+  nodoSitio(),
+  {
+    ...nodoEstudio(),
+    knowsAbout: [
+      'Derecho de familia',
+      'Divorcio',
+      'Cuota alimentaria',
+      'Derecho civil y comercial',
+      'Sucesiones',
+      'Daños y perjuicios',
+      'Derecho laboral',
+      'Despido',
+      'Accidentes de trabajo',
+      'Derecho penal',
+      'Defensa penal',
+      'Derecho contencioso administrativo',
+      'Amparo por mora',
+      'Violencia de género y familiar',
+      'Medidas de protección',
+      'Amparos de salud',
+    ],
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'Arancel de honorarios',
+      url: publicUrl('/honorarios/'),
+      itemListElement: materias.map((m) => ({
+        '@type': 'Offer',
+        url: publicUrl(`/materias/${m.id}/`),
+        itemOffered: {
+          '@type': 'Service',
+          name: m.data.fuero,
+          description: m.data.seo.description,
+          url: publicUrl(`/materias/${m.id}/`),
+        },
+      })),
+    },
+  },
+  nodoAbogado(),
+  {
+    '@type': 'ItemList',
+    '@id': publicUrl('/#materias-lista'),
+    name: 'Índice de materias del Estudio Jurídico Farfán',
+    itemListElement: materias.map((m, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: m.data.fuero,
+      url: publicUrl(`/materias/${m.id}/`),
+    })),
+  },
+];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Base
+  title="Abogados en Jujuy | Estudio Jurídico Farfán"
+  description="Estudio jurídico en Jujuy para consultas de familia, laboral, penal, civil, sucesiones y amparos. Orientación clara y atención profesional."
+  ogTitle="Abogados en Jujuy — Estudio Jurídico Farfán"
+  ogDescription="Orientación jurídica clara en Jujuy, con información práctica sobre materias, consultas y honorarios."
+  ruta="/"
+  schema={schema}
+  bodyId="top"
+>
+  <a class="skip" href="#contenido">Saltar al contenido</a>
+
+  <Header links={navLinks} overHero />
+
+  <main id="contenido" tabindex="-1">
+    {/* ============ HERO ============ */}
+    <section class="hero" id="inicio" aria-label="Portada">
+      <div class="hero-grain" aria-hidden="true"></div>
+      <div class="wrap">
+        <div class="hero-frame">
+          <p class="hero-kicker">Estudio jurídico integral en Jujuy · Desde 1953</p>
+          <h1 class="hero-title">
+            <span class="line"><span>Tres generaciones.</span></span>
+            <span class="line"><span>Un mismo <em>criterio.</em></span></span>
+          </h1>
+          <p class="hero-firm">Estudio Jurídico Farfán</p>
+          <p class="hero-sub">
+            Abogados en Jujuy en los siete fueros de la provincia. Bajo el mismo apellido
+            y el mismo criterio: leer cada caso completo, sin perder de vista el resto.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-brass" href="#contacto"
+              >Solicitar una consulta <span class="arr">→</span></a
+            >
+            <a class="btn btn-ghost" href="#materias">Ver las materias</a>
+          </div>
+          <div class="hero-rule">
+            <span class="ln" aria-hidden="true"></span>
+            <span class="hero-edition"
+              >Edición fundacional · <span class="rn">MCMLIII</span></span
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+    <span id="hero-end" aria-hidden="true"></span>
+
+    {/* ============ BANDA — EL ARANCEL ============ */}
+    <section
+      class="arancel"
+      id="arancel"
+      aria-labelledby="arancel-h"
+      style="scroll-margin-top:5.5rem"
+    >
+      <div class="wrap arancel-inner">
+        <div>
+          <p class="eyebrow">De acceso libre · Arancel vigente</p>
+          <h2 class="arancel-h" id="arancel-h">Cuánto cuesta, <em>antes</em> de preguntar.</h2>
+          <p class="arancel-lead">
+            Publicamos el arancel completo: las tres modalidades de consulta y más de cien
+            trámites, calculados sobre el valor vigente del UMA del Colegio de Abogados de
+            Jujuy. Sin registrarse y sin dejar datos.
+          </p>
+          <div class="arancel-actions">
+            <a class="btn btn-ink" href="/honorarios/"
+              >Ver los honorarios <span class="arr">→</span></a
+            >
+            <span class="arancel-note">Se actualiza solo</span>
+          </div>
+        </div>
+
+        <a class="arancel-ficha" href="/honorarios/" aria-label="Ver los honorarios en detalle">
+          <span class="af-k">UMA vigente</span>
+          <div class="af-value" id="af-uma">—</div>
+          <p class="af-mes" id="af-mes"></p>
+          <dl class="af-rows">
+            <div class="r"><dt>Consulta virtual · 4 UMA</dt><dd id="af-virtual">—</dd></div>
+            <div class="r"><dt>Consulta oral · 5 UMA</dt><dd id="af-oral">—</dd></div>
+            <div class="r"><dt>Consulta escrita · 8 UMA</dt><dd id="af-escrita">—</dd></div>
+          </dl>
+          <p class="af-src">Fuente: Colegio de Abogados de Jujuy</p>
+        </a>
+      </div>
+    </section>
+
+    {/* ============ § I — DEL ESTUDIO ============ */}
+    <section class="section" id="estudio" style="scroll-margin-top:5.5rem">
+      <div class="wrap codex">
+        <div class="codex-margin">
+          <div class="codex-run">
+            <span class="sec-no serif">§ I</span>
+            <span class="eyebrow">Del estudio</span>
+          </div>
+        </div>
+        <div class="codex-body">
+          <h2 class="section-head reveal">
+            Un apellido.<br />Setenta años<br />de <em>derecho</em>.
+          </h2>
+          <p class="intro-lead reveal" style="margin-top:1.6rem">
+            Trabajamos como se redacta un código: con orden, con criterio y con la vista
+            puesta en el conjunto.
+          </p>
+          <div class="intro-body reveal">
+            <p class="dropcap">
+              En 1953 nuestro abuelo, Ciro Alberto Farfán, abrió el estudio; fue además uno
+              de los autores del Código Procesal Administrativo y del Código de Minería de
+              la provincia. Nuestro padre, Julio Alberto Farfán, continuó la obra: ejerció
+              el derecho con pasión y presidió el Colegio de Abogados de Jujuy. Hoy somos
+              nosotros quienes firmamos las causas, con la misma convicción con la que fue
+              fundado: el derecho no se ejerce por parcelas. Un mismo abogado debe poder
+              ver el problema entero antes de recortar su parte.
+            </p>
+            <p>
+              Por eso trabajamos en todas las especialidades. No porque la amplitud sea un
+              mérito en sí, sino porque los problemas reales rara vez respetan las
+              fronteras del derecho: un conflicto societario toca lo laboral, una sucesión
+              toca lo tributario, una operación inmobiliaria toca lo administrativo.
+            </p>
+            <p>
+              Cada consulta la recibimos personalmente. No hay filtros ni derivaciones
+              automáticas. Si el caso lo exige, coordinamos con otros profesionales de
+              nuestra confianza; pero la responsabilidad y la conversación son siempre
+              nuestras.
+            </p>
+          </div>
+          <h3 class="section-head subhead reveal">Bajo una misma <em>firma</em>.</h3>
+
+          <div class="abogado-card reveal">
+            <div class="abogado-mono" aria-hidden="true">JF</div>
+            <div>
+              <h3 class="abogado-name">Juan Ignacio Farfán</h3>
+              <p class="abogado-bio">
+                Ejerzo el derecho como lo aprendí en este mismo estudio: sin compartimentos
+                estancos. Atiendo cada causa de principio a fin, con la responsabilidad
+                personal que eso implica y el respaldo de setenta años de oficio familiar
+                detrás del apellido.
+              </p>
+              <p class="abogado-mat">M.P. 4692</p>
+            </div>
+          </div>
+
+          <p class="linaje-head reveal">Linaje del estudio — Farfán, tres generaciones</p>
+          <div class="linaje reveal">
+            <div class="linaje-gen">
+              <div class="linaje-year">1953</div>
+              <p class="linaje-rol">Fundador</p>
+              <p class="linaje-name">Ciro Alberto Farfán</p>
+              <p class="linaje-note">
+                Abrió el estudio con la convicción de que el derecho requiere una sola
+                mirada sobre el caso completo. Fue uno de los autores del Código Procesal
+                Administrativo y del Código de Minería de la provincia.
+              </p>
+            </div>
+            <div class="linaje-gen">
+              <div class="linaje-year">2.ª gen.</div>
+              <p class="linaje-rol">Continuador</p>
+              <p class="linaje-name">Julio Alberto Farfán</p>
+              <p class="linaje-note">
+                Amplió la práctica sin abandonar el principio fundacional. Presidió el
+                Colegio de Abogados de Jujuy, ante el que en 2014 llevó un planteo sobre la
+                labor forense que la tercera generación retoma hoy.
+              </p>
+            </div>
+            <div class="linaje-gen current">
+              <div class="linaje-year">Hoy</div>
+              <p class="linaje-rol">Titulares actuales</p>
+              <p class="linaje-name">Juan Ignacio y Marianela Farfán</p>
+              <p class="linaje-note">
+                Continuamos el legado con la misma convicción y el mismo profesionalismo
+                con que fue fundado el estudio: todos los fueros y una sola mirada sobre
+                cada caso.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* ============ § II — DE LA DOCTRINA ============ */}
+    <section class="section" id="articulos" style="scroll-margin-top:5.5rem">
+      <div class="wrap codex">
+        <div class="codex-margin">
+          <div class="codex-run">
+            <span class="sec-no serif">§ II</span>
+            <span class="eyebrow">De la doctrina</span>
+          </div>
+        </div>
+        <div class="codex-body">
+          <h2 class="section-head reveal">Notas y<br /><em>publicaciones</em>.</h2>
+
+          <ol class="doctrina-list">
+            {articulos.map((a) => (
+              <li class="articulo reveal">
+                <a class="articulo-link" href={`/articulos/${a.slug}/`}>
+                  {a.destacado && <span class="art-flag">Artículo destacado</span>}
+                  <div class="art-head">
+                    <span class="art-date">{a.fechaTexto}</span>
+                    <span class="art-mat">{a.seccion}</span>
+                  </div>
+                  <h3 class="art-title">{a.titulo}</h3>
+                  <p class="art-excerpt">{a.copete}</p>
+                  <span class="art-toggle">
+                    Leer el artículo <span class="arr" aria-hidden="true">→</span>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    {/* ============ § III — DE LAS MATERIAS ============ */}
+    <section class="section" id="materias" style="scroll-margin-top:5.5rem">
+      <div class="wrap codex">
+        <div class="codex-margin">
+          <div class="codex-run">
+            <span class="sec-no serif">§ III</span>
+            <span class="eyebrow">De las materias</span>
+          </div>
+        </div>
+        <div class="codex-body">
+          <h2 class="section-head reveal">Índice de materias.</h2>
+          <p
+            class="intro-lead reveal"
+            style="margin-top:1.4rem;font-size:1.2rem;max-width:46ch;color:var(--text-soft)"
+          >
+            Siete títulos, los siete fueros en los que se litiga en Jujuy. Cada uno tiene
+            su página, con los trámites que comprende, cómo se trabaja y las preguntas que
+            más nos hacen.
+          </p>
+
+          <ol class="codex-list">
+            {materias.map((m) => (
+              <li class="titulo reveal">
+                <span class="titulo-num" aria-hidden="true">{m.data.romano}</span>
+                <div class="titulo-text">
+                  <h3 class="titulo-name">
+                    <a href={`/materias/${m.id}/`}>{m.data.fuero}</a>
+                  </h3>
+                  <p class="titulo-desc">{m.data.home.desc}</p>
+                  <p class="titulo-arts">{m.data.home.arts}</p>
+                </div>
+                <div class="titulo-links">
+                  <a class="titulo-consult ver" href={`/materias/${m.id}/`}>
+                    {m.data.home.ver} <span class="arr">→</span>
+                  </a>
+                  <a
+                    class="titulo-consult tarifa"
+                    href={`/honorarios/#area-${m.data.areaId}`}
+                  >
+                    Honorarios <span class="arr">→</span>
+                  </a>
+                  <a class="titulo-consult" href="#contacto">
+                    Consultar <span class="arr">→</span>
+                  </a>
+                </div>
+              </li>
+            ))}
+          </ol>
+
+          <p class="materias-nota reveal">
+            Cada materia enlaza con su arancel: el honorario de cada trámite, calculado
+            sobre el valor vigente del UMA. <a href="/honorarios/"
+              >Ver el arancel completo <span class="arr" aria-hidden="true">→</span></a
+            >
+          </p>
+        </div>
+      </div>
+    </section>
+
+    {/* ============ § IV — DE LAS CONSULTAS ============ */}
+    <section class="section" id="contacto" style="scroll-margin-top:5.5rem">
+      <div class="wrap codex">
+        <div class="codex-margin">
+          <div class="codex-run">
+            <span class="sec-no serif">§ IV</span>
+            <span class="eyebrow">De las consultas</span>
+          </div>
+        </div>
+        <div class="codex-body">
+          <h2 class="section-head reveal">Cuéntenos<br />su <em>caso</em>.</h2>
+          <p
+            class="intro-lead reveal"
+            style="margin-top:1.4rem;font-size:1.15rem;max-width:48ch;color:rgba(251,248,241,.78);font-family:'Hanken Grotesk',sans-serif;font-weight:300;line-height:1.6"
+          >
+            La primera conversación es sin cargo. Escríbame y le respondo personalmente
+            dentro de las 48 horas hábiles.
+          </p>
+
+          <div class="contacto-grid">
+            <dl class="contact-list reveal">
+              <div class="it">
+                <dt>Estudio</dt>
+                <dd>{estudio.domicilio.calle}</dd>
+              </div>
+              <div class="it">
+                <dt>WhatsApp</dt>
+                <dd>
+                  <a href={estudio.whatsapp} target="_blank" rel="noopener"
+                    >{estudio.telefonoVisible}</a
+                  >
+                </dd>
+              </div>
+              <div class="it">
+                <dt>Correo</dt>
+                <dd><a href={`mailto:${estudio.email}`}>{estudio.email}</a></dd>
+              </div>
+              <div class="it">
+                <dt>Atención</dt>
+                <dd>Lunes a viernes · 9:00 a 18:00</dd>
+              </div>
+              <div class="it">
+                <dt>Matrícula</dt>
+                <dd>M.P. 4692</dd>
+              </div>
+            </dl>
+
+            <div class="reveal">
+              <form
+                class="form"
+                id="consulta-form"
+                name="consulta"
+                method="POST"
+                data-netlify="true"
+                netlify-honeypot="bot-field"
+                novalidate
+              >
+                <input type="hidden" name="form-name" value="consulta" />
+                <p hidden aria-hidden="true">
+                  <label>No completar: <input name="bot-field" /></label>
+                </p>
+                <div class="field">
+                  <label for="f-nombre">Nombre y apellido</label>
+                  <input
+                    id="f-nombre"
+                    name="nombre"
+                    type="text"
+                    autocomplete="name"
+                    placeholder="Su nombre"
+                    required
+                  />
+                </div>
+                <div class="field">
+                  <label for="f-email">Correo electrónico</label>
+                  <input
+                    id="f-email"
+                    name="email"
+                    type="email"
+                    autocomplete="email"
+                    placeholder="nombre@correo.com"
+                    required
+                  />
+                </div>
+                <div class="field">
+                  <label for="f-materia">Materia</label>
+                  {/* Las opciones salen de la colección: si mañana cambian las
+                      materias, el formulario cambia solo y no queda desalineado. */}
+                  <select id="f-materia" name="materia" required>
+                    <option value="" selected>Seleccione un área</option>
+                    {materias.map((m) => (
+                      <option>{m.data.home.select}</option>
+                    ))}
+                    <option>No estoy seguro</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="f-msg">Su consulta</label>
+                  <textarea
+                    id="f-msg"
+                    name="mensaje"
+                    rows="3"
+                    placeholder="Cuéntenos brevemente de qué se trata."
+                    required></textarea>
+                </div>
+                <button class="btn btn-brass" type="submit"
+                  >Enviar consulta <span class="arr">→</span></button
+                >
+                <p class="form-note">
+                  Sus datos se tratan con reserva profesional. No los comparto con
+                  terceros.
+                </p>
+                <p class="form-error" id="consulta-error" role="alert" tabindex="-1" hidden>
+                  No pude enviar su consulta en este momento. Escríbame directamente a <a
+                    href={`mailto:${estudio.email}`}>{estudio.email}</a
+                  > y le respondo enseguida.
+                </p>
+              </form>
+
+              <div class="confirm" id="consulta-ok" hidden tabindex="-1">
+                <span class="tag">Consulta recibida</span>
+                <h3>Gracias. Le respondo pronto.</h3>
+                <p>
+                  Revisaré su consulta personalmente y me comunicaré dentro de las 48 horas
+                  hábiles.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer materias={footerMaterias} />
+
+  <script>
+    import '../scripts/home.js';
+  </script>
+</Base>

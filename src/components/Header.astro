@@ -1,0 +1,94 @@
+---
+// src/components/Header.astro
+
+interface LinkItem {
+  href: string;
+  label: string;
+}
+
+interface Props {
+  variant?: 'home' | 'document';
+  brandHref?: string;
+  links?: LinkItem[];
+  backLinks?: LinkItem[];
+  ctaHref?: string;
+  ctaLabel?: string;
+  overHero?: boolean;
+}
+
+const {
+  variant = 'home',
+  brandHref = variant === 'home' ? '#top' : '/',
+  links = [],
+  backLinks = [],
+  ctaHref = variant === 'home' ? '#contacto' : '/#contacto',
+  ctaLabel = variant === 'home' ? 'Consulta' : 'Consultar',
+  overHero = false,
+} = Astro.props;
+---
+
+{
+  variant === 'home' ? (
+    <>
+      <header class:list={['site-head', { 'over-hero': overHero }]}>
+        <div class="head-inner">
+          <a class="brand" href={brandHref} aria-label="Estudio Jurídico Farfán, inicio">
+            Farfán
+            <small>est. 1953</small>
+          </a>
+
+          <nav class="nav" aria-label="Principal">
+            {links.map((link) => <a href={link.href}>{link.label}</a>)}
+          </nav>
+
+          <a class="head-cta" href={ctaHref}>{ctaLabel}</a>
+
+          <button
+            class="nav-toggle"
+            type="button"
+            aria-label="Abrir menú"
+            aria-expanded="false"
+            aria-controls="mobile-nav"
+          >
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </button>
+        </div>
+      </header>
+
+      <div
+        class="mobile-nav"
+        id="mobile-nav"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Menú principal"
+        aria-hidden="true"
+        inert
+      >
+        <span class="m-brand" aria-hidden="true">Farfán</span>
+        <button class="mobile-close" type="button" aria-label="Cerrar menú">
+          Cerrar <span aria-hidden="true">×</span>
+        </button>
+        <nav aria-label="Navegación móvil">
+          {links.map((link) => <a href={link.href}>{link.label}</a>)}
+        </nav>
+        <a class="m-cta" href={ctaHref}>
+          Solicitar consulta <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </>
+  ) : (
+    <header class="doc-head">
+      <div class="doc-head-inner">
+        <a class="brand" href={brandHref} aria-label="Estudio Jurídico Farfán, inicio">
+          Farfán <small>Est. 1953</small>
+        </a>
+        <div class="head-side">
+          {backLinks.map((link) => <a class="head-back" href={link.href}>{link.label}</a>)}
+          <a class="head-cta" href={ctaHref}>{ctaLabel}</a>
+        </div>
+      </div>
+    </header>
+  )
+}

@@ -1,0 +1,57 @@
+---
+// src/layouts/Documento.astro
+import Base from './Base.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import '../styles/materia.css';
+
+// Chrome de las páginas de lectura: materias y artículos. Cabecera fija con la
+// marca, miga de pan y pie con vuelta al índice.
+interface Props {
+  title: string;
+  description: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ruta: string;
+  schema?: unknown[];
+  /** Último tramo de la miga de pan: la página actual, sin enlace. */
+  migaActual: string;
+  /** El índice al que pertenece esta página. Los textos van explícitos para
+      que cada sección conserve su redacción y no salga una genérica. */
+  seccion: {
+    href: string;
+    /** Miga de pan. Ej: "Materias" */
+    miga: string;
+    /** Enlace de la cabecera. Ej: "Todas las materias" */
+    cabecera: string;
+    /** Enlace del pie. Ej: "Volver al índice de materias" */
+    pie: string;
+  };
+}
+
+const { migaActual, seccion, ...resto } = Astro.props;
+---
+
+<Base {...resto}>
+  <a class="skip" href="#contenido">Ir al contenido</a>
+
+  <Header
+    variant="document"
+    backLinks={[{ href: seccion.href, label: seccion.cabecera }]}
+  />
+
+  <nav class="crumbs reading" aria-label="Ruta de navegación">
+    <ol>
+      <li><a href="/">Inicio</a></li>
+      <li><a href={seccion.href}>{seccion.miga}</a></li>
+      <li><span aria-current="page">{migaActual}</span></li>
+    </ol>
+  </nav>
+
+  <slot />
+
+  <Footer
+    variant="document"
+    links={[{ href: seccion.href, label: seccion.pie, direction: 'back' }]}
+  />
+</Base>

@@ -1,0 +1,132 @@
+/* src/styles/global.css */
+
+:root {
+  --ink: #15251c;
+  --ink-2: #1b2e24;
+  --ink-3: #21372b;
+  --parchment: #ece3d0;
+  --paper: #f4eddd;
+  --bone: #fbf8f1;
+  --brass: #b08f4f;
+  --brass-soft: #c7ac78;
+  --brass-ink: #745720;
+  --brass-line: rgba(176, 143, 79, 0.34);
+  --text: #1e2c24;
+  --text-soft: #566158;
+  --line: #d7cbb2;
+  --line-strong: #c5b693;
+  --ease: cubic-bezier(0.2, 0.6, 0.2, 1);
+  --maxw: 1180px;
+  --pad: clamp(1.25rem, 5vw, 4rem);
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-serif: Georgia, "Times New Roman", serif;
+  --font-mono: ui-monospace, "Cascadia Mono", "Segoe UI Mono", monospace;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--parchment);
+  color: var(--text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+::selection {
+  background: var(--brass);
+  color: var(--ink);
+}
+
+.serif {
+  font-family: var(--font-serif);
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+.skip {
+  position: fixed;
+  z-index: 200;
+  top: 0.6rem;
+  left: 50%;
+  padding: 0.7rem 1.2rem;
+  transform: translate(-50%, -200%);
+  background: var(--ink);
+  color: var(--bone);
+  border-radius: 2px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  transition: transform 0.2s var(--ease);
+}
+
+.skip:focus {
+  transform: translate(-50%, 0);
+}
+
+:where(a, button, input, select, textarea, summary):focus-visible {
+  outline: 3px solid var(--brass);
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+
+.foot-registration {
+  margin-top: 0.6rem;
+  font-size: 0.8rem !important;
+  opacity: 0.7;
+}
+
+.foot-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem 2rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+

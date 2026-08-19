@@ -1,0 +1,95 @@
+---
+// src/components/Footer.astro
+
+import { abogado, estudio } from '../data/estudio';
+
+interface MateriaLink {
+  href: string;
+  label: string;
+}
+
+interface FooterLink {
+  href: string;
+  label: string;
+  direction?: 'back' | 'forward';
+}
+
+interface Props {
+  variant?: 'site' | 'document';
+  materias?: MateriaLink[];
+  links?: FooterLink[];
+}
+
+const { variant = 'site', materias = [], links = [] } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+{
+  variant === 'site' ? (
+    <footer class="site-foot">
+      <div class="wrap">
+        <div class="foot-top">
+          <div class="foot-brand">
+            <div class="b">Farfán</div>
+            <p>
+              Estudio jurídico en Jujuy. Una práctica orientada a comprender el caso
+              completo y explicar con claridad las alternativas posibles.
+            </p>
+          </div>
+
+          <nav class="foot-col" aria-label="Materias">
+            <h2>Materias</h2>
+            {materias.map((materia) => <a href={materia.href}>{materia.label}</a>)}
+          </nav>
+
+          <nav class="foot-col" aria-label="El estudio">
+            <h2>El estudio</h2>
+            <a href="#estudio">Historia y firma</a>
+            <a href="/honorarios/">Honorarios y arancel</a>
+            <a href="/articulos/">Artículos</a>
+            <a href="#materias">Materias</a>
+            <a href="#contacto">Contacto</a>
+          </nav>
+
+          <div class="foot-col">
+            <h2>Contacto</h2>
+            <p>{estudio.domicilio.calle}</p>
+            <a href={estudio.whatsapp} target="_blank" rel="noopener">
+              WhatsApp {estudio.telefonoVisible}
+            </a>
+            <a href={`mailto:${estudio.email}`}>{estudio.email}</a>
+            <p class="foot-registration">{abogado.matricula}</p>
+          </div>
+        </div>
+
+        <div class="foot-bar">
+          <span>© {year} Estudio Jurídico Farfán. Todos los derechos reservados.</span>
+          <span>{abogado.nombre} · {abogado.matricula}</span>
+        </div>
+      </div>
+    </footer>
+  ) : (
+    <footer class="doc-foot">
+      <div class="reading">
+        <div class="foot-links">
+          {links.map((link) => (
+            <a
+              class={link.direction === 'forward' ? 'foot-fwd' : 'foot-back'}
+              href={link.href}
+            >
+              {link.direction === 'forward' ? (
+                <>{link.label} <span class="arr" aria-hidden="true">→</span></>
+              ) : (
+                <><span class="arr" aria-hidden="true">←</span> {link.label}</>
+              )}
+            </a>
+          ))}
+        </div>
+        <span class="foot-firm">
+          Estudio Jurídico Farfán · {abogado.nombre} · {abogado.matricula}
+        </span>
+      </div>
+    </footer>
+  )
+}
+

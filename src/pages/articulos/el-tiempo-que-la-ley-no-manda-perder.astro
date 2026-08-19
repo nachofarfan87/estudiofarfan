@@ -1,0 +1,238 @@
+---
+// src/pages/articulos/el-tiempo-que-la-ley-no-manda-perder.astro
+import Base from '../../layouts/Base.astro';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import { publicUrl } from '../../config/site';
+import { ID, nodoSitio, nodoEstudio, nodoAbogado, nodoMigas } from '../../lib/schema';
+import { articulos } from '../../data/articulos';
+import '../../styles/articulo.css';
+
+const a = articulos.find((x) => x.slug === 'el-tiempo-que-la-ley-no-manda-perder')!;
+const ruta = `/articulos/${a.slug}/`;
+const url = publicUrl(ruta);
+
+// El artículo invita a escribir diciendo de dónde viene la consulta.
+const whatsapp =
+  'https://wa.me/5493885800175?text=Hola.%20Le%20escribo%20a%20partir%20del%20art%C3%ADculo%20publicado%20en%20la%20web.';
+
+const schema = [
+  nodoSitio(),
+  nodoEstudio(),
+  nodoAbogado(),
+  nodoMigas(url, [
+    { nombre: 'Inicio', url: publicUrl('/') },
+    { nombre: 'Doctrina', url: publicUrl('/articulos/') },
+    { nombre: a.titulo },
+  ]),
+  {
+    '@type': 'Article',
+    '@id': `${url}#articulo`,
+    headline: a.titulo,
+    alternativeHeadline: a.subtitulo.replace(/\.$/, ''),
+    description: a.copete,
+    inLanguage: 'es-AR',
+    datePublished: a.fecha,
+    dateModified: a.fecha,
+    // Referencias por @id: una sola entidad de autor y de estudio en todo el
+    // sitio, en vez de redeclararlas en cada página.
+    author: { '@id': ID.abogado },
+    publisher: { '@id': ID.estudio },
+    articleSection: a.seccion,
+    url,
+    mainEntityOfPage: url,
+    isPartOf: { '@id': ID.sitio },
+    breadcrumb: { '@id': `${url}#crumbs` },
+  },
+];
+---
+
+<Base
+  title={`${a.titulo} — Estudio Jurídico Farfán`}
+  description="La carga ilegítima de confeccionar cédulas y oficios sobre los letrados en el fuero civil y comercial de Jujuy: por qué la ley no la impone y a quién le corresponde realmente esa tarea."
+  ogTitle={a.titulo}
+  ogDescription="Una práctica extendida en los juzgados civiles de Jujuy obliga a los abogados a confeccionar las diligencias del propio juzgado. Este artículo muestra por qué esa carga es ilegítima."
+  ruta={ruta}
+  schema={schema}
+  whatsapp={whatsapp}
+  bodyId="top"
+>
+  <a class="skip" href="#contenido">Saltar al contenido</a>
+
+  <Header
+    variant="document"
+    backLinks={[
+      { href: '/#articulos', label: 'Doctrina' },
+      { href: '/honorarios/', label: 'Honorarios' },
+    ]}
+    ctaLabel="Consulta"
+  />
+
+  <main id="contenido">
+
+    <!-- ============ MASTHEAD ============ -->
+    <div class="masthead">
+      <div class="reading">
+        <p class="eyebrow">§ Doctrina · Derecho Procesal</p>
+        <h1 class="doc-title">El tiempo que la ley no manda perder</h1>
+        <p class="doc-deck">La carga ilegítima de las diligencias sobre los letrados en el fuero civil y comercial de Jujuy.</p>
+        <p class="doc-epigraph">“A propósito de una práctica que sobrevivió el cambio de Código.”</p>
+        <div class="doc-meta">
+          <span>Por <b>Juan Ignacio Farfán</b></span>
+          <span>M.P. 4692</span>
+          <span>5 de agosto de 2026</span>
+          <span>Lectura · 16 min</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="reading">
+
+      <!-- ============ EN POCAS PALABRAS ============ -->
+      <aside class="abstract" aria-label="Resumen en lenguaje llano">
+        <p class="lbl">En pocas palabras</p>
+        <p>En los juzgados civiles y comerciales de Jujuy es habitual que, al notificar, se ordene a los abogados confeccionar ellos mismos las cédulas y oficios del juzgado, invocando un “deber de colaboración”. Este artículo sostiene que ninguna ley impone ese deber: la tarea le corresponde, por ley, a la Secretaría del juzgado. La práctica, además, no agiliza el trámite —lo alarga— y le insume a cada profesional un tiempo que nadie paga. Y no es un problema nuevo: ya fue denunciado formalmente en 2014, sin resultado.</p>
+      </aside>
+
+      <!-- ============ SUMARIO ============ -->
+      <nav class="sumario" aria-label="Sumario del artículo">
+        <p class="sumario-h">Sumario</p>
+        <ol>
+          <li><a href="#s1"><span class="rn">I</span><span class="tt">La cláusula que desnuda el problema</span></a></li>
+          <li><a href="#s2"><span class="rn">II</span><span class="tt">Lo que dicen (y lo que no dicen) los artículos invocados</span></a></li>
+          <li><a href="#s3"><span class="rn">III</span><span class="tt">¿A quién le corresponde confeccionar las diligencias?</span></a></li>
+          <li><a href="#s4"><span class="rn">IV</span><span class="tt">El tiempo útil que la ley no manda perder</span></a></li>
+          <li><a href="#s5"><span class="rn">V</span><span class="tt">La tasa de justicia: ¿qué retribuye en realidad?</span></a></li>
+          <li><a href="#s6"><span class="rn">VI</span><span class="tt">Un problema señalado y nunca resuelto: la Resolución N° 03/2014</span></a></li>
+          <li><a href="#s7"><span class="rn">VII</span><span class="tt">Conclusión</span></a></li>
+        </ol>
+      </nav>
+
+      <!-- ============ CUERPO ============ -->
+      <article class="prose">
+
+        <section class="doc-sec" id="s1">
+          <h2 class="doc-h2"><span class="doc-h2-num">I</span>La cláusula que desnuda el problema</h2>
+          <p>Basta revisar casi cualquier cédula de notificación electrónica del fuero civil y comercial de la provincia para encontrar, entre sus puntos dispositivos, una cláusula como esta:</p>
+          <blockquote>“Instrúyase al letrado presentante a la confección de las diligencias pertinentes (Cédula y oficio), ello en virtud del deber de colaboración (Arts. 50 y 72 del C.P.C.).”</blockquote>
+          <p>No es una fórmula aislada ni propia de un juzgado en particular: se repite, casi en los mismos términos, en resoluciones de distintos juzgados, cámaras y vocalías. Y es justamente esa uniformidad lo que la vuelve un buen punto de partida: lo que allí se ordena (y la norma que se invoca para ordenarlo) no resiste una lectura mínimamente detenida.</p>
+          <p>El primer problema salta a la vista apenas se la compara con la disposición que suele acompañarla unos renglones más abajo, ordenando <em>“Notifíquese (Arts. 169, 171 y 172 del C.P.C.C.)”</em>. Esos sí son, hoy, los artículos correctos: la Ley N° 6358 (el Código Procesal Civil y Comercial de Jujuy vigente desde el 1° de agosto de 2024) regula en esos mismos números la notificación electrónica, la notificación por cédula papel y el domicilio en que debe practicarse. Es decir que la misma resolución suele citar correctamente el código vigente para una cosa y un código derogado hace ya un año y medio para la otra. Esa asimetría no es un detalle menor: sugiere que la cláusula sobre el <strong><em>“deber de colaboración”</em></strong> no es una norma aplicada con criterio sino una fórmula de estilo, copiada de un molde que nadie actualizó ni, aparentemente, volvió a revisar desde que se incorporó a los decretos allá por 2013.</p>
+          <p>Este artículo sostiene cuatro cosas: primero, que ni los viejos arts. 50 y 72 del Código Procesal Civil (Ley 1967) ni sus equivalentes actuales imponen a los letrados deber alguno de confeccionar los instrumentos de notificación del juzgado; segundo, que esa tarea le corresponde, por ley, a la Secretaría; tercero, que el tiempo que esta práctica les insume a los profesionales no es trivial, no está compensado, y (lejos de ganar celeridad) la pierde; y cuarto, que nada de esto es nuevo: ya fue planteado ante el Colegio de Abogados de Jujuy en 2014, con una resolución que nunca se implementó.</p>
+        </section>
+
+        <section class="doc-sec" id="s2">
+          <h2 class="doc-h2"><span class="doc-h2-num">II</span>Lo que dicen, y lo que no dicen, los artículos invocados</h2>
+          <p>La Ley 1967 (Código Procesal Civil de la Provincia de Jujuy, sancionada en 1949) fue reemplazada por la Ley N° 6358 (Código Procesal Civil y Comercial de Jujuy), cuya entrada en vigencia (prevista originalmente para el 1° de mayo de 2024) fue prorrogada al 1° de agosto de ese año. El viejo art. 50 (“Colaboración”) es hoy, con un texto casi idéntico, el art. 63. El viejo art. 72 (“Función de los Abogados”) es hoy el art. 85. También cambiaron de número el art. 71 (“Patrocinio Obligatorio”, hoy art. 84) y el art. 74 (“Derecho a Solicitar Antecedentes”, hoy art. 86), ambos igualmente invocados (como se verá) en los antecedentes de este planteo.</p>
+          <p>Pero el cambio de numeración es apenas el síntoma más visible. El problema de fondo es que ninguna de las dos versiones del artículo, la de 1949 ni la de 2024, dice lo que la cédula le hace decir.</p>
+          <p>El art. 63 regula lo que la doctrina procesal llama <strong><em>“cargas procesales”</em></strong>: la obligación de las partes de cumplir, en la forma y en el tiempo que la ley prescribe, los requisitos que ésta exige para que el juez pueda proveer, y de prestar al órgano jurisdiccional, con veracidad y buena fe, la colaboración necesaria para el esclarecimiento de los hechos discutidos. Es, en otras palabras, una norma sobre cómo debe litigarse el propio caso (presentar en término, no mentir, no entorpecer la prueba) y no sobre quién debe tipear los formularios del juzgado. La carga procesal, como recordaba ya en 2014 la Comisión de Defensa de la Labor Forense del Colegio de Abogados de Jujuy citando a Goldschmidt, es una situación de necesidad de realizar determinado acto para evitar que sobrevenga un perjuicio procesal propio; estructuralmente, es algo distinto de un deber exigible a favor de un tercero, en este caso, el juzgado.</p>
+          <p>El art. 85, por su parte, es un principio ético general: los abogados prestan su asistencia <em>“como colaboradores del órgano jurisdiccional y del servicio de justicia”</em>, debiendo actuar <em>“con honradez, lealtad, probidad y buena fe”</em>. Es una norma sobre el estilo y la conducta profesional (la misma familia de principios que el art. 9 asigna a todos los que intervienen en el proceso), no una norma de reparto de tareas administrativas. Nada en su letra asigna al letrado la confección de cédulas, oficios o mandamientos.</p>
+          <p>El punto más contundente, sin embargo, es otro: bajo el código vigente hoy, el art. 50 es “Resoluciones Interlocutorias” (los requisitos y plazos para dictarlas) y el art. 72 es “Justificación de la Personería” (cómo se acredita un poder). Si se tomara literalmente la cita de la cédula y se la leyera con la numeración que efectivamente rige, el “deber de colaboración” invocado no señalaría una norma equivocada: señalaría dos normas que no tienen absolutamente nada que ver con notificar, colaborar o confeccionar diligencia alguna.</p>
+        </section>
+
+        <section class="doc-sec" id="s3">
+          <h2 class="doc-h2"><span class="doc-h2-num">III</span>¿A quién le corresponde confeccionar las diligencias?</h2>
+          <p>La propia Ley 6358 contesta esta pregunta de forma directa. Su art. 175 dispone que “las notificaciones serán confeccionadas con apoyo del sistema informático y firmadas por el secretario o funcionario judicial que disponga el Juez”. No hay ambigüedad posible: la ley hoy vigente asigna la confección de las notificaciones al sistema del juzgado y a su secretario o funcionario, no al letrado de la parte.</p>
+          <p>Esto no es una novedad de 2024. Bajo el régimen anterior, la Ley Orgánica del Poder Judicial de Jujuy (Ley N° 4055, de 1984) ya incluía entre las “Obligaciones Comunes a los Secretarios” (art. 125) la de requerir y suministrar los informes que correspondan, librando los oficios respectivos, y establecía en su art. 130 (“Potestades y Cargas”) que los secretarios son “jefes de su oficina” y que sus auxiliares y empleados inferiores cumplen sus órdenes en lo relativo al despacho. Es decir que la ley siempre previó una posible delegación de esta tarea material, pero una delegación que corre puertas adentro de la Secretaría, hacia el propio personal del juzgado, nunca hacia afuera, hacia el letrado de una de las partes, que no es empleado de nadie en esa estructura y que además representa un interés distinto del que el Secretario debe servir. El art. 7 de la Constitución de Jujuy es, en este punto, categórico: <strong><em>“Ningún magistrado, funcionario o empleado público podrá delegar sus funciones en otra persona”</em></strong>. Delegar en el abogado de una de las partes la función documentadora que la ley reserva al Secretario no es una delegación permitida por exceso de celo colaborativo: es, sencillamente, una delegación que la norma no contempla.</p>
+        </section>
+
+        <section class="doc-sec" id="s4">
+          <h2 class="doc-h2"><span class="doc-h2-num">IV</span>El tiempo útil que la ley no manda perder</h2>
+          <p>El costo real de esta práctica no se agota en el rato que toma redactar un escrito. Es una secuencia:</p>
+          <ol class="steps">
+            <li>Redactar la diligencia (cédula, mandamiento u oficio), muchas veces transcribiendo literalmente lo que el proveído ya dice, en una tarea puramente mecánica de copia.</li>
+            <li>Redactar, además, un escrito aparte avisando al juzgado que la diligencia está lista para control y firma.</li>
+            <li>Esperar: entre una semana y un mes, según el juzgado y la época del año, a que la Secretaría la revise y firme.</li>
+            <li>Reiterar: si el plazo se extiende, presentar uno o incluso dos escritos más, solo para recordar que la diligencia sigue esperando turno.</li>
+            <li>Rehacer: si el criterio de redacción no coincide con el que prefiere ese juzgado en particular, la pieza se rechaza y hay que confeccionarla de nuevo.</li>
+          </ol>
+          <p>Ninguno de estos pasos existía como carga del letrado antes de que se generalizara la práctica de invocar el <strong><em>“deber de colaboración”</em></strong>. Los puntos 2 y 4 (los escritos de aviso y de recordatorio) son, de hecho, procedimiento puro creado por la práctica misma: no son diligencias en sí, sino gestiones adicionales necesarias únicamente porque la tarea se trasladó a quien no tiene autoridad para hacerla avanzar por su cuenta.</p>
+          <p>Este dato tira por tierra cualquier justificación en términos de eficiencia. El código invoca la <em>“colaboración”</em> del letrado, pero el propio Código (el mismo que se cita para imponerla) consagra como principios rectores la economía procesal (art. 11: <em>“los actos procesales deben cumplirse dentro del menor tiempo posible, procurando ahorrar esfuerzos y gastos… y de evitar actuaciones intrascendentes”</em>) y la celeridad (art. 16: evitar <em>“dilaciones injustificadas”</em>). Un abogado que atiende decenas de expedientes simultáneamente no es más rápido que un empleado de Secretaría dedicado específicamente a esa tarea; es, con frecuencia, más lento, precisamente porque no es su función principal. El resultado neto no es un proceso más ágil: es un proceso con más actos (los escritos de aviso, los de recordatorio, los rechazos y sus rehechuras), más tiempo muerto que nadie controla, y el mismo atraso de fondo que la <em>“colaboración”</em> decía venir a resolver. La norma termina jugando en contra de los fines que ella misma proclama.</p>
+          <p>Y ese tiempo, vale aclararlo, no es gratis para nadie salvo para quien lo consume: no se factura, no genera plus alguno en la regulación de honorarios, cuando sí existen, en cambio, antecedentes de decretos que apercibieron al letrado con tenerlo en cuenta al regular honorarios si <em>“no coopera”</em>, y compite directamente con el tiempo que ese mismo profesional podría destinar a atender clientes, preparar audiencias o redactar los escritos sustanciales de su propio caso.</p>
+        </section>
+
+        <section class="doc-sec" id="s5">
+          <h2 class="doc-h2"><span class="doc-h2-num">V</span>La tasa de justicia: ¿qué retribuye en realidad?</h2>
+          <p>Todo expediente civil se inicia, y en muchos casos vuelve a tributar al concluir, con el pago de la tasa de justicia. Giuliani Fonrouge, uno de los tratadistas de derecho tributario más citados del país, explicaba que la administración de justicia es uno de los servicios esenciales del Estado, y que la tasa es precisamente la prestación dineraria que el particular abona a cambio de ese servicio. Si el Estado se desentiende de parte de esa prestación, delegándola, sin ley que lo autorice, en quien ya pagó por ella, la ecuación deja de cerrar: se cobra lo mismo, se colabore o no se colabore, mientras la contraprestación se reduce.</p>
+          <p>La propia Ley 6358 confirma, además, cuál es el único modelo de costo que el Código admite para las notificaciones: su art. 173 permite al letrado optar por medios alternativos a la cédula papel (acta notarial, telegrama, carta documento), aclarando que “los gastos que arrojen las notificaciones serán sufragados por el interesado, pero integrarán la condena en costas”. Es decir que, cuando el propio Código sí pone un costo de notificación en cabeza de una parte, lo hace como una opción voluntaria y con un mecanismo de recupero al final del proceso, no como una carga obligatoria, impuesta desde el primer proveído, sin límite y sin reintegro posible. La <strong><em>“colaboración forzada”</em></strong> no encaja en ese esquema: no es elegida, no se recupera, y no tiene techo.</p>
+        </section>
+
+        <section class="doc-sec" id="s6">
+          <h2 class="doc-h2"><span class="doc-h2-num">VI</span>Un problema señalado y nunca resuelto: la Resolución N° 03/2014</h2>
+          <p>Nada de lo anterior es un descubrimiento reciente. En 2014, el Dr. Julio Alberto Farfán denunció esta misma práctica (entonces fundada en los arts. 72 y 74 del Código de 1949) ante el Colegio de Abogados de Jujuy. La Comisión de Defensa de la Labor Forense no solo acompañó el planteo: lo profundizó, dejando establecido que la creación de nuevas tareas a los profesionales sin compensación alguna afecta el derecho de propiedad (arts. 17 de la Constitución Nacional y 36 de la Constitución Provincial), que el pago de la tasa de justicia exime al letrado de <em>“colaborar”</em> con la prestación de un servicio que es resorte exclusivo del Estado, y que la imposición de esta carga configura una desviación de poder por apartarse de los fines que la ley fija para los deberes y facultades de los secretarios judiciales.</p>
+          <p>La Resolución N° 03/2014 recomendó al Consejo Directivo del Colegio gestionar ante el Superior Tribunal de Justicia el cese de <em>“la práctica generalizada en los juzgados consistente en la imposición a los letrados de la confección de las diligencias y oficios judiciales”</em>, y solicitar al Poder Ejecutivo y a la Legislatura provincial los fondos necesarios para dotar a las Secretarías de los recursos humanos que permitieran a los propios juzgados cumplir esa función. Ni el Superior Tribunal ni el Poder Ejecutivo se expidieron nunca sobre el punto.</p>
+          <p>Doce años y un Código enteramente nuevo después, las cédulas que se notifican hoy muestran que la práctica sigue intacta. Lo único que cambió fue, paradójicamente, la prueba de que se trata de una fórmula sin revisar: en un mismo documento conviven la numeración correcta para notificar y la numeración derogada (y hoy referida a otra cosa) para justificar la carga.</p>
+        </section>
+
+        <section class="doc-sec" id="s7">
+          <h2 class="doc-h2"><span class="doc-h2-num">VII</span>Conclusión</h2>
+          <p>El problema descripto no es un error de tipeo ni una curiosidad aislada. Es una práctica que nunca tuvo un anclaje textual sólido, ni siquiera bajo el código que originalmente se invocó para sostenerla; que traslada a los letrados, sin compensación, una función que la ley (ayer y hoy) asigna a la Secretaría; que insume un tiempo real, no trivial, a través de una cadena de actos que multiplica el trámite en lugar de simplificarlo, en contra de los propios principios de economía y celeridad procesal; que fue formalmente señalada al órgano encargado de defender el ejercicio de la abogacía hace más de una década, sin que esa recomendación se tradujera en ningún cambio institucional; y que persiste hoy, citando un código derogado, dentro de un código vigente cuyo propio art. 175 ya resuelve la cuestión en sentido contrario.</p>
+          <p>Automatizar la generación de cédulas y oficios a partir del proveído (tarea que, como muestra el paso 1 de la secuencia descripta en el punto IV, suele ser en los hechos una simple transcripción) costaría hoy, con la infraestructura del expediente electrónico que la propia Ley 6358 ya exige, sensiblemente menos que lo que le cuesta actualmente al conjunto de la profesión. La Resolución N° 03/2014 ya señaló el camino presupuestario. Doce años después, sigue esperando que alguien lo recorra.</p>
+        </section>
+
+        <!-- ============ FUENTES ============ -->
+        <section class="fuentes" id="fuentes" aria-label="Fuentes normativas citadas">
+          <h2>Fuentes normativas citadas</h2>
+          <dl>
+            <div>
+              <dt>Código derogado — Ley N° 1967</dt>
+              <dd>Código Procesal Civil de la Provincia de Jujuy (1949, texto actualizado por el Poder Judicial hasta 2013): arts. 10, 50, 71, 72, 74, 122.</dd>
+            </div>
+            <div>
+              <dt>Código vigente — Ley N° 6358</dt>
+              <dd>Código Procesal Civil y Comercial de la Provincia de Jujuy (en vigor desde el 1/8/2024): arts. 9, 11, 16, 49, 63, 72, 84, 85, 86, 169, 171, 172, 173, 175.</dd>
+            </div>
+            <div>
+              <dt>Ley Orgánica del Poder Judicial de Jujuy — Ley N° 4055</dt>
+              <dd>(1984): arts. 125, 130.</dd>
+            </div>
+            <div>
+              <dt>Constitución de la Provincia de Jujuy</dt>
+              <dd>art. 7.</dd>
+            </div>
+            <div>
+              <dt>Constitución Nacional</dt>
+              <dd>art. 17.</dd>
+            </div>
+            <div>
+              <dt>Antecedente institucional</dt>
+              <dd>Colegio de Abogados de Jujuy, Comisión de Defensa de la Labor Forense, Resolución N° 03/2014.</dd>
+            </div>
+          </dl>
+        </section>
+
+        <!-- ============ CTA ============ -->
+        <aside class="doc-cta">
+          <span class="k">Del estudio a su caso</span>
+          <h2>¿Su situación roza esta cuestión?</h2>
+          <p>Si atraviesa un trámite donde este tipo de prácticas le hace perder tiempo o dinero, conversémoslo. La primera conversación es sin cargo, y los <a href="/honorarios/">honorarios están publicados</a>.</p>
+          <div class="cta-actions">
+            <a class="btn btn-brass" href="https://wa.me/5493885800175?text=Hola.%20Le%20escribo%20a%20partir%20del%20art%C3%ADculo%20publicado%20en%20la%20web." target="_blank" rel="noopener">Escribir por WhatsApp <span class="arr">→</span></a>
+            <a class="btn btn-ghost" href="/#contacto">Enviar el formulario</a>
+          </div>
+        </aside>
+
+      </article>
+    </div>
+
+  </main>
+
+  <Footer
+    variant="document"
+    links={[
+      { href: '/#articulos', label: 'Volver a Doctrina', direction: 'back' },
+      { href: '/honorarios/', label: 'Honorarios', direction: 'forward' },
+    ]}
+  />
+
+  <script>
+    // Medición de los clics a WhatsApp. Si Plausible no está, no hace nada.
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href*="wa.me"]');
+      if (!a || typeof window.plausible !== 'function') return;
+      var origen = a.classList.contains('wa-float') ? 'flotante' : 'cierre';
+      try {
+        window.plausible('WhatsApp', { props: { origen: origen, pagina: 'articulo' } });
+      } catch (err) {}
+    });
+  </script>
+</Base>

@@ -1,0 +1,211 @@
+---
+// src/pages/materias/[...slug].astro
+import { getCollection, render } from 'astro:content';
+import Documento from '../../layouts/Documento.astro';
+import { publicUrl } from '../../config/site';
+import { abogado, estudio, zonas } from '../../data/estudio';
+import {
+  ID,
+  nodoSitio,
+  nodoEstudio,
+  nodoAbogado,
+  nodoMigas,
+  nodoPreguntas,
+} from '../../lib/schema';
+
+export async function getStaticPaths() {
+  // Ordenar antes del map, no dentro: sort() muta el arreglo y si se llama
+  // durante el recorrido reordena lo que map() todavía no visitó, salteando
+  // materias enteras.
+  const materias = (await getCollection('materias')).sort(
+    (a, b) => a.data.orden - b.data.orden,
+  );
+  return materias.map((materia) => ({
+    params: { slug: materia.id },
+    props: { materia, todas: materias },
+  }));
+}
+
+const { materia, todas } = Astro.props;
+const d = materia.data;
+const { Content } = await render(materia);
+
+const ruta = `/materias/${materia.id}/`;
+const url = publicUrl(ruta);
+const arancel = `/honorarios/#area-${d.areaId}`;
+const otras = todas.filter((m) => m.id !== materia.id);
+
+const schema = [
+  nodoSitio(),
+  nodoEstudio(),
+  nodoAbogado(),
+  {
+    '@type': 'WebPage',
+    '@id': `${url}#page`,
+    url,
+    name: d.seo.title,
+    description: d.seo.description,
+    inLanguage: 'es-AR',
+    isPartOf: { '@id': ID.sitio },
+    about: { '@id': ID.estudio },
+    breadcrumb: { '@id': `${url}#crumbs` },
+  },
+  nodoMigas(url, [
+    { nombre: 'Inicio', url: publicUrl('/') },
+    { nombre: 'Materias', url: publicUrl('/#materias') },
+    { nombre: d.fuero },
+  ]),
+  {
+    '@type': 'Service',
+    '@id': `${url}#servicio`,
+    name: d.fuero,
+    serviceType: d.h1,
+    description: d.seo.description,
+    url,
+    provider: { '@id': ID.estudio },
+    areaServed: { '@type': 'AdministrativeArea', name: 'Provincia de Jujuy, Argentina' },
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: `Trámites — ${d.fuero}`,
+      url: publicUrl(arancel),
+      itemListElement: d.tramites.map(({ t, d: desc }) => ({
+        '@type': 'Offer',
+        itemOffered: { '@type': 'Service', name: t, description: desc },
+      })),
+    },
+  },
+  nodoPreguntas(url, d.faq),
+];
+---
+
+<Documento
+  title={d.seo.title}
+  description={d.seo.description}
+  ogTitle={d.seo.ogTitle}
+  ogDescription={d.seo.ogDescription}
+  ruta={ruta}
+  schema={schema}
+  migaActual={d.fuero}
+  seccion={{
+    href: '/#materias',
+    miga: 'Materias',
+    cabecera: 'Todas las materias',
+    pie: 'Volver al índice de materias',
+  }}
+>
+  <main id="contenido">
+    <div class="masthead reading">
+      <p class="eyebrow">Título {d.romano} · {d.fuero}</p>
+      <h1 class="doc-title">{d.h1}</h1>
+      <p class="doc-deck">{d.deck}</p>
+      <div class="doc-meta">
+        <span>{abogado.nombre} · <b>{abogado.matricula}</b></span>
+        <span>Estudio fundado en <b>{estudio.fundado}</b></span>
+        <span>Provincia de <b>Jujuy</b></span>
+      </div>
+
+      <div class="abstract">
+        <p class="lbl">En resumen</p>
+        <p>{d.resumen}</p>
+      </div>
+    </div>
+
+    <article class="prose reading">
+      <section class="doc-sec" id="tramites">
+        <h2 class="doc-h2">Qué comprende esta materia</h2>
+        <p>
+          Estos son los trámites y procesos que atendemos en esta materia. Cada uno
+          tiene su honorario publicado de antemano, calculado sobre el valor vigente
+          de la UMA del Colegio de Abogados de Jujuy.
+        </p>
+        <ul class="tramites">
+          {d.tramites.map(({ t, d: desc }) => (
+            <li><span class="t">{t}</span><span class="d">{desc}</span></li>
+          ))}
+        </ul>
+        <p>
+          Puede consultar el honorario de cada trámite en el <a href={arancel}
+            >arancel publicado del estudio</a
+          >, antes de escribirnos y sin tener que preguntarlo.
+        </p>
+      </section>
+
+      <div class="doc-sec md"><Content /></div>
+
+      <section class="doc-sec" id="como-trabajamos">
+        <h2 class="doc-h2">Cómo trabajamos un caso</h2>
+        <ol class="steps">
+          {d.pasos.map(({ t, d: desc }) => (
+            <li><b>{t}</b>{desc}</li>
+          ))}
+        </ol>
+      </section>
+
+      <section class="doc-sec" id="preguntas">
+        <h2 class="doc-h2">Preguntas frecuentes</h2>
+        <div class="faq">
+          {d.faq.map(({ q, a }) => (
+            <details>
+              <summary>{q}</summary>
+              <div class="a">{a.map((p) => <p>{p}</p>)}</div>
+            </details>
+          ))}
+        </div>
+        <p style="font-size:.92rem;color:var(--text-soft);margin-top:1.1rem">
+          Lo anterior es información general sobre cómo funciona la materia en la
+          provincia. No reemplaza el análisis del caso concreto: cada expediente
+          tiene particularidades que cambian el encuadre y los plazos.
+        </p>
+      </section>
+
+      <section class="doc-sec" id="zonas">
+        <h2 class="doc-h2">Dónde atendemos</h2>
+        <p>
+          El estudio funciona en San Salvador de Jujuy y atiende causas en todos los
+          fueros de la provincia. Si vive en el interior, la primera consulta puede
+          hacerse por videollamada o por WhatsApp: no hace falta viajar a la capital
+          para saber si tiene un caso.
+        </p>
+        <div class="zonas">{zonas.map((z) => <span>{z}</span>)}</div>
+      </section>
+
+      <section class="doc-sec" id="otras">
+        <h2 class="doc-h2">Las demás materias</h2>
+        <p>
+          El estudio trabaja en los siete fueros en los que se litiga en la provincia.
+          Los problemas reales rara vez respetan las fronteras del derecho: una
+          sucesión toca lo tributario, un conflicto societario toca lo laboral.
+        </p>
+        <div class="otras">
+          {otras.map((m) => (
+            <a href={`/materias/${m.id}/`}>
+              <span class="n">{m.data.fuero}</span><span class="arr">&#8594;</span>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <aside class="doc-cta">
+        <p class="k">Primera consulta sin cargo</p>
+        <h2>Cuéntenos su caso.</h2>
+        <p>
+          Le respondo personalmente dentro de las 48 horas hábiles. Si el asunto es
+          urgente, escríbame directamente por WhatsApp. Puede ver antes <a
+            href={arancel}>cuánto cuesta</a
+          >: los honorarios de este estudio están publicados.
+        </p>
+        <div class="cta-actions">
+          <a class="btn btn-brass" href="/#contacto"
+            >Escribir al estudio <span class="arr">&#8594;</span></a
+          >
+          <a
+            class="btn btn-ghost"
+            href={estudio.whatsapp}
+            target="_blank"
+            rel="noopener">WhatsApp <span class="arr">&#8594;</span></a
+          >
+        </div>
+      </aside>
+    </article>
+  </main>
+</Documento>
