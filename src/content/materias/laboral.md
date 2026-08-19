@@ -7,8 +7,8 @@ h1: "Abogado laboral en Jujuy"
 deck: "De la intimación previa a la audiencia de vista de causa. Del lado del trabajador o del empleador, pero nunca de los dos."
 resumen: "En derecho laboral casi todo se define antes del juicio, en las cartas documento que se mandan y en las que se contestan. Una intimación mal redactada puede costar el reclamo entero; una respuesta apresurada del empleador puede convertir un conflicto menor en un despido indirecto. Si le llegó una carta documento o está por mandar una, consulte antes de responder. Atendemos en toda la provincia de Jujuy."
 seo:
-  title: "Abogado Laboral en Jujuy — Despidos, Trabajo en Negro y Accidentes | Estudio Farfán"
-  description: "Abogado laboral en Jujuy: despido sin causa, trabajo no registrado, diferencias salariales, accidentes y enfermedades laborales. Del lado del trabajador o del empleador. Estudio Jurídico Farfán."
+  title: "Abogado laboral en Jujuy — Despido sin causa | Estudio Farfán"
+  description: "Orientación para trabajadores y empleadores en despidos, empleo no registrado, diferencias salariales y accidentes laborales en Jujuy."
   ogTitle: "Abogado laboral en Jujuy — Estudio Jurídico Farfán"
   ogDescription: "Despidos, trabajo en negro, accidentes laborales y reclamos ante la ART en toda la provincia de Jujuy."
 home:

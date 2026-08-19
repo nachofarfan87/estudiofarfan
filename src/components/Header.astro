@@ -4,6 +4,8 @@
 interface LinkItem {
   href: string;
   label: string;
+  /** 'back' antepone la flecha ←, igual que hace Footer con sus enlaces. */
+  direction?: 'back' | 'forward';
 }
 
 interface Props {
@@ -30,6 +32,10 @@ const {
 {
   variant === 'home' ? (
     <>
+      <script is:inline>
+        document.documentElement.classList.add('js-enabled');
+      </script>
+
       <header class:list={['site-head', { 'over-hero': overHero }]}>
         <div class="head-inner">
           <a class="brand" href={brandHref} aria-label="Estudio Jurídico Farfán, inicio">
@@ -56,6 +62,10 @@ const {
           </button>
         </div>
       </header>
+
+      <nav class="no-script-nav" aria-label="Navegación sin JavaScript">
+        {links.map((link) => <a href={link.href}>{link.label}</a>)}
+      </nav>
 
       <div
         class="mobile-nav"
@@ -85,7 +95,15 @@ const {
           Farfán <small>Est. 1953</small>
         </a>
         <div class="head-side">
-          {backLinks.map((link) => <a class="head-back" href={link.href}>{link.label}</a>)}
+          {backLinks.map((link) => (
+            <a class="head-back" href={link.href}>
+              {link.direction === 'back' ? (
+                <><span class="arr" aria-hidden="true">←</span> {link.label}</>
+              ) : (
+                link.label
+              )}
+            </a>
+          ))}
           <a class="head-cta" href={ctaHref}>{ctaLabel}</a>
         </div>
       </div>

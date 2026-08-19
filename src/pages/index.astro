@@ -80,7 +80,7 @@ const schema = [
 ---
 
 <Base
-  title="Abogados en Jujuy | Estudio Jurídico Farfán"
+  title="Abogados en Jujuy desde 1953 — Estudio Jurídico Farfán"
   description="Estudio jurídico en Jujuy para consultas de familia, laboral, penal, civil, sucesiones y amparos. Orientación clara y atención profesional."
   ogTitle="Abogados en Jujuy — Estudio Jurídico Farfán"
   ogDescription="Orientación jurídica clara en Jujuy, con información práctica sobre materias, consultas y honorarios."
@@ -105,8 +105,9 @@ const schema = [
           </h1>
           <p class="hero-firm">Estudio Jurídico Farfán</p>
           <p class="hero-sub">
-            Abogados en Jujuy en los siete fueros de la provincia. Bajo el mismo apellido
-            y el mismo criterio: leer cada caso completo, sin perder de vista el resto.
+            Abogados en Jujuy para asuntos de familia, derecho civil, laboral, penal,
+            administrativo y amparos. Un mismo criterio: comprender el caso completo antes
+            de definir la estrategia.
           </p>
           <div class="hero-actions">
             <a class="btn btn-brass" href="#contacto"
@@ -247,8 +248,8 @@ const schema = [
               <p class="linaje-name">Juan Ignacio y Marianela Farfán</p>
               <p class="linaje-note">
                 Continuamos el legado con la misma convicción y el mismo profesionalismo
-                con que fue fundado el estudio: todos los fueros y una sola mirada sobre
-                cada caso.
+                con que fue fundado el estudio: distintas áreas de práctica y una sola
+                mirada sobre cada caso.
               </p>
             </div>
           </div>
@@ -305,9 +306,8 @@ const schema = [
             class="intro-lead reveal"
             style="margin-top:1.4rem;font-size:1.2rem;max-width:46ch;color:var(--text-soft)"
           >
-            Siete títulos, los siete fueros en los que se litiga en Jujuy. Cada uno tiene
-            su página, con los trámites que comprende, cómo se trabaja y las preguntas que
-            más nos hacen.
+            Siete áreas de práctica con información propia: qué asuntos comprende cada una,
+            cómo se trabaja y cuáles son las preguntas más frecuentes.
           </p>
 
           <ol class="codex-list">
@@ -364,8 +364,8 @@ const schema = [
             class="intro-lead reveal"
             style="margin-top:1.4rem;font-size:1.15rem;max-width:48ch;color:rgba(251,248,241,.78);font-family:'Hanken Grotesk',sans-serif;font-weight:300;line-height:1.6"
           >
-            La primera conversación es sin cargo. Escríbame y le respondo personalmente
-            dentro de las 48 horas hábiles.
+            Cuéntenos brevemente qué ocurrió y qué necesita resolver. Le responderemos para
+            indicar los próximos pasos y, si corresponde, coordinar una consulta.
           </p>
 
           <div class="contacto-grid">
@@ -404,7 +404,6 @@ const schema = [
                 method="POST"
                 data-netlify="true"
                 netlify-honeypot="bot-field"
-                novalidate
               >
                 <input type="hidden" name="form-name" value="consulta" />
                 <p hidden aria-hidden="true">
@@ -457,22 +456,22 @@ const schema = [
                   >Enviar consulta <span class="arr">→</span></button
                 >
                 <p class="form-note">
-                  Sus datos se tratan con reserva profesional. No los comparto con
-                  terceros.
+                  Usaremos estos datos para responder su mensaje. Evite adjuntar o incluir
+                  documentación sensible hasta confirmar el canal de atención.
                 </p>
                 <p class="form-error" id="consulta-error" role="alert" tabindex="-1" hidden>
                   No pude enviar su consulta en este momento. Escríbame directamente a <a
                     href={`mailto:${estudio.email}`}>{estudio.email}</a
-                  > y le respondo enseguida.
+                  > para continuar por esa vía.
                 </p>
               </form>
 
               <div class="confirm" id="consulta-ok" hidden tabindex="-1">
                 <span class="tag">Consulta recibida</span>
-                <h3>Gracias. Le respondo pronto.</h3>
+                <h3>Gracias. Recibimos su mensaje.</h3>
                 <p>
-                  Revisaré su consulta personalmente y me comunicaré dentro de las 48 horas
-                  hábiles.
+                  Revisaremos la información enviada y nos comunicaremos para indicar los
+                  próximos pasos.
                 </p>
               </div>
             </div>

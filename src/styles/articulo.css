@@ -1,25 +1,6 @@
-/* ============ TOKENS ============ */
-:root{
-  --ink:#15251C;--ink-2:#1B2E24;--ink-3:#21372B;
-  --parchment:#ECE3D0;--paper:#F4EDDD;--bone:#FBF8F1;
-  --brass:#B08F4F;--brass-soft:#C7AC78;--brass-ink:#7A5E2C;--brass-line:rgba(176,143,79,.34);
-  --text:#1E2C24;--text-soft:#5A655C;--line:#D7CBB2;--line-strong:#C5B693;
-  --ease:cubic-bezier(.2,.6,.2,1);--maxw:1180px;--pad:clamp(1.25rem,5vw,4rem);
-  --read:44rem;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{background:var(--parchment);color:var(--text);font-family:"Hanken Grotesk",system-ui,sans-serif;
-  font-size:clamp(1rem,.55rem + .6vw,1.0625rem);line-height:1.68;font-weight:400;
-  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
-a{color:inherit;text-decoration:none}
-::selection{background:var(--brass);color:var(--ink)}
-.serif{font-family:"Fraunces",Georgia,serif;font-optical-sizing:auto}
-.mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
-
-.skip{position:absolute;left:50%;top:-60px;transform:translateX(-50%);background:var(--ink);color:var(--bone);
-  padding:.7rem 1.2rem;border-radius:2px;font-family:"IBM Plex Mono",monospace;font-size:.8rem;z-index:100;transition:top .2s}
-.skip:focus{top:.6rem}
+/* src/styles/articulo.css */
+:root{--read:44rem}
+body{font-size:clamp(1rem,.55rem + .6vw,1.0625rem);line-height:1.68;font-weight:400}
 
 /* ============ HEADER ============ */
 .doc-head{position:sticky;top:0;z-index:60;background:color-mix(in srgb,var(--parchment) 92%,transparent);

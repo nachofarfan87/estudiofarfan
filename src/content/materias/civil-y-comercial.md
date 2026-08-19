@@ -7,8 +7,8 @@ h1: "Abogado civil y comercial en Jujuy"
 deck: "Donde se dirime casi todo lo patrimonial: lo que se firmó, lo que se heredó, lo que se dañó y lo que se debe."
 resumen: "El fuero civil y comercial es el más ancho de todos: abarca desde la sucesión de un familiar hasta el reclamo por un accidente de tránsito, el desalojo de un inquilino que no paga o la escrituración que el vendedor nunca hizo. Lo que tienen en común es que casi siempre hay un patrimonio en juego y un plazo de prescripción corriendo. Atendemos en San Salvador de Jujuy y en toda la provincia."
 seo:
-  title: "Abogado Civil y Comercial en Jujuy — Sucesiones, Daños y Desalojos | Estudio Farfán"
-  description: "Abogado civil y comercial en Jujuy: sucesiones y declaratoria de herederos, daños y perjuicios, desalojos, escrituración, usucapión y juicios ejecutivos. Estudio Jurídico Farfán, desde 1953."
+  title: "Abogado civil y comercial en Jujuy — Sucesiones | Estudio Farfán"
+  description: "Orientación en sucesiones, daños, desalojos, escrituración, usucapión y ejecuciones en San Salvador de Jujuy y la provincia."
   ogTitle: "Abogado civil y comercial en Jujuy — Estudio Jurídico Farfán"
   ogDescription: "Sucesiones, daños y perjuicios, desalojos y ejecuciones en toda la provincia de Jujuy. Honorarios publicados de antemano."
 home:

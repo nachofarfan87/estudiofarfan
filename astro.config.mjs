@@ -1,9 +1,9 @@
+// astro.config.mjs
 // @ts-check
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import { loadEnv } from 'vite';
 
-// astro.config.mjs
 // El dominio se configura en el entorno de publicación. Si todavía no está
 // confirmado, el build funciona sin inventar canonical ni sitemap.
 //

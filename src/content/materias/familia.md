@@ -7,8 +7,8 @@ h1: "Abogado de familia en Jujuy"
 deck: "El derecho que toca la vida de todos los días. Se resuelve mejor cuanto antes se ordena."
 resumen: "Si está buscando un abogado de familia en Jujuy, probablemente ya sepa que el problema no empezó ayer. En esta materia el tiempo trabaja en contra: cada mes que pasa sin una cuota fijada, sin un régimen de comunicación claro o sin el divorcio inscripto es un mes que después hay que reconstruir. Atendemos divorcios, alimentos, cuidado personal, régimen comunicacional, filiación y autorizaciones de viaje en toda la provincia."
 seo:
-  title: "Abogado de Familia en Jujuy — Divorcio, Alimentos y Cuidado | Estudio Farfán"
-  description: "Abogado de familia en Jujuy: divorcio, cuota alimentaria, cuidado personal, régimen comunicacional y autorizaciones de viaje. Estudio Jurídico Farfán, tres generaciones desde 1953. Primera consulta sin cargo."
+  title: "Abogado de familia en Jujuy — Divorcio y alimentos | Estudio Farfán"
+  description: "Orientación en divorcio, alimentos, cuidado personal, régimen de comunicación, filiación y autorizaciones de viaje en Jujuy."
   ogTitle: "Abogado de familia en Jujuy — Estudio Jurídico Farfán"
   ogDescription: "Divorcio, alimentos, cuidado personal y régimen comunicacional en toda la provincia de Jujuy. Honorarios publicados de antemano."
 home:
@@ -76,7 +76,7 @@ faq:
       - "Es un trámite que conviene iniciar con anticipación: los plazos de citación y notificación no se acortan porque el pasaje ya esté comprado."
   - q: "¿Cuánto cuesta contratar un abogado de familia?"
     a:
-      - "Los honorarios de este estudio están publicados de antemano y se calculan sobre el valor vigente de la UMA del Colegio de Abogados de Jujuy, trámite por trámite. La primera conversación es sin cargo. Puede consultar el arancel completo antes de escribirnos."
+      - "Los honorarios de este estudio están publicados de antemano y se calculan sobre el valor vigente de la UMA del Colegio de Abogados de Jujuy, trámite por trámite. Puede consultar el arancel completo antes de escribirnos."
 ---
 ## Qué se resuelve fuera del juzgado, y qué no
 

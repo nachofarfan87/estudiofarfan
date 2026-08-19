@@ -4,6 +4,7 @@ import Base from '../../layouts/Base.astro';
 import Footer from '../../components/Footer.astro';
 import Header from '../../components/Header.astro';
 import { publicUrl } from '../../config/site';
+import { whatsappUrl } from '../../data/estudio';
 import { ID, nodoSitio, nodoEstudio, nodoAbogado, nodoMigas } from '../../lib/schema';
 import { articulos } from '../../data/articulos';
 import '../../styles/articulo.css';
@@ -13,8 +14,9 @@ const ruta = `/articulos/${a.slug}/`;
 const url = publicUrl(ruta);
 
 // El artículo invita a escribir diciendo de dónde viene la consulta.
-const whatsapp =
-  'https://wa.me/5493885800175?text=Hola.%20Le%20escribo%20a%20partir%20del%20art%C3%ADculo%20publicado%20en%20la%20web.';
+const whatsapp = whatsappUrl(
+  'Hola. Le escribo a partir del artículo publicado en la web.',
+);
 
 const schema = [
   nodoSitio(),
@@ -48,8 +50,8 @@ const schema = [
 ---
 
 <Base
-  title={`${a.titulo} — Estudio Jurídico Farfán`}
-  description="La carga ilegítima de confeccionar cédulas y oficios sobre los letrados en el fuero civil y comercial de Jujuy: por qué la ley no la impone y a quién le corresponde realmente esa tarea."
+  title={`${a.titulo} | Estudio Farfán`}
+  description="Análisis de la confección de cédulas y oficios en el fuero civil y comercial de Jujuy, sus normas aplicables y sus efectos prácticos."
   ogTitle={a.titulo}
   ogDescription="Una práctica extendida en los juzgados civiles de Jujuy obliga a los abogados a confeccionar las diligencias del propio juzgado. Este artículo muestra por qué esa carga es ilegítima."
   ruta={ruta}
@@ -62,13 +64,13 @@ const schema = [
   <Header
     variant="document"
     backLinks={[
-      { href: '/#articulos', label: 'Doctrina' },
+      { href: '/#articulos', label: 'Doctrina', direction: 'back' },
       { href: '/honorarios/', label: 'Honorarios' },
     ]}
     ctaLabel="Consulta"
   />
 
-  <main id="contenido">
+  <main id="contenido" tabindex="-1">
 
     <!-- ============ MASTHEAD ============ -->
     <div class="masthead">
@@ -204,9 +206,9 @@ const schema = [
         <aside class="doc-cta">
           <span class="k">Del estudio a su caso</span>
           <h2>¿Su situación roza esta cuestión?</h2>
-          <p>Si atraviesa un trámite donde este tipo de prácticas le hace perder tiempo o dinero, conversémoslo. La primera conversación es sin cargo, y los <a href="/honorarios/">honorarios están publicados</a>.</p>
+          <p>Si atraviesa un trámite donde este tipo de prácticas le hace perder tiempo o dinero, puede enviarnos una síntesis para evaluar los próximos pasos. Los <a href="/honorarios/">honorarios están publicados</a>.</p>
           <div class="cta-actions">
-            <a class="btn btn-brass" href="https://wa.me/5493885800175?text=Hola.%20Le%20escribo%20a%20partir%20del%20art%C3%ADculo%20publicado%20en%20la%20web." target="_blank" rel="noopener">Escribir por WhatsApp <span class="arr">→</span></a>
+            <a class="btn btn-brass" href={whatsapp} target="_blank" rel="noopener">Escribir por WhatsApp <span class="arr" aria-hidden="true">→</span></a>
             <a class="btn btn-ghost" href="/#contacto">Enviar el formulario</a>
           </div>
         </aside>

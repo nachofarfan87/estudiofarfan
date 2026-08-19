@@ -59,8 +59,13 @@
     navToggle.addEventListener("click", function(){ setNav(true); });
     if (mobileClose){ mobileClose.addEventListener("click", function(){ setNav(false); }); }
     mobileNav.querySelectorAll("a").forEach(function(a){
-      a.addEventListener("click", function(){ setNav(false, false); });
+      a.addEventListener("click", function(){ setNav(false); });
     });
+    var desktopNav = window.matchMedia("(min-width: 881px)");
+    var closeOnDesktop = function(e){
+      if (e.matches && mobileNav.classList.contains("open")){ setNav(false); }
+    };
+    if (desktopNav.addEventListener){ desktopNav.addEventListener("change", closeOnDesktop); }
     document.addEventListener("keydown", function(e){
       if (!mobileNav.classList.contains("open")){ return; }
       if (e.key === "Escape"){

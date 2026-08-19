@@ -36,7 +36,7 @@ export const nodoEstudio = () => ({
   name: estudio.nombre,
   alternateName: estudio.alternativo,
   description:
-    'Estudio jurídico integral en Jujuy desde 1953. Tres generaciones de abogados en los siete fueros de la provincia, bajo un mismo criterio: leer cada caso completo.',
+    'Estudio jurídico en Jujuy con orientación en distintas áreas de práctica y un enfoque centrado en comprender cada caso de manera integral.',
   slogan: estudio.lema,
   ...(absoluteUrl('/') ? { url: absoluteUrl('/') } : {}),
   ...(absoluteUrl('/og-farfan.jpg') ? { image: absoluteUrl('/og-farfan.jpg') } : {}),

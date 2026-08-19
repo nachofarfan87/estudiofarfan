@@ -93,7 +93,7 @@ const schema = [
     pie: 'Volver al índice de materias',
   }}
 >
-  <main id="contenido">
+  <main id="contenido" tabindex="-1">
     <div class="masthead reading">
       <p class="eyebrow">Título {d.romano} · {d.fuero}</p>
       <h1 class="doc-title">{d.h1}</h1>
@@ -172,7 +172,7 @@ const schema = [
       <section class="doc-sec" id="otras">
         <h2 class="doc-h2">Las demás materias</h2>
         <p>
-          El estudio trabaja en los siete fueros en los que se litiga en la provincia.
+          El estudio trabaja en distintas áreas de práctica dentro de la provincia.
           Los problemas reales rara vez respetan las fronteras del derecho: una
           sucesión toca lo tributario, un conflicto societario toca lo laboral.
         </p>
@@ -186,13 +186,12 @@ const schema = [
       </section>
 
       <aside class="doc-cta">
-        <p class="k">Primera consulta sin cargo</p>
+        <p class="k">Orientación inicial</p>
         <h2>Cuéntenos su caso.</h2>
         <p>
-          Le respondo personalmente dentro de las 48 horas hábiles. Si el asunto es
-          urgente, escríbame directamente por WhatsApp. Puede ver antes <a
-            href={arancel}>cuánto cuesta</a
-          >: los honorarios de este estudio están publicados.
+          Envíenos una síntesis para evaluar el encuadre inicial y coordinar los próximos
+          pasos. Puede consultar antes <a href={arancel}>el arancel publicado</a> del
+          estudio.
         </p>
         <div class="cta-actions">
           <a class="btn btn-brass" href="/#contacto"

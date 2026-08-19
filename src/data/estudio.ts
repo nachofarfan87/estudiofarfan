@@ -8,6 +8,11 @@
 // profesional y operativo de este archivo. Se preservan los valores migrados;
 // no constituyen una verificación independiente.
 
+const WHATSAPP_NUMBER = '5493885800175';
+
+export const whatsappUrl = (message: string) =>
+  `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+
 export const estudio = {
   nombre: 'Estudio Jurídico Farfán',
   alternativo: 'Farfán Abogados',
@@ -16,8 +21,7 @@ export const estudio = {
   telefono: '+543885800175',
   telefonoVisible: '+54 388 580-0175',
   email: 'juanignaciofarfan@gmail.com',
-  whatsapp:
-    'https://wa.me/5493885800175?text=Hola.%20Quisiera%20hacer%20una%20consulta%20con%20el%20estudio.',
+  whatsapp: whatsappUrl('Hola. Quisiera hacer una consulta con el estudio.'),
   domicilio: {
     calle: 'Carrizo N° 672',
     localidad: 'San Salvador de Jujuy',
