@@ -1,0 +1,232 @@
+---
+// src/pages/articulos/el-derecho-a-arrepentirse.astro
+import Base from '../../layouts/Base.astro';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import { absoluteUrl, publicUrl } from '../../config/site';
+import { whatsappUrl } from '../../data/estudio';
+import { ID, nodoSitio, nodoEstudio, nodoAbogado, nodoMigas } from '../../lib/schema';
+import { articulos } from '../../data/articulos';
+import '../../styles/articulo.css';
+
+const a = articulos.find((x) => x.slug === 'el-derecho-a-arrepentirse')!;
+const ruta = `/articulos/${a.slug}/`;
+const url = publicUrl(ruta);
+
+// El artículo invita a escribir diciendo de dónde viene la consulta.
+const whatsapp = whatsappUrl(
+  'Hola. Le escribo a partir del artículo sobre el derecho a arrepentirse.',
+);
+
+const schema = [
+  nodoSitio(),
+  nodoEstudio(),
+  nodoAbogado(),
+  nodoMigas(url, [
+    { nombre: 'Inicio', url: publicUrl('/') },
+    { nombre: 'Doctrina', url: publicUrl('/articulos/') },
+    { nombre: a.titulo },
+  ]),
+  {
+    '@type': 'Article',
+    '@id': `${url}#articulo`,
+    headline: a.titulo,
+    alternativeHeadline: a.subtitulo.replace(/\.$/, ''),
+    description: a.copete,
+    inLanguage: 'es-AR',
+    datePublished: a.fecha,
+    dateModified: a.fecha,
+    // Referencias por @id: una sola entidad de autor y de estudio en todo el
+    // sitio, en vez de redeclararlas en cada página.
+    author: { '@id': ID.abogado },
+    publisher: { '@id': ID.estudio },
+    articleSection: a.seccion,
+    url,
+    mainEntityOfPage: url,
+    ...(absoluteUrl('/og-farfan.jpg') ? { image: absoluteUrl('/og-farfan.jpg') } : {}),
+    isPartOf: { '@id': ID.sitio },
+    breadcrumb: { '@id': `${url}#crumbs` },
+  },
+];
+---
+
+<Base
+  title="Arrepentirse de una compra online: qué dice la ley | Estudio Farfán"
+  description="Quien compra a distancia o fuera de un local tiene diez días para arrepentirse, sin dar motivos. Qué dice el artículo 34, cómo se ejerce y qué queda afuera."
+  ogTitle={a.titulo}
+  ogDescription="Diez días corridos para revocar una compra hecha por internet, por teléfono o fuera de un local, sin explicar por qué. Un derecho irrenunciable que ninguna cláusula firmada puede dejar sin efecto."
+  ogType="article"
+  ruta={ruta}
+  schema={schema}
+  whatsapp={whatsapp}
+  bodyId="top"
+>
+  <a class="skip" href="#contenido">Saltar al contenido</a>
+
+  <Header
+    variant="document"
+    backLinks={[
+      { href: '/articulos/', label: 'Doctrina', direction: 'back' },
+      { href: '/honorarios/', label: 'Honorarios' },
+    ]}
+    ctaLabel="Consulta"
+  />
+
+  <main id="contenido" tabindex="-1">
+
+    <!-- ============ MASTHEAD ============ -->
+    <div class="masthead">
+      <div class="reading">
+        <p class="eyebrow">§ Doctrina · Derecho del Consumidor</p>
+        <h1 class="doc-title">El derecho a arrepentirse que la letra chica no puede borrar</h1>
+        <p class="doc-deck">Qué puede hacer un consumidor cuando una compra ya aceptada deja de convencerlo, por qué ese derecho no depende de lo que diga el contrato que firmó, y cómo se ejerce en la práctica.</p>
+        <div class="doc-meta">
+          <span>Por <b>Juan Ignacio Farfán</b></span>
+          <span>M.P. 4692</span>
+          <span>19 de agosto de 2026</span>
+          <span>Lectura · 11 min</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="reading">
+
+      <!-- ============ EN POCAS PALABRAS ============ -->
+      <aside class="abstract" aria-label="Resumen en lenguaje llano">
+        <p class="lbl">En pocas palabras</p>
+        <p>Quien compra por internet, por teléfono o fuera de un local comercial tiene diez días corridos para arrepentirse, sin dar motivos y sin que le cueste nada. Es el artículo 34 de la Ley de Defensa del Consumidor: un derecho irrenunciable, que ninguna cláusula firmada puede dejar sin efecto, y que la reglamentación siguió ajustando hasta febrero de este año. Este artículo explica de dónde sale el plazo, cómo se ejerce, qué compras quedan afuera y qué hacer si quien vendió no responde.</p>
+      </aside>
+
+      <!-- ============ SUMARIO ============ -->
+      <nav class="sumario" aria-label="Sumario del artículo">
+        <p class="sumario-h">Sumario</p>
+        <ol>
+          <li><a href="#s1"><span class="rn">I</span><span class="tt">Diez días que no hay que justificar</span></a></li>
+          <li><a href="#s2"><span class="rn">II</span><span class="tt">Por qué existe: la reflexión que el circuito de venta no permite</span></a></li>
+          <li><a href="#s3"><span class="rn">III</span><span class="tt">Qué dice la ley, exactamente</span></a></li>
+          <li><a href="#s4"><span class="rn">IV</span><span class="tt">Cómo se ejerce, paso a paso</span></a></li>
+          <li><a href="#s5"><span class="rn">V</span><span class="tt">Lo que la ley no cubre</span></a></li>
+          <li><a href="#s6"><span class="rn">VI</span><span class="tt">Un derecho que la reglamentación no dejó de ajustar</span></a></li>
+          <li><a href="#s7"><span class="rn">VII</span><span class="tt">El botón, hoy: qué exige la norma vigente</span></a></li>
+          <li><a href="#s8"><span class="rn">VIII</span><span class="tt">Qué hacer si no responden, o dicen que no corresponde</span></a></li>
+          <li><a href="#s9"><span class="rn">IX</span><span class="tt">Conclusión</span></a></li>
+        </ol>
+      </nav>
+
+      <!-- ============ CUERPO ============ -->
+      <article class="prose">
+
+        <section class="doc-sec" id="s1">
+          <h2 class="doc-h2"><span class="doc-h2-num">I</span>Diez días que no hay que justificar</h2>
+          <p>Una persona compra un electrodoméstico en una página web a las once de la noche. Otra acepta, por teléfono, un seguro que le ofrecieron mientras hacía otra cosa. Una tercera firma la suscripción a un gimnasio después de una demostración de venta en la vía pública. En los tres casos, la decisión se tomó sin el tiempo, la información o la posibilidad de comparar que tendría alguien que entra a un local, mira, pregunta y decide con calma.</p>
+          <p>La ley identificó ese problema hace más de tres décadas y le dio una solución concreta: el derecho a arrepentirse. No es informal, no depende de la buena voluntad de quien vende y no exige explicar por qué. El artículo 34 de la Ley de Defensa del Consumidor (Ley 24.240) le da a quien compró fuera de un local comercial, o a distancia, diez días corridos para revocar esa aceptación, sin responsabilidad alguna.</p>
+        </section>
+
+        <section class="doc-sec" id="s2">
+          <h2 class="doc-h2"><span class="doc-h2-num">II</span>Por qué existe: la reflexión que el circuito de venta no permite</h2>
+          <p>Para entender este derecho conviene partir de una idea central del derecho del consumidor: en una relación de consumo, las partes no negocian en igualdad de condiciones. Quien vende diseña el producto, el contrato y el canal de venta; quien compra, en general, solo decide si acepta o no. A esa asimetría estructural la doctrina la llama <strong><em>vulnerabilidad del consumidor</em></strong>, y es el fundamento que justifica que la ley intervenga con reglas especiales en estas relaciones. En las compras fuera de un local o a distancia, esa desventaja se agrava con un problema más específico: falta el momento de reflexión que un local físico, sin proponérselo, siempre ofrece.</p>
+          <p>Cuando alguien entra a un comercio, puede tocar el producto, comparar precios en el momento, alejarse, volver, consultar a otra persona antes de decidir. La venta telefónica, la venta domiciliaria y la venta por internet eliminan, total o parcialmente, ese margen: la persona decide bajo la presión del momento, frente a una oferta que se presenta como única o una demostración pensada para cerrarse antes de que aparezca la duda. El derecho a arrepentirse no corrige esa situación antes de que ocurra. Le devuelve a la persona, después, el tiempo de reflexión que no tuvo antes.</p>
+          <p>Ese problema golpea con más fuerza a lo que la doctrina llama <strong><em>consumidores hipervulnerables</em></strong>: quienes, a la vulnerabilidad general de todo consumidor, suman una desventaja adicional (la edad, una discapacidad, una situación de emergencia económica). Una persona mayor que recibe una llamada de venta, o una familia que acepta una oferta bajo presión económica, suele tener todavía menos margen para frenar la operación antes de aceptarla. El derecho a arrepentirse no distingue entre consumidores: le da a cualquiera los mismos diez días. Pero para quien más lo necesita, suele ser la única herramienta disponible para deshacer una decisión tomada sin el resguardo que otros sí tuvieron.</p>
+        </section>
+
+        <section class="doc-sec" id="s3">
+          <h2 class="doc-h2"><span class="doc-h2-num">III</span>Qué dice la ley, exactamente</h2>
+          <p>El texto del artículo 34 es breve pero contundente: frente a una compra fuera de un local comercial o a distancia (los casos de los artículos 32 y 33 de la misma ley), el consumidor tiene derecho a revocar la aceptación durante diez días corridos, contados desde que se entrega el bien o se celebra el contrato, lo que ocurra después. La norma agrega dos precisiones que conviene subrayar: esa facultad <strong>no puede ser dispensada ni renunciada</strong>, y quien vende está obligado a informarla por escrito, en forma clara y notoria, en cualquier documento vinculado a la venta.</p>
+          <p>El Código Civil y Comercial, en su artículo 1110, reconoce el mismo derecho con una fórmula todavía más amplia: no solo lo declara irrenunciable, sino que considera no escrita cualquier cláusula, pacto o modalidad que, en la práctica, termine haciendo imposible ejercerlo. La diferencia no es menor. Frente a una condición que, sin prohibir expresamente el arrepentimiento, lo vuelve inviable en los hechos, el criterio de interpretación más favorable al consumidor (previsto en el artículo 3 de la Ley 24.240 y en el artículo 1094 del Código Civil y Comercial) inclina la balanza hacia la fórmula del Código, más protectora que la de la ley especial. El Código agrega, además, un detalle práctico que la ley no explicita: si el plazo de diez días vence en un día inhábil, se prorroga hasta el primer día hábil siguiente.</p>
+        </section>
+
+        <section class="doc-sec" id="s4">
+          <h2 class="doc-h2"><span class="doc-h2-num">IV</span>Cómo se ejerce, paso a paso</h2>
+          <p>Ejercer este derecho no exige fórmulas sacramentales, pero sí algunos recaudos.</p>
+          <ol class="steps">
+            <li>Alcanza con comunicar la decisión por cualquier medio que deje constancia (un correo electrónico, un mensaje escrito, el formulario que el propio vendedor debe ofrecer), sin necesidad de exponer motivos.</li>
+            <li>El bien debe ponerse a disposición de quien vendió en el mismo estado en que fue recibido, salvo lo que sea razonable para comprobar el producto (probárselo, encenderlo, verificar que funciona).</li>
+            <li>El ejercicio de este derecho no debe implicarle ningún gasto al consumidor: los costos de la devolución corren por cuenta de quien vendió, y no hay que pagar nada por la disminución de valor que resulte del uso normal del producto durante esos diez días.</li>
+            <li>Incluso si la devolución del bien se vuelve imposible, el derecho a arrepentirse sigue en pie: si esa imposibilidad no le es imputable al consumidor, no debe nada; si lo es, solo debe pagar el valor de mercado que el bien tenga en ese momento, y nunca más que el precio que pagó por él.</li>
+          </ol>
+        </section>
+
+        <section class="doc-sec" id="s5">
+          <h2 class="doc-h2"><span class="doc-h2-num">V</span>Lo que la ley no cubre</h2>
+          <p>El derecho a arrepentirse no es ilimitado. El artículo 1116 del Código Civil y Comercial excluye, salvo que quien vende decida lo contrario, tres categorías: los productos hechos a medida según especificaciones del consumidor, o que por su naturaleza no puedan devolverse o se deterioren con rapidez; los contenidos digitales ya descargados o reproducidos (música, video o software una vez decodificados); y las publicaciones periódicas, como diarios y revistas.</p>
+          <p>Tampoco alcanza a las compras hechas con fines de reventa o como insumo de un proceso productivo, ni, según la reglamentación vigente, a los espectáculos y servicios turísticos con fecha determinada, donde el arrepentimiento debe comunicarse hasta veinticuatro horas antes de la función o la prestación contratada.</p>
+          <p>Vale una aclaración sobre las tres excepciones del Código: operan <em>salvo pacto en contrario</em>, es decir que son un piso, no una prohibición. Nada impide que quien vende ofrezca igual el arrepentimiento en esos casos, así que ante la duda conviene pedirlo.</p>
+        </section>
+
+        <section class="doc-sec" id="s6">
+          <h2 class="doc-h2"><span class="doc-h2-num">VI</span>Un derecho que la reglamentación no dejó de ajustar</h2>
+          <p>Si el principio protectorio explica por qué existe este derecho, la progresividad explica cómo se comportó en el tiempo, y hay pocos ejemplos tan claros como este. La Ley 24.240 original, de 1993, daba cinco días para arrepentirse. La reforma de 2008 (Ley 26.361) lo llevó a los diez días corridos que rigen hoy, y sumó una herramienta distinta pero relacionada: el artículo 10 ter, que le permite al consumidor dar de baja un servicio contratado por teléfono o por internet, usando ese mismo medio, en cualquier momento (no solo dentro de los primeros diez días). Son dos derechos que conviene no confundir: uno deshace una compra reciente, el otro termina un servicio que ya se venía usando.</p>
+          <p>Desde 2018, sucesivas normas reglamentarias fueron ajustando cómo se ejerce en la práctica el derecho del artículo 34: una primera resolución ese año, la creación del <em>“botón de arrepentimiento”</em> obligatorio en las páginas de venta en 2020 (en el contexto de la pandemia y el auge del comercio electrónico), la unificación de ese botón con el <em>“botón de baja de servicios”</em> mediante la Disposición 954/2025, y, en febrero de este año, la Disposición 3/2026, que aclaró hasta dónde puede un proveedor pedir verificación de identidad antes de procesar un pedido de arrepentimiento, sin que eso se convierta en un obstáculo para ejercerlo.</p>
+        </section>
+
+        <section class="doc-sec" id="s7">
+          <h2 class="doc-h2"><span class="doc-h2-num">VII</span>El botón, hoy: qué exige la norma vigente</h2>
+          <p>Desde la Disposición 954/2025, todo proveedor que venda bienes o servicios a distancia, a través de una página web o un canal similar, debe tener un enlace llamado <strong><em>“botón de arrepentimiento”</em></strong> visible a simple vista desde el primer acceso, sin esconderlo en el pie de página ni detrás de varios clics. Al usarlo, no se le puede exigir al consumidor que se registre ni que complete trámites adicionales, aunque la Disposición 3/2026 aclaró que sí puede pedirse una verificación razonable de identidad, como medida de seguridad, siempre que no se convierta en una barrera para ejercer el derecho. Una vez recibido el pedido, quien vende tiene veinticuatro horas para responder con un código que identifique la gestión. La misma norma exige, además, que los canales de atención al consumidor, cuando son exclusivamente telefónicos o electrónicos, estén disponibles al menos ocho horas por día, de lunes a viernes: un mínimo pensado para que ejercer este derecho no dependa de encontrar un horario conveniente para la empresa.</p>
+          <p>Vale la pena insistir en la distinción del punto anterior: ese mismo botón, en muchos sitios, también sirve para dar de baja un servicio (el derecho del artículo 10 ter), que es un trámite distinto y no está sujeto al plazo de diez días. Confundir ambos no cuesta nada mientras todo funciona bien, pero puede complicar un reclamo si el proveedor responde citando el plazo que no corresponde.</p>
+        </section>
+
+        <section class="doc-sec" id="s8">
+          <h2 class="doc-h2"><span class="doc-h2-num">VIII</span>Qué hacer si no responden, o dicen que no corresponde</h2>
+          <p>Si el botón no existe, no funciona, o el proveedor rechaza el arrepentimiento sin fundamento, valen los principios generales del sistema de protección al consumidor: la falta de información sobre este derecho es en sí misma una infracción a la Ley de Defensa del Consumidor, sancionable por la autoridad de aplicación; la vía judicial o administrativa para reclamar goza del beneficio de gratuidad; y frente a cualquier duda sobre su alcance, corresponde la interpretación más favorable al consumidor. Ninguna cláusula firmada, ninguna respuesta de un canal de atención al cliente, puede dejar sin efecto un derecho que la ley califica de irrenunciable.</p>
+        </section>
+
+        <section class="doc-sec" id="s9">
+          <h2 class="doc-h2"><span class="doc-h2-num">IX</span>Conclusión</h2>
+          <p>El derecho a arrepentirse no es una gentileza comercial ni una política de devoluciones que cada empresa decide por su cuenta: es un derecho legal, irrenunciable, que existe desde hace más de tres décadas y que la reglamentación no dejó de perfeccionar, la última vez hace apenas seis meses. Conocer el plazo, la forma de ejercerlo y sus límites (qué queda afuera, en qué se diferencia de dar de baja un servicio, qué hacer si quien vende no responde) es lo que separa a un consumidor que puede usar esta herramienta de otro que, sin saberlo, se queda con una compra que ya no quería.</p>
+        </section>
+
+        <!-- ============ FUENTES ============ -->
+        <section class="fuentes" id="fuentes" aria-label="Fuentes normativas citadas">
+          <h2>Fuentes normativas citadas</h2>
+          <dl>
+            <div>
+              <dt>Ley N° 24.240 de Defensa del Consumidor</dt>
+              <dd>Arts. 3, 10 ter, 32, 33 y 34 (texto del art. 34 según Ley N° 26.361).</dd>
+            </div>
+            <div>
+              <dt>Código Civil y Comercial de la Nación</dt>
+              <dd>Arts. 1094 y 1110 a 1116.</dd>
+            </div>
+            <div>
+              <dt>Reglamentación vigente</dt>
+              <dd>Subsecretaría de Defensa del Consumidor y Lealtad Comercial, Disposición 954/2025 (B.O. 4/9/2025) y Disposición 3/2026 (B.O. 6/2/2026).</dd>
+            </div>
+          </dl>
+        </section>
+
+        <!-- ============ CTA ============ -->
+        <aside class="doc-cta">
+          <span class="k">Del estudio a su caso</span>
+          <h2>¿Le pasó algo parecido?</h2>
+          <p>La primera conversación es sin cargo. Cuéntenos qué pasó y le respondemos personalmente dentro de las 48 horas hábiles. Los <a href="/honorarios/">honorarios están publicados</a>.</p>
+          <div class="cta-actions">
+            <a class="btn btn-brass" href={whatsapp} target="_blank" rel="noopener">Escribir por WhatsApp <span class="arr" aria-hidden="true">→</span></a>
+            <a class="btn btn-ghost" href="/#contacto">Enviar el formulario</a>
+          </div>
+        </aside>
+
+      </article>
+    </div>
+
+  </main>
+
+  <Footer
+    variant="document"
+    links={[
+      { href: '/articulos/', label: 'Volver a Doctrina', direction: 'back' },
+      { href: '/honorarios/', label: 'Honorarios', direction: 'forward' },
+    ]}
+  />
+
+  <script>
+    // Medición de los clics a WhatsApp. Si Plausible no está, no hace nada.
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href*="wa.me"]');
+      if (!a || typeof window.plausible !== 'function') return;
+      var origen = a.classList.contains('wa-float') ? 'flotante' : 'cierre';
+      try {
+        window.plausible('WhatsApp', { props: { origen: origen, pagina: 'articulo' } });
+      } catch (err) {}
+    });
+  </script>
+</Base>
