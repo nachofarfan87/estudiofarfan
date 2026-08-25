@@ -64,6 +64,19 @@ const grafo =
     {canonical && <link rel="canonical" href={canonical} />}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
+    {/* Las tres familias que usan todas las hojas del sitio. Se cargan acá y no
+        en el CSS porque un @import dentro de la hoja serializa las descargas:
+        el navegador tiene que bajar y parsear el CSS antes de enterarse de que
+        hay fuentes. El pedido es el mismo que hacía el sitio anterior, con los
+        mismos ejes —Fraunces variable por opsz y peso—, así que el dibujo de
+        los títulos es el de siempre. Pendiente: autoalojarlas. */}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Hanken+Grotesk:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    />
+
     <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content={estudio.nombre} />
     <meta property="og:locale" content="es_AR" />

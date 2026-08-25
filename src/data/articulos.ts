@@ -28,8 +28,8 @@ export const articulos: Articulo[] = [
     subtitulo:
       'Qué puede hacer un consumidor cuando una compra ya aceptada deja de convencerlo, por qué ese derecho no depende de lo que diga el contrato que firmó, y cómo se ejerce en la práctica.',
     seccion: 'Derecho del Consumidor',
-    fecha: '2026-08-19',
-    fechaTexto: '19 de agosto de 2026',
+    fecha: '2026-08-25',
+    fechaTexto: '25 de agosto de 2026',
     copete:
       'El artículo 34 de la Ley de Defensa del Consumidor le da a quien compró a distancia o fuera de un local diez días corridos para revocar la aceptación, sin explicar por qué y sin costo alguno. Qué comprende ese derecho, qué queda afuera, y qué hacer cuando el botón de arrepentimiento no funciona o el proveedor dice que no corresponde.',
   },
