@@ -1,6 +1,16 @@
 // src/lib/schema.ts
 import { absoluteUrl, publicUrl } from '../config/site';
 import { estudio, abogado, zonasSchema } from '../data/estudio';
+import { fachada, retrato } from '../data/imagenes';
+
+// Las fotos entran al grafo por su URL absoluta y ya procesada por Astro: es
+// el mismo archivo que sirve la página, no una copia paralela que puede
+// quedar desactualizada.
+const imagenes = [fachada.src, '/og-farfan.jpg']
+  .map((ruta) => absoluteUrl(ruta))
+  .filter((url): url is string => Boolean(url));
+
+const retratoUrl = retrato ? absoluteUrl(retrato.src) : undefined;
 
 // Identificadores estables del grafo. Todas las páginas referencian estos
 // mismos @id en vez de redeclarar la entidad: así el estudio es UNA entidad
@@ -39,7 +49,9 @@ export const nodoEstudio = () => ({
     'Estudio jurídico en Jujuy con orientación en distintas áreas de práctica y un enfoque centrado en comprender cada caso de manera integral.',
   slogan: estudio.lema,
   ...(absoluteUrl('/') ? { url: absoluteUrl('/') } : {}),
-  ...(absoluteUrl('/og-farfan.jpg') ? { image: absoluteUrl('/og-farfan.jpg') } : {}),
+  ...(imagenes.length ? { image: imagenes } : {}),
+  // La foto del frente va primera: para una ficha local Google prefiere el
+  // lugar real antes que una tarjeta de marca.
   // Sin `logo` a propósito: og-farfan.jpg es una tarjeta 1200×630 y Google
   // espera una marca de proporción cercana al cuadrado. Se agrega cuando
   // exista el archivo de logo real.
@@ -88,6 +100,7 @@ export const nodoAbogado = () => ({
   name: abogado.nombre,
   jobTitle: abogado.cargo,
   identifier: abogado.matricula,
+  ...(retratoUrl ? { image: retratoUrl } : {}),
   worksFor: { '@id': ID.estudio },
   knowsLanguage: 'es-AR',
   areaServed: {

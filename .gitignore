@@ -22,3 +22,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# originales pesados de las fotos (los publicados viven en src/images/)
+originales/

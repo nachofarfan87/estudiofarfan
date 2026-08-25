@@ -1,11 +1,13 @@
 ---
 // src/pages/index.astro
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { publicUrl } from '../config/site';
 import { estudio } from '../data/estudio';
+import { alt, fachada, retrato } from '../data/imagenes';
 import { articulosPorFecha } from '../data/articulos';
 import { nodoSitio, nodoEstudio, nodoAbogado } from '../lib/schema';
 import '../styles/home.css';
@@ -211,7 +213,22 @@ const schema = [
           <p class="section-head subhead reveal">Bajo una misma <em>firma</em>.</p>
 
           <div class="abogado-card reveal">
-            <div class="abogado-mono" aria-hidden="true">JF</div>
+            {/* Mientras no haya archivo de retrato, la ficha sigue mostrando el
+                monograma: el estudio nunca queda con una foto rota. */}
+            {retrato ? (
+              <Image
+                class="abogado-foto"
+                src={retrato}
+                alt={alt.retrato}
+                width={528}
+                widths={[176, 352, 528]}
+                sizes="(max-width:900px) 8rem, 11rem"
+                loading="lazy"
+                decoding="async"
+              />
+            ) : (
+              <div class="abogado-mono" aria-hidden="true">JF</div>
+            )}
             <div>
               <h3 class="abogado-name">Juan Ignacio Farfán</h3>
               <p class="abogado-bio">
@@ -382,6 +399,23 @@ const schema = [
             Cuéntenos brevemente qué ocurrió y qué necesita resolver. Le responderemos para
             indicar los próximos pasos y, si corresponde, coordinar una consulta.
           </p>
+
+          {/* El frente del estudio abre la sección: para quien viene por primera
+              vez es la referencia que a una dirección escrita le falta. */}
+          <figure class="estudio-foto reveal">
+            <Image
+              src={fachada}
+              alt={alt.fachada}
+              width={1440}
+              widths={[640, 960, 1440]}
+              sizes="(max-width:900px) 92vw, 46rem"
+              loading="lazy"
+              decoding="async"
+            />
+            <figcaption>
+              {estudio.domicilio.calle} · {estudio.domicilio.localidad}
+            </figcaption>
+          </figure>
 
           <div class="contacto-grid">
             <dl class="contact-list reveal">
