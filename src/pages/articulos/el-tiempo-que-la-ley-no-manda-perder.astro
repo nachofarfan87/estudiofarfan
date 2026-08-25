@@ -210,7 +210,7 @@ const schema = [
           <h2>¿Su situación roza esta cuestión?</h2>
           <p>Si atraviesa un trámite donde este tipo de prácticas le hace perder tiempo o dinero, puede enviarnos una síntesis para evaluar los próximos pasos. Los <a href="/honorarios/">honorarios están publicados</a>.</p>
           <div class="cta-actions">
-            <a class="btn btn-brass" href={whatsapp} target="_blank" rel="noopener">Escribir por WhatsApp <span class="arr" aria-hidden="true">→</span></a>
+            <a class="btn btn-brass" href={whatsapp} target="_blank" rel="noopener" data-wa-origen="cierre">Escribir por WhatsApp <span class="arr" aria-hidden="true">→</span></a>
             <a class="btn btn-ghost" href="/#contacto">Enviar el formulario</a>
           </div>
         </aside>
@@ -228,15 +228,4 @@ const schema = [
     ]}
   />
 
-  <script>
-    // Medición de los clics a WhatsApp. Si Plausible no está, no hace nada.
-    document.addEventListener('click', function (e) {
-      var a = e.target.closest && e.target.closest('a[href*="wa.me"]');
-      if (!a || typeof window.plausible !== 'function') return;
-      var origen = a.classList.contains('wa-float') ? 'flotante' : 'cierre';
-      try {
-        window.plausible('WhatsApp', { props: { origen: origen, pagina: 'articulo' } });
-      } catch (err) {}
-    });
-  </script>
 </Base>

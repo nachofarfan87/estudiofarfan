@@ -145,15 +145,6 @@
     }
   }
 
-  // Medición de los clics a WhatsApp. Si Plausible no está, no hace nada.
-  document.addEventListener("click", function(e){
-    var a = e.target.closest && e.target.closest('a[href*="wa.me"]');
-    if (!a || typeof window.plausible !== "function"){ return; }
-    var origen = a.classList.contains("wa-float") ? "flotante"
-               : (a.closest(".site-foot") ? "pie" : "contacto");
-    try { window.plausible("WhatsApp", { props:{ origen:origen, pagina:"home" } }); } catch(err){}
-  });
-
   // Formulario de consulta (Netlify Forms vía AJAX, conserva el aviso en pantalla)
   var form = document.getElementById("consulta-form");
   if (form){

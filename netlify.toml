@@ -20,13 +20,6 @@
     Cache-Control = "public, max-age=0, must-revalidate"
     Netlify-CDN-Cache-Control = "public, s-maxage=31536000, durable"
 
-# Los recursos que emite Astro llevan hash en el nombre: se pueden cachear
-# para siempre sin riesgo de servir una versión vieja.
-[[headers]]
-  for = "/_astro/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
 # Los datos del arancel cambian a diario: poco caché.
 [[headers]]
   for = "/honorarios/*.json"
@@ -55,3 +48,16 @@
   for = "/honorarios/*.png"
   [headers.values]
     Cache-Control = "public, max-age=604800"
+
+# Los recursos que emite Astro llevan hash en el nombre: se pueden cachear para
+# siempre sin riesgo de servir una versión vieja.
+#
+# OJO CON EL ORDEN: cuando varias reglas alcanzan al mismo archivo, Netlify se
+# queda con la última. `/*.jpg` es un comodín que cruza directorios, así que
+# también alcanza a los JPEG de `/_astro/` —los originales de las fotos, que
+# son los que Google busca por el JSON-LD— y les pisaba el año de caché con
+# siete días. Por eso este bloque va al final y no arriba con los demás.
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
