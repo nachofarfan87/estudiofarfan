@@ -89,6 +89,8 @@ No debe publicarse el sitio hasta completar esta revisión de datos.
 ## Integraciones actuales
 
 - El formulario de la home usa Netlify Forms.
+- Plausible mide contactos por formulario, WhatsApp y correo sin enviar datos
+  personales. El plan de eventos y UTM está documentado en `docs/analytics.md`.
 - `@astrojs/sitemap` se activa cuando existe `PUBLIC_SITE_URL`.
 - `.github/workflows/update-uma.yml` prepara la actualización periódica del UMA; para
   operar necesita un repositorio remoto y GitHub Actions habilitado.

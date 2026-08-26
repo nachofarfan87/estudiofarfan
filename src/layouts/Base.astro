@@ -116,11 +116,10 @@ const grafo =
       >
     </a>
 
-    {/* La medición de los clics a WhatsApp va acá, junto al botón flotante:
-        así toda página que use este layout queda medida sin repetir el
-        listener en cada una. */}
+    {/* La medición de los contactos por WhatsApp y correo va en el layout:
+        así toda página queda cubierta sin repetir listeners. */}
     <script>
-      import '../scripts/whatsapp.js';
+      import '../scripts/contact-events.js';
     </script>
   </body>
 </html>

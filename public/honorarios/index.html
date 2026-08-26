@@ -1308,13 +1308,17 @@ a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{o
     clearKey(); refreshKeyStatus(); toast('Clave borrada de este dispositivo.');
   });
 
-  // Medición: de qué parte del arancel sale el contacto. Si Plausible no está
-  // cargado (o lo bloquea una extensión), esto no hace nada y el clic sigue igual.
+  // Medición: de qué parte del arancel sale el contacto. No se envían a
+  // Plausible la dirección de correo ni ningún otro dato personal.
   document.addEventListener('click', (e) => {
-    const a = e.target.closest && e.target.closest('a[href*="wa.me"]');
+    const a = e.target.closest && e.target.closest('a[href*="wa.me"], a[href^="mailto:"]');
     if (!a || typeof window.plausible !== 'function') return;
-    const origen = a.id ? a.id.replace(/^wa-/, '') : 'otro';
-    try { window.plausible('WhatsApp', { props:{ origen, pagina:'honorarios' } }); } catch(err){}
+    const esCorreo = a.getAttribute('href').startsWith('mailto:');
+    const evento = esCorreo ? 'Correo' : 'WhatsApp';
+    const origen = esCorreo
+      ? (a.closest('footer') ? 'pie' : 'cuerpo')
+      : (a.id ? a.id.replace(/^wa-/, '') : 'otro');
+    try { window.plausible(evento, { props:{ origen, pagina:'honorarios' } }); } catch(err){}
   });
 
   window.addEventListener('online',  () => toast('Conexión restablecida.'));

@@ -1,4 +1,6 @@
 // src/scripts/home.js
+import { nombreDePagina, trackPlausible } from './plausible.js';
+
 (function(){
   "use strict";
   var noPref = window.matchMedia("(prefers-reduced-motion: no-preference)").matches;
@@ -174,7 +176,18 @@
       setSending(true);
       var body = new URLSearchParams(new FormData(form)).toString();
       fetch("/", { method:"POST", headers:{ "Content-Type":"application/x-www-form-urlencoded" }, body:body })
-        .then(function(res){ if (res.ok){ setSending(false); showOk(); } else { setSending(false); showErr(); } })
+        .then(function(res){
+          if (res.ok){
+            setSending(false);
+            showOk();
+            trackPlausible("Consulta enviada", {
+              pagina: nombreDePagina(location.pathname),
+            });
+          } else {
+            setSending(false);
+            showErr();
+          }
+        })
         .catch(function(){ setSending(false); showErr(); });
     });
   }
