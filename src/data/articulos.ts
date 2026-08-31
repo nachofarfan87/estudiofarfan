@@ -23,6 +23,17 @@ export interface Articulo {
 
 export const articulos: Articulo[] = [
   {
+    slug: 'la-legitimacion-que-el-banco-reconocio',
+    titulo: 'La legitimación que el banco ya había reconocido',
+    subtitulo:
+      'Por qué un banco que reconoció la cuenta, la operación y ocho meses de reclamos no puede negar, recién ante el juez, que quien reclama tenga derecho a hacerlo.',
+    seccion: 'Derecho del Consumidor',
+    fecha: '2026-08-31',
+    fechaTexto: '31 de agosto de 2026',
+    copete:
+      'Un banco reconoció durante ocho meses que la clienta era la titular de la cuenta y la interlocutora de sus reclamos; recién ante el juez sostuvo que no tenía legitimación para demandar. Qué es la legitimación, por qué esa contradicción tiene nombre en el Código Civil y Comercial, y qué sanciones prevé la ley procesal de Jujuy para la defensa que sólo busca ganar tiempo.',
+  },
+  {
     slug: 'el-derecho-a-arrepentirse',
     titulo: 'El derecho a arrepentirse que la letra chica no puede borrar',
     subtitulo:

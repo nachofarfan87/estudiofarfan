@@ -1,0 +1,242 @@
+---
+// src/pages/articulos/la-legitimacion-que-el-banco-reconocio.astro
+import Base from '../../layouts/Base.astro';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import { absoluteUrl, publicUrl } from '../../config/site';
+import { whatsappUrl } from '../../data/estudio';
+import { ID, nodoSitio, nodoEstudio, nodoAbogado, nodoMigas } from '../../lib/schema';
+import { articulos } from '../../data/articulos';
+import '../../styles/articulo.css';
+
+const a = articulos.find((x) => x.slug === 'la-legitimacion-que-el-banco-reconocio')!;
+const ruta = `/articulos/${a.slug}/`;
+const url = publicUrl(ruta);
+
+// El artículo invita a escribir diciendo de dónde viene la consulta.
+const whatsapp = whatsappUrl(
+  'Hola. Le escribo a partir del artículo sobre la legitimación en un reclamo bancario.',
+);
+
+const schema = [
+  nodoSitio(),
+  nodoEstudio(),
+  nodoAbogado(),
+  nodoMigas(url, [
+    { nombre: 'Inicio', url: publicUrl('/') },
+    { nombre: 'Doctrina', url: publicUrl('/articulos/') },
+    { nombre: a.titulo },
+  ]),
+  {
+    '@type': 'Article',
+    '@id': `${url}#articulo`,
+    headline: a.titulo,
+    alternativeHeadline: a.subtitulo.replace(/\.$/, ''),
+    description: a.copete,
+    inLanguage: 'es-AR',
+    datePublished: a.fecha,
+    dateModified: a.fecha,
+    // Referencias por @id: una sola entidad de autor y de estudio en todo el
+    // sitio, en vez de redeclararlas en cada página.
+    author: { '@id': ID.abogado },
+    publisher: { '@id': ID.estudio },
+    articleSection: a.seccion,
+    url,
+    mainEntityOfPage: url,
+    ...(absoluteUrl('/og-farfan.jpg') ? { image: absoluteUrl('/og-farfan.jpg') } : {}),
+    isPartOf: { '@id': ID.sitio },
+    breadcrumb: { '@id': `${url}#crumbs` },
+  },
+];
+---
+
+<Base
+  title="Falta de legitimación en un reclamo bancario | Estudio Farfán"
+  description="Un banco reconoció la cuenta y ocho meses de reclamos, y recién ante el juez negó que la clienta pudiera demandar. Qué es la legitimación y cómo se responde."
+  ogTitle={a.titulo}
+  ogDescription="Un banco puede reconocer una cuenta, una operación y ocho meses de reclamos, y aun así presentarse ante un juez a decir que quien reclama no tiene derecho a hacerlo. Por qué esa maniobra es menos sólida de lo que parece."
+  ogType="article"
+  ruta={ruta}
+  schema={schema}
+  whatsapp={whatsapp}
+  bodyId="top"
+>
+  <a class="skip" href="#contenido">Saltar al contenido</a>
+
+  <Header
+    variant="document"
+    backLinks={[
+      { href: '/articulos/', label: 'Doctrina', direction: 'back' },
+      { href: '/honorarios/', label: 'Honorarios' },
+    ]}
+    ctaLabel="Consulta"
+  />
+
+  <main id="contenido" tabindex="-1">
+
+    <!-- ============ MASTHEAD ============ -->
+    <div class="masthead">
+      <div class="reading">
+        <p class="eyebrow">§ Doctrina · Derecho del Consumidor</p>
+        <h1 class="doc-title">La legitimación que el banco ya había reconocido</h1>
+        <p class="doc-deck">Un banco puede reconocer una cuenta, una operación y ocho meses de reclamos, y aun así presentarse ante un juez a decir que quien reclama no tiene derecho a hacerlo. Este caso, que llevamos actualmente en el estudio, explica por qué esa maniobra es menos sólida de lo que parece, y qué hace la ley cuando se la usa para ganar tiempo en lugar de para ganar el juicio.</p>
+        <div class="doc-meta">
+          <span>Por <b>Juan Ignacio Farfán</b></span>
+          <span>M.P. 4692</span>
+          <span>{a.fechaTexto}</span>
+          <span>Lectura · 18 min</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="reading">
+
+      <!-- ============ EN POCAS PALABRAS ============ -->
+      <aside class="abstract" aria-label="Resumen en lenguaje llano">
+        <p class="lbl">En pocas palabras</p>
+        <p>La legitimación para reclamar no depende de si el reclamo tiene razón, sino de si existe un vínculo jurídico real entre quien reclama y aquello que reclama. Cuando una parte reconoció ese vínculo durante meses (respondiendo reclamos, pidiendo comprobantes, discutiendo montos) y recién lo niega cuando el conflicto llega a un juez, esa contradicción tiene nombre en el derecho civil: doctrina de los actos propios. Y cuando además esa negación tardía busca, en los hechos, evitar que se discuta el fondo del asunto, las leyes procesales (también la de Jujuy) prevén sanciones específicas para quien la usa como táctica dilatoria.</p>
+      </aside>
+
+      <!-- ============ CITA DESTACADA ============ -->
+      <figure class="cita">
+        <blockquote>“El banco confunde la aptitud para estar en juicio con la razón para ganarlo.”</blockquote>
+        <figcaption>Del escrito de respuesta presentado por el estudio ante el planteo de falta de legitimación.</figcaption>
+      </figure>
+
+      <!-- ============ SUMARIO ============ -->
+      <nav class="sumario" aria-label="Sumario del artículo">
+        <p class="sumario-h">Sumario</p>
+        <ol>
+          <li><a href="#s1"><span class="rn">I</span><span class="tt">Un depósito, dos tickets y un banco que se contradice a sí mismo</span></a></li>
+          <li><a href="#s2"><span class="rn">II</span><span class="tt">Qué es (y qué no es) tener legitimación para reclamar</span></a></li>
+          <li><a href="#s3"><span class="rn">III</span><span class="tt">“Confunde la aptitud con la razón para ganarlo”</span></a></li>
+          <li><a href="#s4"><span class="rn">IV</span><span class="tt">Cuando la propia conducta contradice la defensa</span></a></li>
+          <li><a href="#s5"><span class="rn">V</span><span class="tt">La otra cara: cuando el responsable dice que no es él</span></a></li>
+          <li><a href="#s6"><span class="rn">VI</span><span class="tt">Por qué esto no es un detalle procesal menor</span></a></li>
+          <li><a href="#s7"><span class="rn">VII</span><span class="tt">Las herramientas que la ley ya da frente a esto</span></a></li>
+          <li><a href="#s8"><span class="rn">VIII</span><span class="tt">Conclusión</span></a></li>
+        </ol>
+      </nav>
+
+      <!-- ============ CUERPO ============ -->
+      <article class="prose">
+
+        <section class="doc-sec" id="s1">
+          <h2 class="doc-h2"><span class="doc-h2-num">I</span>Un depósito, dos tickets y un banco que se contradice a sí mismo</h2>
+          <p>A comienzos de diciembre de 2025, una clienta del estudio, que cobra su sueldo a través de Banco Macro (no por elección propia, sino porque su empleador estatal le impuso esa cuenta como condición para pagarle), se acercó a una sucursal de la capital jujeña a depositar en efectivo algo más de dos millones trescientos mil pesos, que había contado personalmente antes de salir de su casa. El cajero automático le acreditó bastante menos de lo depositado: faltaban $740.000. El ticket de esa operación certificaba el depósito, pero no el monto correcto.</p>
+          <p>Lo llamativo no es solo el faltante. Es lo que pasó siete minutos después: la misma máquina, sin que nadie la tocara, emitió un segundo ticket que decía, literalmente, que la transacción no se había podido completar por un error en la terminal, y que conservara el papel para reclamar. La propia máquina del banco reconoció el error antes que el banco.</p>
+          <p>Lo que siguió fue un peregrinaje de cuatro meses. Reclamos que se abren y se cierran sin que nadie se haga cargo. Un canal que informa que la operación directamente “no se ha localizado” en el sistema, mientras que por otro canal una agente del mismo banco le pide el ticket de esa misma operación (es decir, da por sentado que existe). Cuando finalmente pidió en la sucursal la constancia técnica de la máquina (lo que en la jerga bancaria se llama la tira auditora), una empleada le entregó una hoja sin membrete, sin fecha, sin firma y sin sello.</p>
+          <p>Agotada esa vía, la clienta demandó a Banco Macro. Reclama la restitución del dinero, daño material, daño moral y daño punitivo, y pidió que se intime al banco a exhibir en el expediente toda la documentación técnica de la operación, bajo los apercibimientos que prevé la Ley de Defensa del Consumidor para quien no colabora con la prueba.</p>
+          <p>El banco contestó la demanda. Y en esa contestación admitió lo esencial: que ella es la titular de la cuenta, que la operación existió, que fue ella quien la realizó. Pero, en el mismo escrito, planteó algo que a primera vista suena técnico y menor, y que en realidad no lo es. Dijo que la clienta no tiene legitimación para reclamar.</p>
+        </section>
+
+        <section class="doc-sec" id="s2">
+          <h2 class="doc-h2"><span class="doc-h2-num">II</span>Qué es (y qué no es) tener legitimación para reclamar</h2>
+          <p>La legitimación (los procesalistas la llaman legitimación activa cuando se refiere a quien demanda, y legitimación pasiva cuando se refiere a quien es demandado) es, en criollo, la aptitud para ser parte de un pleito determinado. No pregunta si el reclamo es justo o infundado, ni si va a prosperar o a rechazarse. Pregunta, únicamente, si existe entre quien demanda y quien es demandado una relación jurídica que justifique que sea justamente esa persona, y no cualquier otra, quien lleve el reclamo ante un juez.</p>
+          <p>Dicho de otro modo: la legitimación es el boleto de entrada al proceso, no el resultado del proceso. Se tiene o no se tiene con independencia de quién tenga razón en la disputa de fondo.</p>
+          <p>En una relación de consumo esto suele ser sencillo de establecer, y el Código Civil y Comercial y la Ley de Defensa del Consumidor lo resuelven, además, con un criterio amplio: el <strong>artículo 52 de la Ley 24.240</strong> dispone que la acción corresponde al consumidor o usuario por derecho propio, además de a las asociaciones de consumidores autorizadas, a la autoridad de aplicación y al Ministerio Público Fiscal. El <strong>artículo 1092 del Código Civil y Comercial</strong> define la relación de consumo como el vínculo jurídico entre un proveedor y un consumidor, y hasta equipara a la figura del consumidor a quien, sin haber contratado nada, resulta expuesto a esa relación y sufre sus consecuencias. El sistema, en síntesis, está construido para que a nadie que efectivamente haya sufrido un daño en una relación de consumo se le cierre la puerta del reclamo por una cuestión de forma.</p>
+          <p>En el caso que nos ocupa, además, no hay demasiado para discutir sobre el vínculo: la clienta es la titular registral de la cuenta, la persona que hizo la operación cuestionada y quien tramitó cada uno de los reclamos posteriores a su nombre. No es un tercero ajeno a la relación, ni alguien que reclama en nombre de otro. Es, en los términos más estrictos posibles, la consumidora directa de este vínculo.</p>
+        </section>
+
+        <section class="doc-sec" id="s3">
+          <h2 class="doc-h2"><span class="doc-h2-num">III</span>“Confunde la aptitud con la razón para ganarlo”: la frase que resume el problema</h2>
+          <p>La respuesta que presentó el estudio ante el planteo del banco se puede resumir en una sola frase, que vale la pena citar porque describe con precisión un fenómeno que se repite en muchos litigios de consumo: el banco confunde la aptitud para estar en juicio con la razón para ganarlo.</p>
+          <p>Es una distinción que parece obvia una vez explicada, pero que en la práctica se difumina con facilidad, sobre todo cuando a alguien le conviene que se difumine. Que el banco niegue el faltante, que sostenga que su tira auditora demuestra que la acreditación fue correcta, que discuta cada uno de los rubros reclamados: todo eso es exactamente lo que se espera que haga una parte demandada al defenderse sobre el fondo del asunto. Es su derecho, y ejercerlo no merece reproche.</p>
+          <p>Lo que ya no es lo mismo es dar un paso más y sostener que la persona que reclama no tiene derecho a que ese debate de fondo se abra. Eso no es defenderse sobre el fondo: es intentar que el fondo no se discuta. Y la diferencia importa, porque si un tribunal acepta que alguien carece de legitimación, ni siquiera llega a mirar la prueba técnica que podría comprometer al demandado. La falta de legitimación, bien usada, es un filtro legítimo del sistema. Mal usada (para tapar, con una objeción de forma, una discusión que el demandado prefiere no dar sobre el fondo) se convierte en una herramienta de dilación.</p>
+        </section>
+
+        <section class="doc-sec" id="s4">
+          <h2 class="doc-h2"><span class="doc-h2-num">IV</span>Cuando la propia conducta contradice la defensa: la doctrina de los actos propios</h2>
+          <p>Hay un dato en este expediente que, para cualquiera que haya litigado contra un banco, resulta especialmente elocuente. Durante los ocho meses que van desde el hecho hasta la contestación de la demanda, a través de sucesivos reclamos administrativos y de una carta documento, el banco respondió una y otra vez a la clienta. Negó el faltante. Invocó su tira auditora. Discutió si hubo o no una falla técnica. Pero en ninguno de esos ocho meses, ni una sola vez, le dijo que no tenía derecho a reclamar.</p>
+          <p>Todo lo contrario: cada respuesta, cada intercambio, cada pedido de que aportara el ticket de la operación, partía de la premisa de que ella era la persona correcta para hacer ese reclamo. El banco la trató, en los hechos, como lo que después, en el juicio, dijo que no era: una reclamante legítima.</p>
+          <p>Esa clase de contradicción tiene nombre propio en el derecho civil: se llama <strong>doctrina de los actos propios</strong>, y hoy tiene base normativa explícita en el Código Civil y Comercial. El artículo 1067 establece que <em>“la interpretación debe proteger la confianza y la lealtad que las partes se deben recíprocamente, siendo inadmisible la contradicción con una conducta jurídicamente relevante, previa y propia del mismo sujeto”</em>. Esa regla, pensada originalmente para la interpretación de los contratos, expresa un principio más general (apoyado también en el deber de buena fe del artículo 9) que los tribunales aplican en todo tipo de conflictos: nadie puede válidamente ir contra sus propios actos cuando esos actos generaron en la otra parte una expectativa razonable.</p>
+          <p>Aplicado a este caso, el razonamiento es simple. Si el banco pasó ocho meses discutiendo el fondo del reclamo con la clienta (lo que solo tiene sentido si la reconocía como la persona habilitada para reclamar), no puede pretender, llegado el juicio, que en realidad nunca lo estuvo. Tratar a alguien como reclamante legítima cuando conviene rechazar el reclamo en sede administrativa, y negarle esa misma condición cuando el reclamo llega a un juez, es precisamente la clase de conducta contradictoria que el artículo 1067 declara inadmisible.</p>
+        </section>
+
+        <section class="doc-sec" id="s5">
+          <h2 class="doc-h2"><span class="doc-h2-num">V</span>La otra cara de la legitimación: cuando el responsable dice que no es él</h2>
+          <p>Existe una segunda variante de este mismo planteo, que conviene explicar porque es todavía más frecuente en los litigios de consumo: la falta de legitimación pasiva, es decir, el argumento de que el demandado no es la persona o la empresa correcta a la que había que demandar.</p>
+          <p>En los servicios que involucran cajeros automáticos es común que el mantenimiento técnico de las máquinas esté a cargo de una empresa distinta del banco. Si esa circunstancia se invocara para sostener que el reclamo debería dirigirse contra esa empresa y no contra la entidad bancaria, la respuesta que da el derecho del consumidor es clara: la responsabilidad, en una relación de consumo, es solidaria entre todos los eslabones de la cadena de comercialización. Así lo establece el <strong>artículo 40 de la Ley 24.240</strong>, y así lo vienen sosteniendo distintos tribunales del país. Un ejemplo, por fuera de la actividad bancaria: en marzo de 2022, la Cámara de Apelaciones en lo Civil, Comercial, Laboral y de Minería de Neuquén, en autos “Fernández Dotzel c. Central Autos y otros”, condenó solidariamente a una plataforma de venta de autos que había intentado eximirse de responsabilidad por la frustración de una compra, alegando que ella solo publicaba avisos de terceros. El tribunal no lo aceptó: la plataforma cobraba por publicar, generaba confianza en los compradores y, por eso mismo, pasaba a integrar la cadena de comercialización; las cláusulas con las que pretendía desligarse se tuvieron directamente por no convenidas.</p>
+          <p>El principio es el mismo aunque cambie el rubro: cuando un proveedor se sirve de terceros para prestar su servicio (una plataforma que subcontrata vendedores, un banco que subcontrata el mantenimiento de sus cajeros), esos terceros no sacan al proveedor principal de la relación de consumo. Como mucho, le abren a ese proveedor una acción de repetición contra el tercero responsable, pero no lo liberan frente al consumidor.</p>
+        </section>
+
+        <section class="doc-sec" id="s6">
+          <h2 class="doc-h2"><span class="doc-h2-num">VI</span>Por qué esto no es un detalle procesal menor: la asimetría de fondo</h2>
+          <p>Conviene detenerse en algo que trasciende la técnica procesal. Los códigos procesales civiles argentinos, incluido el de Jujuy, le imponen al juez el deber de asegurar la igualdad de las partes en el proceso y de impedir cualquier situación de abuso o privilegio. Es un ideal necesario. También es, frente a determinados litigantes, un ideal que cuesta sostener en los hechos.</p>
+          <p>Banco Macro no es, para buena parte de los empleados estatales de Jujuy, un banco cualquiera entre varias opciones posibles. En 1996, en el marco de la ola de privatizaciones de bancos provinciales de esos años, Banco Macro adquirió el histórico Banco de la Provincia de Jujuy. Tres décadas después, sigue siendo la entidad a través de la cual buena parte del Estado provincial y de sus municipios canaliza los haberes de su personal, con planes de refinanciación de deudas para empleados estatales vigentes hasta hoy. Para alguien en la posición de nuestra clienta, elegir otro banco no es, en la práctica, una opción real: la cuenta viene impuesta por quien le paga el sueldo.</p>
+          <p>Esa posición no es, en sí misma, ilegítima. Pero sí genera una asimetría que conviene nombrar sin eufemismos: quien controla un sistema técnico (en este caso, la propia máquina que registra las operaciones y emite la “tira auditora” que el banco invoca como prueba) tiene también, en los hechos, un control desigual sobre la evidencia de lo que ocurrió. El consumidor no puede auditar el cajero. El banco sí. Y cuando el mismo actor controla el servicio y la prueba sobre el servicio, pedirle a un tribunal que trate a las partes como si estuvieran en pie de igualdad exige, como mínimo, una mirada más atenta a cómo se reparte la carga de acreditar lo que pasó.</p>
+          <p>Hay una imagen muy anterior a cualquier código procesal que describe este problema mejor que cualquier tecnicismo. En los versos de Martín Fierro, la ley aparece descripta como una tela de araña: no la teme el poderoso, porque la rompe sin esfuerzo, y solo enreda a quien ya venía en desventaja. Más de un siglo después, la advertencia sigue siendo útil como recordatorio: reglas parejas, aplicadas a partes que no lo son, no producen automáticamente resultados parejos. Por eso el derecho del consumidor no se conforma con la igualdad formal (algo que ya desarrollamos en <a href="/articulos/el-derecho-a-arrepentirse/">un artículo anterior de esta serie</a>) y construye herramientas específicas para achicar, aunque sea parcialmente, esa distancia.</p>
+          <p>Un antecedente reciente ilustra hasta dónde puede llegar esa mirada más exigente cuando un banco incurre en una conducta parecida. En febrero de 2026, el Juzgado Civil y Comercial de 35ª Nominación de Córdoba, en autos “Escribano c. Banco Santander S.A.”, condenó a esa entidad a pagar más de cuatro millones de pesos (dos millones y medio en concepto de daño punitivo) a un cliente que había sufrido extracciones fraudulentas con su tarjeta de débito. El banco había intentado eximirse alegando que el cliente era responsable por el uso de su clave personal, sin lograr probarlo. El juez fue explícito: las causales que permiten a un banco liberarse de responsabilidad frente a un consumidor deben interpretarse de manera restrictiva, y calificó la conducta de la entidad como un caso de abuso de posición dominante, agravado por su actitud contumaz al rechazar los reclamos previos. La lógica es trasladable: cuando la explicación técnica que ofrece un banco no resiste el contraste con su propia conducta previa, el sistema no premia la insistencia, la sanciona.</p>
+        </section>
+
+        <section class="doc-sec" id="s7">
+          <h2 class="doc-h2"><span class="doc-h2-num">VII</span>Las herramientas que la ley ya da frente a esto</h2>
+          <p>Todo lo anterior no queda en el plano de los principios generales. El ordenamiento argentino (y, en este caso puntual, también el jujeño) ya prevé mecanismos concretos para desalentar el uso de una defensa como excusa para ganar tiempo. El <strong>artículo 1758 del Código Civil y Comercial</strong> responsabiliza tanto al dueño como al guardián de una cosa por los daños que esa cosa cause, sin que sea determinante quién la tenga materialmente a su cargo en un momento dado: alcanza con ejercer sobre ella el uso, la dirección o el control, u obtener provecho de su empleo. Una red de cajeros automáticos, en tanto herramienta con la que un banco presta (y se beneficia de prestar) un servicio, encuadra sin dificultad en esa norma. Y el <strong>artículo 52 bis de la Ley 24.240</strong> habilita, además de la reparación del daño, una multa civil (el daño punitivo) para el proveedor que no cumple sus obligaciones frente al consumidor, pensada justamente para los casos en que la reparación simple no alcanza para desalentar una conducta reiterada.</p>
+          <p>Pero hay una herramienta más específica, y menos conocida fuera de Jujuy, que vale la pena difundir porque ataca exactamente el problema que describe este artículo: cuándo una defensa procesal deja de ser defensa y pasa a ser una maniobra dilatoria. La <strong>Ley Orgánica del Poder Judicial de la provincia (Ley 4055)</strong> dedica un título entero a lo que llama la conducta procesal de las partes. Su artículo 25 dispone, en términos que no dejan margen de discrecionalidad (“deberán condenar pecuniariamente”), que los jueces sancionen a quien obstruya la marcha regular del proceso, a quien ejercite abusivamente los medios de defensa y a quien oponga, maliciosamente, una resistencia injustificada. La sanción prevista no es simbólica: una multa de entre el diez y el treinta por ciento del valor del pleito. Y el artículo 17 aclara que esa sanción se suma a la aplicación agravada de las costas, es decir, que puede convivir con la condena en costas ordinaria del litigante vencido, no reemplazarla.</p>
+          <p>Lo más interesante de este mecanismo, pensado hace más de cuarenta años y todavía vigente, es a quién puede alcanzar: la propia ley prevé que la responsabilidad pecuniaria recaiga, según el caso, tanto sobre la parte como sobre su letrado. No es un detalle menor. Cuando una defensa se construye no para ganar el pleito sino para demorarlo, el sistema jujeño le da al juez una herramienta para decirlo en pesos, no solo a la entidad demandada, sino a quien decidió patrocinarla en esa estrategia.</p>
+        </section>
+
+        <section class="doc-sec" id="s8">
+          <h2 class="doc-h2"><span class="doc-h2-num">VIII</span>Conclusión</h2>
+          <p>La legitimación para litigar responde una pregunta muy acotada: si existe, entre quien reclama y aquello que reclama, un vínculo jurídico real. No responde si el reclamo es correcto, ni mucho menos habilita a discutir, disfrazada de cuestión de forma, la prueba de fondo que compromete al demandado.</p>
+          <p>Cuando una entidad reconoció ese vínculo durante meses (respondiendo reclamos, pidiendo comprobantes, negociando montos) y solo lo niega cuando el conflicto llega a un juez, esa negación tardía no es una defensa técnica más. Es, en el mejor de los casos, una confusión entre la aptitud para litigar y la razón para ganar. En el peor, una apuesta a que ganar tiempo valga más que ganar el juicio.</p>
+          <p>El derecho argentino, y en particular el procesal de Jujuy, no es indiferente a esa apuesta. Tiene nombre para la contradicción entre lo que una parte hizo antes y lo que sostiene después (los actos propios), tiene un criterio amplio para decidir quién puede reclamar en una relación de consumo, y tiene sanciones económicas específicas, dirigidas incluso a los profesionales que patrocinan una estrategia dilatoria, para los casos en que una defensa deja de discutir el fondo del asunto y empieza, únicamente, a demorarlo.</p>
+        </section>
+
+
+        <!-- ============ FUENTES ============ -->
+        <section class="fuentes" id="fuentes" aria-label="Referencia normativa y jurisprudencial">
+          <h2>Referencia normativa y jurisprudencial</h2>
+          <dl>
+            <div>
+              <dt>Constitución Nacional</dt>
+              <dd>Art. 42.</dd>
+            </div>
+            <div>
+              <dt>Código Civil y Comercial de la Nación</dt>
+              <dd>Arts. 9, 1067, 1092, 1757 y 1758.</dd>
+            </div>
+            <div>
+              <dt>Ley N° 24.240 de Defensa del Consumidor</dt>
+              <dd>Arts. 40, 52 y 52 bis.</dd>
+            </div>
+            <div>
+              <dt>Ley N° 4055, Orgánica del Poder Judicial de Jujuy</dt>
+              <dd>Arts. 17 y 25.</dd>
+            </div>
+            <div>
+              <dt>Jurisprudencia</dt>
+              <dd>“Escribano c. Banco Santander S.A.” (Juzg. Civ. y Com. 35ª Nom., Córdoba, 10/02/2026); “Fernández Dotzel c. Central Autos y otros” (Cám. Apel. Civ., Com., Laboral y de Minería, Neuquén, marzo de 2022).</dd>
+            </div>
+            <div>
+              <dt>Referencia literaria</dt>
+              <dd>José Hernández, <em>Martín Fierro</em>.</dd>
+            </div>
+          </dl>
+        </section>
+
+        <!-- ============ CTA ============ -->
+        <aside class="doc-cta">
+          <span class="k">Del estudio a su caso</span>
+          <h2>¿Un reclamo que no avanza?</h2>
+          <p>Si atraviesa una situación parecida (un reclamo bancario que se estira sin respuestas, una entidad que lo trata como cliente cuando le conviene y como un desconocido cuando no, o una excepción procesal que parece pensada más para ganar tiempo que para resolver algo) en Estudio Jurídico Farfán podemos revisar su caso concreto y explicarle, en criollo, qué herramientas le da hoy la ley.</p>
+          <div class="cta-actions">
+            <a class="btn btn-brass" href={whatsapp} target="_blank" rel="noopener" data-wa-origen="cierre">Escribir por WhatsApp <span class="arr" aria-hidden="true">→</span></a>
+            <a class="btn btn-ghost" href="/#contacto">Enviar el formulario</a>
+          </div>
+        </aside>
+
+      </article>
+    </div>
+
+  </main>
+
+  <Footer
+    variant="document"
+    links={[
+      { href: '/articulos/', label: 'Volver a Doctrina', direction: 'back' },
+      { href: '/honorarios/', label: 'Honorarios', direction: 'forward' },
+    ]}
+  />
+
+</Base>

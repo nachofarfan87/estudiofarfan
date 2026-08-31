@@ -38,6 +38,13 @@ body{font-size:clamp(1rem,.55rem + .6vw,1.0625rem);line-height:1.68;font-weight:
 .abstract .lbl{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--brass-ink)}
 .abstract p{margin-top:.65rem;color:var(--text-soft);font-size:1.02rem;line-height:1.62;max-width:60ch;text-align:justify;hyphens:auto;-webkit-hyphens:auto}
 
+/* ============ CITA DESTACADA ============ */
+.cita{margin-top:2.4rem}
+.cita blockquote{padding:1.15rem 1.5rem;border-left:2px solid var(--brass);background:var(--paper);
+  font-family:"Fraunces",serif;font-style:italic;font-weight:360;font-size:1.14rem;line-height:1.5;color:var(--ink-2)}
+.cita figcaption{margin-top:.75rem;padding-left:1.5rem;font-family:"IBM Plex Mono",monospace;
+  font-size:.7rem;letter-spacing:.08em;line-height:1.6;color:var(--text-soft);max-width:56ch}
+
 /* ============ SUMARIO ============ */
 .sumario{margin-top:2.4rem;border:1px solid var(--line);background:var(--paper)}
 .sumario-h{font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;
@@ -65,6 +72,8 @@ body{font-size:clamp(1rem,.55rem + .6vw,1.0625rem);line-height:1.68;font-weight:
 .prose em{font-style:italic}
 .prose blockquote{margin:1.7rem 0;padding:1.15rem 1.5rem;border-left:2px solid var(--brass);background:var(--paper);
   font-family:"Fraunces",serif;font-style:italic;font-weight:360;font-size:1.14rem;line-height:1.5;color:var(--ink-2)}
+.prose p a{color:var(--brass-ink);border-bottom:1px solid var(--brass-line);transition:border-color .25s var(--ease)}
+.prose p a:hover{border-bottom-color:var(--brass)}
 .prose ol.steps{margin:1.4rem 0 .4rem;padding-left:0;list-style:none;counter-reset:step;display:grid;gap:.9rem}
 .prose ol.steps li{position:relative;padding-left:3rem;counter-increment:step;color:var(--text);max-width:64ch;text-align:justify;hyphens:auto;-webkit-hyphens:auto;hyphenate-limit-chars:6 3 3}
 .prose ol.steps li::before{content:counter(step);position:absolute;left:0;top:-.05rem;
