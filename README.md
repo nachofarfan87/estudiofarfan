@@ -70,6 +70,18 @@ estático; en producción la estructura de directorios ya publica esa URL de for
 nativa. Su catálogo también queda disponible sin JavaScript gracias a la etapa
 `postbuild`.
 
+La misma página trae la calculadora de **costos para iniciar un juicio** (tasa de
+justicia, aporte CAPSAP y estampilla del Colegio). Sus valores viven en
+`public/honorarios/aportes.json` y se editan ahí, sin tocar código:
+
+- un monto fijo puede ir en pesos (`27900`) o en UMA (`{ "umas": 0.5 }`), y en ese
+  caso sigue solo al UMA que actualiza el workflow;
+- `null` es "a confirmar": la página lo muestra así y no lo suma al total;
+- la estampilla se calcula como ½ UMA redondeado a $100, pero `vigente` manda
+  sobre la regla porque el Colegio la ajusta con demora. Cuando la actualice,
+  cambiar `vigente` y `verificado` (o poner `vigente` en `null` para que siga al
+  UMA). Si la regla y `vigente` no coinciden, la página avisa el valor que viene.
+
 ## Datos que deben confirmarse antes de publicar
 
 Los valores migrados en `src/data/estudio.ts` y `public/honorarios/index.html` deben

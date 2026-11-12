@@ -1,7 +1,7 @@
 /* Service worker del arancel: la página se puede instalar y abre sin conexión.
    Su alcance es /honorarios/ — el resto del sitio no pasa por acá. */
-const CACHE = 'farfan-arancel-v1';
-const CORE = ['./', './index.html', './icono.png', './icono-192.png', './manifest.webmanifest', './uma.json', './servicios.json'];
+const CACHE = 'farfan-arancel-v2';
+const CORE = ['./', './index.html', './icono.png', './icono-192.png', './manifest.webmanifest', './uma.json', './servicios.json', './aportes.json'];
 
 self.addEventListener('install', (e) => {
   e.waitUntil(
@@ -24,9 +24,9 @@ self.addEventListener('fetch', (e) => {
   const url = new URL(req.url);
   const sameOrigin = url.origin === self.location.origin;
 
-  // HTML y datos (uma/servicios) -> red primero (siempre lo último), caché como respaldo offline
+  // HTML y datos (uma/servicios/aportes) -> red primero (siempre lo último), caché como respaldo offline
   const isDoc = req.mode === 'navigate' || url.pathname.endsWith('/') || url.pathname.endsWith('/index.html');
-  const isData = url.pathname.endsWith('/uma.json') || url.pathname.endsWith('/servicios.json');
+  const isData = url.pathname.endsWith('/uma.json') || url.pathname.endsWith('/servicios.json') || url.pathname.endsWith('/aportes.json');
 
   if (isDoc || isData) {
     e.respondWith(
