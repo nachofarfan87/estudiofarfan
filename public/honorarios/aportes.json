@@ -1,0 +1,21 @@
+{
+  "_ayuda": "Valores para la calculadora de inicio de juicio. Montos fijos: un número en pesos (27900) o en UMA ({\"umas\": 0.5}). null = todavía no confirmado: la página lo muestra como 'a confirmar' y no lo suma al total.",
+  "estampilla_colabo": {
+    "_ayuda": "Regla: umas × UMA vigente, redondeado a 'redondeo'. 'vigente' es lo que el Colegio cobra hoy y manda sobre la regla: cuando el Colegio la ajuste, cambiar 'vigente' y 'verificado' (o poner vigente en null para que siga sola al UMA).",
+    "umas": 0.5,
+    "redondeo": 100,
+    "vigente": 27900,
+    "verificado": "2026-11-12"
+  },
+  "capsap": {
+    "_ayuda": "Ley 4764: aporte inicial del 0,3 % del monto reclamado. 'sin_monto' es el monto fijo para juicios sin monto.",
+    "porcentaje": 0.3,
+    "sin_monto": null
+  },
+  "tasa_justicia": {
+    "_ayuda": "Ley 5548, art. 41. 'porcentaje' sobre el monto reclamado, con 'minimo'; 'sin_monto' es el monto fijo para juicios sin monto.",
+    "porcentaje": null,
+    "minimo": null,
+    "sin_monto": null
+  }
+}
