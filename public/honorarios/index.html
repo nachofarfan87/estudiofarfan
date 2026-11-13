@@ -229,6 +229,30 @@ a{color:inherit;text-decoration:none}
 .card-wa:hover{color:var(--ink)}
 .card-wa:hover .arr{transform:translateX(4px)}
 
+/* ============ INICIO DE JUICIO ============ */
+.calc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.calc-form,.calc-out{background:var(--paper);padding:clamp(1.4rem,3vw,1.9rem)}
+.calc-form{display:grid;gap:1.4rem;align-content:start}
+.seg{position:relative;display:inline-flex;justify-self:start;border:1px solid var(--line-strong);background:var(--bone)}
+.seg input{position:absolute;left:0;top:0;width:1px;height:1px;opacity:0;pointer-events:none}
+.seg label{font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;
+  padding:.75em 1.1em;cursor:pointer;color:var(--text-soft);transition:background .25s var(--ease),color .25s var(--ease)}
+.seg input:checked + label{background:var(--ink);color:var(--bone)}
+.seg input:focus-visible + label{outline:2px solid var(--brass);outline-offset:2px}
+.calc-row{display:flex;justify-content:space-between;align-items:baseline;gap:1.2rem;padding:.85rem 0;border-bottom:1px solid var(--line)}
+.calc-row:first-child{padding-top:0}
+.calc-k{font-size:.98rem;color:var(--text);line-height:1.35}
+.calc-k small{display:block;margin-top:.2rem;font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.02em;color:var(--text-soft);line-height:1.5}
+.calc-v{font-family:"IBM Plex Mono",monospace;font-size:.9rem;color:var(--brass-ink);white-space:nowrap}
+.calc-v.pend{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-soft)}
+.calc-total{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;padding-top:1.1rem}
+.calc-total .calc-k{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--brass-ink)}
+.calc-total .calc-v{font-family:"Fraunces",serif;font-weight:340;font-size:clamp(1.6rem,1.2rem + 1.4vw,2.1rem);color:var(--ink-2);letter-spacing:-.02em}
+.calc-aviso{margin-top:1rem;font-size:.88rem;color:var(--text-soft);line-height:1.5}
+.calc-aviso b{color:var(--ink);font-weight:500}
+.calc-wa{margin-top:1.3rem}
+@media (max-width:760px){ .calc{grid-template-columns:1fr} .calc-row{flex-direction:column;gap:.25rem} }
+
 /* ============ BUSCADOR ============ */
 .catalog-search{position:relative;max-width:32rem}
 .catalog-search input{width:100%;font-family:"Hanken Grotesk",sans-serif;font-size:1rem;color:var(--text);
@@ -566,6 +590,43 @@ a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{o
           </div>
         </noscript>
         <!-- HONORARIOS_STATIC_CATALOG_END -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ INICIO DE JUICIO ============ -->
+  <section class="block" id="inicio" style="scroll-margin-top:4.5rem">
+    <div class="wrap">
+      <div class="block-head reveal">
+        <h2 class="section-title">Costos para <em>iniciar un juicio</em>.</h2>
+        <p class="section-note">Lo que se paga al presentar la demanda, aparte de los honorarios: tasa de justicia, aporte a la Caja de Abogados (CAPSAP) y estampilla profesional del Colegio de Abogados (COLABO).</p>
+      </div>
+      <div class="calc reveal">
+        <form class="calc-form" id="calcForm" autocomplete="off" onsubmit="return false">
+          <div class="field">
+            <span class="lbl" id="tipoLbl">Tipo de juicio</span>
+            <div class="seg" role="radiogroup" aria-labelledby="tipoLbl">
+              <input type="radio" name="tipo" id="tipoCon" value="con" checked><label for="tipoCon">Con monto</label>
+              <input type="radio" name="tipo" id="tipoSin" value="sin"><label for="tipoSin">Sin monto</label>
+            </div>
+          </div>
+          <div class="field" id="montoField">
+            <label for="montoInput">Monto reclamado</label>
+            <input type="text" id="montoInput" inputmode="decimal" placeholder="$ 1.500.000">
+            <p class="hint">Capital reclamado en la demanda, en pesos.</p>
+          </div>
+        </form>
+        <div class="calc-out" aria-live="polite">
+          <div id="calcRows">
+            <noscript><p class="hint">Active JavaScript para calcular los costos de inicio.</p></noscript>
+          </div>
+          <div class="calc-total">
+            <span class="calc-k" id="calcTotalLbl">Total</span>
+            <span class="calc-v" id="calcTotal">—</span>
+          </div>
+          <p class="calc-aviso" id="calcAviso"></p>
+          <a class="btn btn-line calc-wa" id="wa-inicio" href="https://wa.me/5493885800175" target="_blank" rel="noopener">Consultar por este juicio <span class="arr" aria-hidden="true">→</span></a>
+        </div>
       </div>
     </div>
   </section>
@@ -978,6 +1039,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{o
 
     renderHistory();
     renderServicios();
+    renderInicio();
   }
 
   function renderHistory(){
@@ -1325,6 +1387,113 @@ a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{o
   window.addEventListener('offline', () => toast('Sin conexión.'));
   window.addEventListener('hashchange', () => irAlArea(areaDelHash()));
 
+  // ===================== Inicio de juicio =====================
+  // Valores en aportes.json. Un monto fijo puede ser un número en pesos o
+  // { umas: n }; null significa "todavía no confirmado" y no entra al total.
+  let aportes = null;
+
+  async function loadAportes(){
+    try {
+      const res = await fetchWithTimeout('aportes.json', { headers:{ 'Accept':'application/json' } }, 6000);
+      if (!res.ok) return;
+      aportes = await res.json();
+      renderInicio();
+    } catch(e){}
+  }
+
+  // Pesos de un valor fijo: número, { umas } o null
+  function fijo(v){
+    if (v == null) return null;
+    if (typeof v === 'number') return v;
+    if (v.umas != null && state.valor != null) return Math.round(v.umas * state.valor);
+    return null;
+  }
+
+  // La estampilla del Colegio sigue al UMA (½ UMA redondeado a $100), pero el
+  // Colegio la ajusta con demora. 'vigente' es lo que cobra hoy y manda.
+  function estampilla(){
+    const e = (aportes && aportes.estampilla_colabo) || {};
+    const red = e.redondeo || 100;
+    const regla = (e.umas != null && state.valor != null)
+      ? Math.round(e.umas * state.valor / red) * red : null;
+    const vigente = typeof e.vigente === 'number' ? e.vigente : null;
+    const dias = diasDesde(e.verificado);
+    return {
+      valor: vigente != null ? vigente : regla,
+      regla,
+      ajustePendiente: vigente != null && regla != null && regla !== vigente,
+      vencido: vigente != null && dias != null && dias > DIAS_VENCE,
+    };
+  }
+
+  function calcularInicio(conMonto, monto){
+    const a = aportes || {};
+    const tj = a.tasa_justicia || {}, cp = a.capsap || {};
+    const filas = [];
+
+    if (conMonto){
+      let tasa = null;
+      if (tj.porcentaje != null && monto != null){
+        tasa = Math.round(monto * tj.porcentaje / 100);
+        const min = fijo(tj.minimo);
+        if (min != null) tasa = Math.max(tasa, min);
+      }
+      filas.push({ k:'Tasa de justicia', d: tj.porcentaje != null ? (String(tj.porcentaje).replace('.', ',') + ' % del monto' + (tj.minimo != null ? ', con mínimo' : '')) : 'Ley 5548', v: tasa, pend: tj.porcentaje == null });
+      filas.push({ k:'Aporte CAPSAP', d: cp.porcentaje != null ? String(cp.porcentaje).replace('.', ',') + ' % del monto · Ley 4764' : 'Ley 4764', v: (cp.porcentaje != null && monto != null) ? Math.round(monto * cp.porcentaje / 100) : null, pend: cp.porcentaje == null });
+    } else {
+      const t = fijo(tj.sin_monto), c = fijo(cp.sin_monto);
+      filas.push({ k:'Tasa de justicia', d:'Monto fijo · juicio sin monto', v:t, pend: t == null });
+      filas.push({ k:'Aporte CAPSAP', d:'Monto fijo · juicio sin monto', v:c, pend: c == null });
+    }
+
+    const est = estampilla();
+    filas.push({ k:'Estampilla profesional COLABO', d:'Por la demanda · ½ UMA', v: est.valor, pend: est.valor == null });
+    return { filas, est };
+  }
+
+  function renderInicio(){
+    if (!aportes) return;
+    const conMonto = $('tipoCon').checked;
+    $('montoField').hidden = !conMonto;
+    const monto = conMonto ? parseArgNumber($('montoInput').value) : null;
+    const { filas, est } = calcularInicio(conMonto, monto);
+
+    $('calcRows').innerHTML = filas.map(f => {
+      const sinDato = f.v == null;
+      const v = f.pend ? 'A confirmar' : (sinDato ? '—' : fmt(f.v));
+      return '<div class="calc-row"><span class="calc-k">' + esc(f.k) + '<small>' + esc(f.d) + '</small></span>'
+        + '<span class="calc-v' + (f.pend ? ' pend' : '') + '">' + esc(v) + '</span></div>';
+    }).join('');
+
+    const faltaMonto = conMonto && monto == null;
+    const incompleto = filas.some(f => f.pend);
+    const total = filas.reduce((s, f) => s + (f.v || 0), 0);
+    $('calcTotal').textContent = faltaMonto ? '—' : fmt(total);
+    $('calcTotalLbl').textContent = incompleto ? 'Total parcial' : 'Total';
+
+    const avisos = [];
+    if (faltaMonto) avisos.push('Ingrese el monto reclamado para calcular la tasa y el aporte.');
+    if (incompleto) avisos.push('Los conceptos <b>a confirmar</b> no están sumados: consulte el valor con el estudio.');
+    if (est.ajustePendiente) avisos.push('Con el UMA de ' + esc(cap(state.mes) || 'este mes') + ' (' + fmt(state.valor) + ') la estampilla pasaría a <b>' + fmt(est.regla) + '</b>, cuando el Colegio la actualice.');
+    else if (est.vencido) avisos.push('El valor de la estampilla lleva más de ' + DIAS_VENCE + ' días sin verificarse.');
+    avisos.push('Valores de referencia; no incluyen honorarios ni gastos de notificación.');
+    $('calcAviso').innerHTML = avisos.join(' ');
+
+    $('wa-inicio').href = waLink(conMonto && monto != null
+      ? 'Hola. Quisiera consultar por iniciar un juicio por ' + fmt(monto) + '.'
+      : 'Hola. Quisiera consultar por iniciar un juicio.');
+  }
+
+  ['tipoCon','tipoSin'].forEach(id => $(id).addEventListener('change', () => {
+    renderInicio();
+    if ($('tipoCon').checked) $('montoInput').focus();
+  }));
+  $('montoInput').addEventListener('input', renderInicio);
+  $('montoInput').addEventListener('blur', () => {
+    const m = parseArgNumber($('montoInput').value);
+    if (m != null) $('montoInput').value = fmt(m);
+  });
+
   // ===================== Aparición en scroll =====================
   function initReveal(){
     const items = document.querySelectorAll('.reveal');
@@ -1380,6 +1549,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{o
   refreshKeyStatus();
   renderHistory();
   loadServicios();
+  loadAportes();
   initReveal();
   initInstall();
   initServiceWorker();
