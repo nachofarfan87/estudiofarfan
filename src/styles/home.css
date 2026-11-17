@@ -188,6 +188,14 @@ html:not(.js-enabled) .site-head.over-hero{
 .af-chk.warn{color:#E4B7A0}
 .af-src{margin-top:1.2rem;font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.1em;color:rgba(251,248,241,.68)}
 
+/* ============ BANDA — INICIO DE JUICIO ============ */
+/* La banda del arancel en espejo: fondo de la página y la ficha a la
+   izquierda, para que no se lean como un solo bloque. En el teléfono vuelve
+   al orden del documento (texto y después ficha). */
+.arancel--inicio{background:var(--parchment)}
+.arancel--inicio .arancel-inner{grid-template-columns:.95fr 1.05fr}
+.arancel--inicio .arancel-ficha{order:-1}
+
 /* ============ INTRO / DEL ESTUDIO ============ */
 .intro-lead{
   font-family:"Fraunces",serif;font-weight:330;
@@ -512,7 +520,8 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 @media (max-width:880px){
   .foot-top{grid-template-columns:1fr 1fr}
   .contacto-grid{grid-template-columns:1fr}
-  .arancel-inner{grid-template-columns:1fr;gap:2.2rem}
+  .arancel-inner,.arancel--inicio .arancel-inner{grid-template-columns:1fr;gap:2.2rem}
+  .arancel--inicio .arancel-ficha{order:0}
   .arancel-h{max-width:20ch}
   .codex{grid-template-columns:1fr;gap:1rem}
   .codex-run{position:static;flex-direction:row;flex-wrap:wrap;gap:.8rem;align-items:center}

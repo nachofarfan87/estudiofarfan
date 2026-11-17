@@ -10,6 +10,7 @@ import { estudio } from '../data/estudio';
 import { alt, fachada, retrato } from '../data/imagenes';
 import { articulosPorFecha } from '../data/articulos';
 import { nodoSitio, nodoEstudio, nodoAbogado } from '../lib/schema';
+import { sinMonto, totalSinMonto, porcentajes } from '../lib/inicio';
 import '../styles/home.css';
 
 const materias = (await getCollection('materias')).sort(
@@ -24,6 +25,13 @@ const navLinks = [
   { href: '#materias', label: 'Materias' },
   { href: '#contacto', label: 'Contacto' },
 ];
+const pesos = new Intl.NumberFormat('es-AR', {
+  style: 'currency',
+  currency: 'ARS',
+  maximumFractionDigits: 0,
+});
+const pct = (n: number) => String(n).replace('.', ',') + ' %';
+
 const footerMaterias = materias.map((materia) => ({
   href: `/materias/${materia.id}/`,
   label: materia.data.home.pie,
@@ -164,6 +172,48 @@ const schema = [
             <div class="r"><dt>Consulta escrita · 8 UMA</dt><dd id="af-escrita">—</dd></div>
           </dl>
           <p class="af-src">Fuente: Colegio de Abogados de Jujuy</p>
+        </a>
+      </div>
+    </section>
+
+    {/* ============ BANDA — INICIO DE JUICIO ============ */}
+    {/* Mismo formato que la banda del arancel, en espejo. Los montos salen de
+        src/data/aportes.json y del UMA al compilar: no hace falta JavaScript. */}
+    <section
+      class="arancel arancel--inicio"
+      id="inicio-de-juicio"
+      aria-labelledby="inicio-h"
+      style="scroll-margin-top:calc(5.5rem + env(safe-area-inset-top, 0px))"
+    >
+      <div class="wrap arancel-inner">
+        <div>
+          <p class="eyebrow">Antes de presentar la demanda</p>
+          <h2 class="arancel-h" id="inicio-h">Cuánto cuesta <em>iniciar</em> un juicio.</h2>
+          <p class="arancel-lead">
+            Tasa de justicia, aportes a CAPSAP y estampilla del Colegio: lo que se paga al
+            presentar la demanda, aparte de los honorarios. Con monto o sin monto, la
+            calculadora lo resuelve en un momento.
+          </p>
+          <div class="arancel-actions">
+            <a class="btn btn-ink" href="/inicio-de-juicio/"
+              >Calcular mi juicio <span class="arr">→</span></a
+            >
+            <span class="arancel-note">Con monto o sin monto</span>
+          </div>
+        </div>
+
+        <a class="arancel-ficha" href="/inicio-de-juicio/" aria-label="Abrir la calculadora de inicio de juicio">
+          <span class="af-k">Juicio sin monto · Total de inicio</span>
+          <div class="af-value">{pesos.format(totalSinMonto)}</div>
+          <p class="af-mes">Sucesorios y procesos indeterminados</p>
+          <dl class="af-rows">
+            <div class="r"><dt>Tasa de justicia</dt><dd>{pesos.format(sinMonto.tasa)}</dd></div>
+            <div class="r"><dt>Aportes CAPSAP</dt><dd>{pesos.format(sinMonto.capsap)}</dd></div>
+            <div class="r"><dt>Estampilla del Colegio</dt><dd>{pesos.format(sinMonto.estampilla)}</dd></div>
+          </dl>
+          <p class="af-src">
+            Con monto: tasa del {pct(porcentajes.tasa)} y CAPSAP del {pct(porcentajes.capsap)} del reclamo.
+          </p>
         </a>
       </div>
     </section>
