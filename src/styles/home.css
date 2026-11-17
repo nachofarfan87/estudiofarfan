@@ -141,6 +141,8 @@ html:not(.js-enabled) .site-head.over-hero{
 .btn-ghost:hover{border-color:var(--brass-soft);color:var(--brass-soft)}
 .btn-ink{background:var(--ink);color:var(--bone);border-color:var(--ink)}
 .btn-ink:hover{background:transparent;color:var(--ink)}
+.btn-line{background:transparent;color:var(--ink);border-color:var(--ink)}
+.btn-line:hover{background:var(--ink);color:var(--bone)}
 
 /* ============ BANDA — EL ARANCEL ============ */
 .arancel{
