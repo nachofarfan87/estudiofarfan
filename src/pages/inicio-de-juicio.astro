@@ -54,7 +54,7 @@ const schema = [
   },
   nodoMigas(url, [
     { nombre: 'Inicio', url: publicUrl('/') },
-    { nombre: 'Honorarios', url: publicUrl('/honorarios/') },
+    { nombre: 'El estudio', url: publicUrl('/') },
     { nombre: 'Inicio de juicio' },
   ]),
 ];
@@ -69,10 +69,10 @@ const schema = [
   schema={schema}
   migaActual="Inicio de juicio"
   seccion={{
-    href: '/honorarios/',
-    miga: 'Honorarios',
-    cabecera: 'Honorarios',
-    pie: 'Ver los honorarios',
+    href: '/',
+    miga: 'El estudio',
+    cabecera: 'Volver al inicio',
+    pie: 'Volver al inicio',
   }}
 >
   <main id="contenido" tabindex="-1">
