@@ -70,12 +70,14 @@ estático; en producción la estructura de directorios ya publica esa URL de for
 nativa. Su catálogo también queda disponible sin JavaScript gracias a la etapa
 `postbuild`.
 
-La misma página trae la calculadora de **costos para iniciar un juicio** (tasa de
-justicia, aporte CAPSAP y estampilla del Colegio). Sus valores viven en
-`public/honorarios/aportes.json` y se editan ahí, sin tocar código:
+La calculadora de **costos para iniciar un juicio** está en `/inicio-de-juicio/`
+(`src/pages/inicio-de-juicio.astro`): tasa de justicia, aporte CAPSAP y estampilla
+del Colegio, con o sin monto. Sus valores viven en `src/data/aportes.json` y se
+editan ahí, sin tocar código; cada cambio republica el sitio:
 
-- un monto fijo puede ir en pesos (`27900`) o en UMA (`{ "umas": 0.5 }`), y en ese
-  caso sigue solo al UMA que actualiza el workflow;
+- **tasa de justicia**: porcentaje, mínimo y monto fijo de los juicios sin monto, en
+  las unidades que usa la DDJJ F-0209 de Rentas, más el valor en pesos de la unidad
+  (`valor_unidad`). Si Rentas cambia ese valor, se actualiza ese solo número;
 - `null` es "a confirmar": la página lo muestra así y no lo suma al total;
 - la estampilla se calcula como ½ UMA redondeado a $100, pero `vigente` manda
   sobre la regla porque el Colegio la ajusta con demora. Cuando la actualice,

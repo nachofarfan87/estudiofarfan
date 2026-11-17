@@ -1,0 +1,26 @@
+{
+  "_ayuda": "Valores de la calculadora /inicio-de-juicio/. Se editan acá, sin tocar código; cada cambio republica el sitio. null = todavía no confirmado: la página lo muestra 'a confirmar' y no lo suma al total.",
+
+  "tasa_justicia": {
+    "_ayuda": "Código Fiscal (Ley 5791), art. 322. Así figura en la DDJJ F-0209 de Rentas: 'Monto Fijo' y 'Monto Mínimo' van en unidades, y cada unidad vale 'valor_unidad' pesos (250 unidades = $19.500 en agosto de 2026). Si Rentas cambia el valor de la unidad, actualizar 'valor_unidad' y 'verificado'.",
+    "porcentaje": 2,
+    "minimo_unidades": 80,
+    "sin_monto_unidades": 250,
+    "valor_unidad": 78,
+    "verificado": "2026-08-24"
+  },
+
+  "capsap": {
+    "_ayuda": "Ley 4764: aporte inicial del 0,3 % del monto reclamado. 'sin_monto': monto fijo en pesos para juicios sin monto (null mientras no esté confirmado).",
+    "porcentaje": 0.3,
+    "sin_monto": null
+  },
+
+  "estampilla_colabo": {
+    "_ayuda": "Regla: 'umas' × UMA vigente, redondeado a 'redondeo'. 'vigente' es lo que el Colegio cobra hoy y manda sobre la regla, porque el Colegio la ajusta con demora: cuando la actualice, cambiar 'vigente' y 'verificado' (o poner vigente en null para que siga sola al UMA).",
+    "umas": 0.5,
+    "redondeo": 100,
+    "vigente": 27900,
+    "verificado": "2026-11-12"
+  }
+}
