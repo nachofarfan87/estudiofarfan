@@ -57,8 +57,8 @@ body{
 }
 .brand{display:flex;align-items:baseline;gap:.55rem;font-family:"Fraunces",serif;font-weight:430;font-size:1.28rem;letter-spacing:.01em}
 .brand small{font-family:"IBM Plex Mono",monospace;font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;opacity:1;font-weight:500;align-self:center}
-.nav{display:flex;gap:2rem;align-items:center}
-.nav a{font-family:"IBM Plex Mono",monospace;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;position:relative;padding-block:.3rem;opacity:.85;transition:opacity .25s}
+.nav{display:flex;gap:clamp(1rem,2.2vw,2rem);align-items:center}
+.nav a{white-space:nowrap;font-family:"IBM Plex Mono",monospace;font-size:.74rem;letter-spacing:clamp(.1em,.9vw,.16em);text-transform:uppercase;position:relative;padding-block:.3rem;opacity:.85;transition:opacity .25s}
 .nav a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--brass);transition:width .3s var(--ease)}
 .nav a:hover{opacity:1}
 .nav a:hover::after{width:100%}
@@ -141,8 +141,6 @@ html:not(.js-enabled) .site-head.over-hero{
 .btn-ghost:hover{border-color:var(--brass-soft);color:var(--brass-soft)}
 .btn-ink{background:var(--ink);color:var(--bone);border-color:var(--ink)}
 .btn-ink:hover{background:transparent;color:var(--ink)}
-.btn-line{background:transparent;color:var(--ink);border-color:var(--ink)}
-.btn-line:hover{background:var(--ink);color:var(--bone)}
 
 /* ============ BANDA — EL ARANCEL ============ */
 .arancel{
@@ -495,7 +493,8 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 @media (max-width:1024px){
   .abogado-card{grid-template-columns:1fr;gap:1.4rem}
 }
-@media (max-width:880px){
+/* Con seis secciones la barra ya no entra por debajo de ~1000px: pasa al menú. */
+@media (max-width:1000px){
   .nav{display:none}
   .head-cta{display:none}
   .js-enabled .nav-toggle{display:block}
@@ -509,6 +508,8 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   }
   .no-script-nav a{padding:.35rem 0;border-bottom:1px solid var(--brass-line)}
   .js-enabled .no-script-nav{display:none}
+}
+@media (max-width:880px){
   .foot-top{grid-template-columns:1fr 1fr}
   .contacto-grid{grid-template-columns:1fr}
   .arancel-inner{grid-template-columns:1fr;gap:2.2rem}
