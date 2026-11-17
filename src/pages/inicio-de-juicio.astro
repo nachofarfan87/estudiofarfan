@@ -147,9 +147,12 @@ const schema = [
           es un monto fijo de <strong>{ars.format(tasaSinMonto)}</strong>.
         </p>
         <p>
-          <strong>Aporte a CAPSAP.</strong> La Caja de Previsión Social de Abogados y
-          Procuradores (Ley 4764) cobra al iniciar el {pct(aportes.capsap.porcentaje)} del
-          monto reclamado, o un monto fijo en los juicios sin monto.
+          <strong>Aportes a CAPSAP.</strong> La Caja de Previsión Social de Abogados y
+          Procuradores (Ley 4764, art. 22) cobra al iniciar el {pct(aportes.capsap.porcentaje)}
+          del monto reclamado o, en los juicios sin monto, un monto fijo de
+          {ars.format(aportes.capsap.sin_monto)}. En todos los casos se suma la estampilla
+          previsional, de {ars.format(aportes.capsap.estampilla_previsional)}. Todo se paga
+          junto, con una sola nota de crédito.
         </p>
         <p>
           <strong>Estampilla profesional.</strong> La fija el Colegio de Abogados de Jujuy
@@ -218,14 +221,15 @@ const schema = [
       const t = base != null ? Math.max((base * tasa.porcentaje) / 100, tasa.minimo) : null;
       const minimo = base != null && (base * tasa.porcentaje) / 100 < tasa.minimo;
       filas.push({ k: 'Tasa de justicia', d: pct(tasa.porcentaje) + ' de la base' + (minimo ? ' · se aplica el mínimo' : ''), v: t });
-      filas.push({ k: 'Aporte CAPSAP', d: pct(capsap.porcentaje) + ' del monto reclamado', v: base != null ? (base * capsap.porcentaje) / 100 : null });
+      filas.push({ k: 'Aporte CAPSAP', d: pct(capsap.porcentaje) + ' del monto reclamado · inc. B', v: base != null ? (base * capsap.porcentaje) / 100 : null });
     } else {
       filas.push({ k: 'Tasa de justicia', d: 'Monto fijo · juicio sin monto', v: tasa.sinMonto });
-      filas.push({ k: 'Aporte CAPSAP', d: 'Monto fijo · juicio sin monto', v: capsap.sin_monto });
+      filas.push({ k: 'Aporte CAPSAP', d: 'Monto fijo · juicio sin monto · inc. C', v: capsap.sin_monto });
     }
+    filas.push({ k: 'Estampilla previsional CAPSAP', d: 'Monto fijo · todo juicio · inc. D', v: capsap.estampilla_previsional });
     filas.push({ k: 'Estampilla profesional COLABO', d: 'Por la demanda · ½ UMA', v: est.valor });
 
-    const pendientes = !conMonto && capsap.sin_monto == null;
+    const pendientes = filas.some((f) => f.v == null && (!conMonto || base != null));
     $('filas').innerHTML = filas
       .map((f) => {
         const pend = f.v == null && (!conMonto || base != null);
@@ -244,7 +248,7 @@ const schema = [
 
     const avisos: string[] = [];
     if (faltaMonto) avisos.push('Ingrese el capital reclamado para calcular la tasa y el aporte.');
-    if (pendientes) avisos.push('El aporte de CAPSAP para juicios sin monto está <b>a confirmar</b> y no se suma al total.');
+    if (pendientes) avisos.push('Los conceptos <b>a confirmar</b> no se suman al total.');
     if (est.pendiente)
       avisos.push(`Con el UMA de ${esc(datos.uma.mes)} (${fmt(datos.uma.valor)}) la estampilla pasaría a <b>${fmt(est.regla)}</b> cuando el Colegio la actualice.`);
     avisos.push('Valores de referencia; no incluyen honorarios ni otros gastos del proceso.');

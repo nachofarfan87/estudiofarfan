@@ -11,9 +11,11 @@
   },
 
   "capsap": {
-    "_ayuda": "Ley 4764: aporte inicial del 0,3 % del monto reclamado. 'sin_monto': monto fijo en pesos para juicios sin monto (null mientras no esté confirmado).",
+    "_ayuda": "Ley 4764, art. 22, como figura en la nota de crédito de CAPSAP: inc. B = 'porcentaje' del monto reclamado; inc. C = 'sin_monto' (juicios sin monto); inc. D = 'estampilla_previsional', en todo juicio. Montos en pesos; actualizar 'verificado' al cambiarlos.",
     "porcentaje": 0.3,
-    "sin_monto": null
+    "sin_monto": 11800,
+    "estampilla_previsional": 20200,
+    "verificado": "2026-11-17"
   },
 
   "estampilla_colabo": {
