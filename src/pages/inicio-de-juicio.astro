@@ -1,0 +1,476 @@
+---
+// src/pages/inicio-de-juicio.astro
+// Calculadora de lo que se paga al iniciar un juicio en Jujuy: tasa de
+// justicia, aporte CAPSAP y estampilla del Colegio. Los valores salen de
+// src/data/aportes.json y del UMA que actualiza el workflow; cada commit a
+// cualquiera de los dos republica el sitio, así que basta leerlos al compilar.
+import Documento from '../layouts/Documento.astro';
+import { publicUrl } from '../config/site';
+import { whatsappUrl } from '../data/estudio';
+import { ID, nodoSitio, nodoEstudio, nodoAbogado, nodoMigas } from '../lib/schema';
+import aportes from '../data/aportes.json';
+import uma from '../../public/honorarios/uma.json';
+
+const ruta = '/inicio-de-juicio/';
+const url = publicUrl(ruta);
+
+const ars = new Intl.NumberFormat('es-AR', {
+  style: 'currency',
+  currency: 'ARS',
+  maximumFractionDigits: 0,
+});
+const tj = aportes.tasa_justicia;
+const tasaMinima = tj.minimo_unidades * tj.valor_unidad;
+const tasaSinMonto = tj.sin_monto_unidades * tj.valor_unidad;
+const pct = (n: number) => String(n).replace('.', ',') + ' %';
+
+const datos = {
+  uma: { valor: uma.valor, mes: uma.mes },
+  tasa: {
+    porcentaje: tj.porcentaje,
+    minimo: tasaMinima,
+    sinMonto: tasaSinMonto,
+  },
+  capsap: aportes.capsap,
+  estampilla: aportes.estampilla_colabo,
+  whatsapp: whatsappUrl(''),
+};
+
+const schema = [
+  nodoSitio(),
+  nodoEstudio(),
+  nodoAbogado(),
+  {
+    '@type': 'WebPage',
+    '@id': `${url}#page`,
+    url,
+    name: 'Costos para iniciar un juicio en Jujuy',
+    description:
+      'Calculadora de la tasa de justicia, el aporte a CAPSAP y la estampilla del Colegio de Abogados para iniciar un juicio en Jujuy, con o sin monto.',
+    inLanguage: 'es-AR',
+    isPartOf: { '@id': ID.sitio },
+    about: { '@id': ID.estudio },
+    breadcrumb: { '@id': `${url}#crumbs` },
+  },
+  nodoMigas(url, [
+    { nombre: 'Inicio', url: publicUrl('/') },
+    { nombre: 'Honorarios', url: publicUrl('/honorarios/') },
+    { nombre: 'Inicio de juicio' },
+  ]),
+];
+---
+
+<Documento
+  title="Costos para iniciar un juicio en Jujuy — Estudio Jurídico Farfán"
+  description="Calcule la tasa de justicia, el aporte a CAPSAP y la estampilla profesional del Colegio de Abogados para iniciar un juicio en Jujuy, con monto o sin monto."
+  ogTitle="Costos para iniciar un juicio en Jujuy"
+  ogDescription="Tasa de justicia, aporte CAPSAP y estampilla del Colegio de Abogados, calculados al instante."
+  ruta={ruta}
+  schema={schema}
+  migaActual="Inicio de juicio"
+  seccion={{
+    href: '/honorarios/',
+    miga: 'Honorarios',
+    cabecera: 'Honorarios',
+    pie: 'Ver los honorarios',
+  }}
+>
+  <main id="contenido" tabindex="-1">
+    <div class="masthead reading">
+      <p class="eyebrow">§ Inicio de juicio · Jujuy</p>
+      <h1 class="doc-title">Lo que cuesta <em>presentar la demanda</em>.</h1>
+      <p class="doc-deck">
+        Tasa de justicia, aporte a la Caja de Abogados y estampilla del Colegio: lo que se
+        paga al iniciar, aparte de los honorarios.
+      </p>
+    </div>
+
+    <div class="calc-wrap">
+      <div class="calc">
+        <form class="calc-form" id="calcForm" autocomplete="off">
+          <fieldset class="field">
+            <legend class="lbl">Tipo de juicio</legend>
+            <div class="seg">
+              <input type="radio" name="tipo" id="tipoCon" value="con" checked />
+              <label for="tipoCon">Con monto</label>
+              <input type="radio" name="tipo" id="tipoSin" value="sin" />
+              <label for="tipoSin">Sin monto</label>
+            </div>
+            <p class="hint" id="tipoHint">
+              Se reclama una suma determinada: cobro de un pagaré, daños, defensa del
+              consumidor.
+            </p>
+          </fieldset>
+
+          <div class="con-monto" id="conMonto">
+            <div class="field">
+              <label class="lbl" for="capital">Capital reclamado</label>
+              <input type="text" id="capital" inputmode="decimal" placeholder="$ 740.000" />
+            </div>
+            <div class="field">
+              <label class="lbl" for="intereses">Intereses o multa por mora <span>(opcional)</span></label>
+              <input type="text" id="intereses" inputmode="decimal" placeholder="$ 0" />
+              <p class="hint">
+                Si el título los prevé —un pagaré con interés punitorio, por ejemplo— y se
+                reclaman en la demanda, integran la base imponible.
+              </p>
+            </div>
+          </div>
+        </form>
+
+        <div class="calc-out" aria-live="polite">
+          <p class="base" id="base" hidden></p>
+          <div id="filas">
+            <noscript><p class="hint">Active JavaScript para usar la calculadora.</p></noscript>
+          </div>
+          <div class="total">
+            <span class="total-k" id="totalLbl">Total</span>
+            <span class="total-v" id="total">—</span>
+          </div>
+          <p class="aviso" id="aviso"></p>
+          <a class="btn btn-line" id="waInicio" href={whatsappUrl('Hola. Quisiera consultar por iniciar un juicio.')} target="_blank" rel="noopener">
+            Consultar por este juicio <span class="arr" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="reading prose">
+      <section class="doc-sec">
+        <h2 class="doc-h2">Cómo se calcula</h2>
+        <p>
+          <strong>Tasa de justicia.</strong> La fija el Código Fiscal de la provincia (Ley
+          5791, art. 322) y se declara en el formulario F-0209 de Rentas. En los juicios
+          con monto es el <strong>{pct(tj.porcentaje)}</strong> de la base imponible —el
+          capital más los intereses o multas que se reclamen—, con un mínimo de {ars.format(tasaMinima)}.
+          En los juicios sin monto, como un sucesorio o un proceso de monto indeterminado,
+          es un monto fijo de <strong>{ars.format(tasaSinMonto)}</strong>.
+        </p>
+        <p>
+          <strong>Aportes a CAPSAP.</strong> La Caja de Previsión Social de Abogados y
+          Procuradores (Ley 4764, art. 22) cobra al iniciar el {pct(aportes.capsap.porcentaje)}
+          del monto reclamado o, en los juicios sin monto, un monto fijo de
+          {ars.format(aportes.capsap.sin_monto)}. En todos los casos se suma la estampilla
+          previsional, de {ars.format(aportes.capsap.estampilla_previsional)}. Todo se paga
+          junto, con una sola nota de crédito.
+        </p>
+        <p>
+          <strong>Estampilla profesional.</strong> La fija el Colegio de Abogados de Jujuy
+          (Ley 3329, art. 105) y equivale a medio UMA, redondeado a la centena. El Colegio
+          la ajusta poco después de cada cambio del UMA; esta página muestra el valor que
+          rige y avisa cuando hay uno nuevo en camino.
+        </p>
+        <p>
+          Los importes son de referencia y no incluyen honorarios, cédulas ni otros gastos
+          del proceso. Si la tasa se paga después de su vencimiento, Rentas suma intereses.
+          Los honorarios del estudio están en el <a href="/honorarios/">arancel publicado</a>.
+        </p>
+      </section>
+    </div>
+    <script type="application/json" id="datosInicio" set:html={JSON.stringify(datos)} />
+  </main>
+</Documento>
+
+<script>
+  type Fila = { k: string; d: string; v: number | null };
+
+  const datos = JSON.parse(document.getElementById('datosInicio')!.textContent!);
+  const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+  const ars = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 });
+  const fmt = (n: number) => ars.format(n);
+  const pct = (n: number) => String(n).replace('.', ',') + ' %';
+  const esc = (s: string) =>
+    s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
+
+  // "1.500.000,50" o "1500000" -> número; vacío -> null
+  function leer(str: string): number | null {
+    let s = str.replace(/[^\d.,]/g, '');
+    if (!s) return null;
+    if (s.includes('.') && s.includes(',')) s = s.replace(/\./g, '').replace(',', '.');
+    else if (s.includes(',')) s = s.replace(',', '.');
+    else if ((s.match(/\./g) || []).length > 1 || /\.\d{3}$/.test(s)) s = s.replace(/\./g, '');
+    const n = parseFloat(s);
+    return Number.isFinite(n) ? n : null;
+  }
+
+  // La estampilla sigue al UMA (½ UMA redondeado), pero el Colegio la ajusta
+  // con demora: 'vigente' es lo que cobra hoy y manda sobre la regla.
+  function estampilla() {
+    const e = datos.estampilla;
+    const red = e.redondeo || 100;
+    const regla = Math.round((e.umas * datos.uma.valor) / red) * red;
+    const vigente = typeof e.vigente === 'number' ? e.vigente : null;
+    return { valor: vigente ?? regla, regla, pendiente: vigente != null && vigente !== regla };
+  }
+
+  function render() {
+    const conMonto = $<HTMLInputElement>('tipoCon').checked;
+    $('conMonto').hidden = !conMonto;
+    $('tipoHint').textContent = conMonto
+      ? 'Se reclama una suma determinada: cobro de un pagaré, daños, defensa del consumidor.'
+      : 'No se reclama una suma determinada: sucesorios y procesos de monto indeterminado.';
+
+    const capital = conMonto ? leer($<HTMLInputElement>('capital').value) : null;
+    const intereses = conMonto ? leer($<HTMLInputElement>('intereses').value) || 0 : 0;
+    const base = capital != null ? capital + intereses : null;
+    const est = estampilla();
+    const { tasa, capsap } = datos;
+    const filas: Fila[] = [];
+
+    if (conMonto) {
+      const t = base != null ? Math.max((base * tasa.porcentaje) / 100, tasa.minimo) : null;
+      const minimo = base != null && (base * tasa.porcentaje) / 100 < tasa.minimo;
+      filas.push({ k: 'Tasa de justicia', d: pct(tasa.porcentaje) + ' de la base' + (minimo ? ' · se aplica el mínimo' : ''), v: t });
+      filas.push({ k: 'Aporte CAPSAP', d: pct(capsap.porcentaje) + ' del monto reclamado · inc. B', v: base != null ? (base * capsap.porcentaje) / 100 : null });
+    } else {
+      filas.push({ k: 'Tasa de justicia', d: 'Monto fijo · juicio sin monto', v: tasa.sinMonto });
+      filas.push({ k: 'Aporte CAPSAP', d: 'Monto fijo · juicio sin monto · inc. C', v: capsap.sin_monto });
+    }
+    filas.push({ k: 'Estampilla previsional CAPSAP', d: 'Monto fijo · todo juicio · inc. D', v: capsap.estampilla_previsional });
+    filas.push({ k: 'Estampilla profesional COLABO', d: 'Por la demanda · ½ UMA', v: est.valor });
+
+    const pendientes = filas.some((f) => f.v == null && (!conMonto || base != null));
+    $('filas').innerHTML = filas
+      .map((f) => {
+        const pend = f.v == null && (!conMonto || base != null);
+        const v = f.v != null ? fmt(f.v) : pend ? 'A confirmar' : '—';
+        return `<div class="fila"><span class="k">${esc(f.k)}<small>${esc(f.d)}</small></span><span class="v${pend ? ' pend' : ''}">${v}</span></div>`;
+      })
+      .join('');
+
+    const baseEl = $('base');
+    baseEl.hidden = !(conMonto && base != null && intereses > 0);
+    baseEl.innerHTML = `Base imponible <b>${base != null ? fmt(base) : ''}</b>`;
+
+    const faltaMonto = conMonto && base == null;
+    $('total').textContent = faltaMonto ? '—' : fmt(filas.reduce((s, f) => s + (f.v || 0), 0));
+    $('totalLbl').textContent = pendientes ? 'Total parcial' : 'Total';
+
+    const avisos: string[] = [];
+    if (faltaMonto) avisos.push('Ingrese el capital reclamado para calcular la tasa y el aporte.');
+    if (pendientes) avisos.push('Los conceptos <b>a confirmar</b> no se suman al total.');
+    if (est.pendiente)
+      avisos.push(`Con el UMA de ${esc(datos.uma.mes)} (${fmt(datos.uma.valor)}) la estampilla pasaría a <b>${fmt(est.regla)}</b> cuando el Colegio la actualice.`);
+    avisos.push('Valores de referencia; no incluyen honorarios ni otros gastos del proceso.');
+    $('aviso').innerHTML = avisos.join(' ');
+
+    $<HTMLAnchorElement>('waInicio').href =
+      datos.whatsapp +
+      encodeURIComponent(
+        base != null ? `Hola. Quisiera consultar por iniciar un juicio por ${fmt(base)}.` : 'Hola. Quisiera consultar por iniciar un juicio.',
+      );
+  }
+
+  $('calcForm').addEventListener('submit', (e) => e.preventDefault());
+  $('calcForm').addEventListener('input', render);
+  $('calcForm').addEventListener('change', render);
+  for (const id of ['capital', 'intereses']) {
+    const el = $<HTMLInputElement>(id);
+    el.addEventListener('blur', () => {
+      const n = leer(el.value);
+      if (n != null) el.value = new Intl.NumberFormat('es-AR', { maximumFractionDigits: 2 }).format(n);
+    });
+  }
+  render();
+</script>
+
+<style is:global>
+  .calc-wrap {
+    max-width: 60rem;
+    margin-inline: auto;
+    padding-inline: max(var(--pad), env(safe-area-inset-left, 0px));
+  }
+  .calc {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .calc-form,
+  .calc-out {
+    background: var(--paper);
+    padding: clamp(1.4rem, 3vw, 1.9rem);
+  }
+  .calc-form,
+  .con-monto {
+    display: grid;
+    gap: 1.4rem;
+    align-content: start;
+  }
+  .calc .field {
+    display: grid;
+    gap: 0.5rem;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+  }
+  .calc .lbl {
+    padding: 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--brass-ink);
+  }
+  .calc .lbl span {
+    letter-spacing: 0.06em;
+    text-transform: none;
+    color: var(--text-soft);
+  }
+  .calc .field input[type='text'] {
+    width: 100%;
+    font: inherit;
+    font-size: 1rem;
+    color: var(--text);
+    background: var(--bone);
+    border: 2px solid var(--brass-ink);
+    border-radius: 0;
+    padding: 0.7rem 0.9rem;
+    transition: border-color 0.25s var(--ease);
+  }
+  .calc .field input[type='text']:focus {
+    outline: none;
+    border-color: var(--ink);
+  }
+  .calc .hint {
+    font-size: 0.88rem;
+    color: var(--text-soft);
+    line-height: 1.5;
+  }
+  .seg {
+    position: relative;
+    display: inline-flex;
+    justify-self: start;
+    border: 1px solid var(--line-strong);
+    background: var(--bone);
+  }
+  .seg input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+  }
+  .seg label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 0.75em 1.1em;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    color: var(--text-soft);
+    transition: background 0.25s var(--ease), color 0.25s var(--ease);
+  }
+  .seg input:checked + label {
+    background: var(--ink);
+    color: var(--bone);
+  }
+  .seg input:focus-visible + label {
+    outline: 2px solid var(--brass);
+    outline-offset: 2px;
+  }
+  .calc-out .base {
+    margin-bottom: 0.9rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    color: var(--text-soft);
+  }
+  .calc-out .base b {
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .fila {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1.2rem;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .fila:first-child {
+    padding-top: 0;
+  }
+  .fila .k {
+    font-size: 0.98rem;
+    color: var(--text);
+    line-height: 1.35;
+  }
+  .fila small {
+    display: block;
+    margin-top: 0.2rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.66rem;
+    color: var(--text-soft);
+    line-height: 1.5;
+  }
+  .fila .v {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.9rem;
+    color: var(--brass-ink);
+    white-space: nowrap;
+  }
+  .fila .v.pend {
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-soft);
+  }
+  .total {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    padding-top: 1.1rem;
+  }
+  .total-k {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--brass-ink);
+  }
+  .total-v {
+    font-family: 'Fraunces', serif;
+    font-weight: 340;
+    font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.1rem);
+    color: var(--ink-2);
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+  }
+  .aviso {
+    margin-top: 1rem;
+    font-size: 0.88rem;
+    color: var(--text-soft);
+    line-height: 1.5;
+  }
+  .aviso b {
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .calc-out .btn {
+    margin-top: 1.3rem;
+  }
+  .btn-line {
+    color: var(--ink);
+    border-color: var(--line-strong);
+  }
+  .btn-line:hover {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--bone);
+  }
+  @media (max-width: 760px) {
+    .calc {
+      grid-template-columns: 1fr;
+    }
+    .fila {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+  }
+</style>
