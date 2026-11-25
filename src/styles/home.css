@@ -291,6 +291,11 @@ html:not(.js-enabled) .site-head.over-hero{
 .abogado-bio{margin-top:1.1rem;color:var(--text-soft);font-size:1.05rem;line-height:1.6;max-width:56ch}
 .abogado-mat{margin-top:1.4rem;font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.1em;color:var(--text-soft)}
 
+.abogado-obras{margin-top:1rem;color:var(--text-soft);font-size:.98rem;line-height:1.55;max-width:56ch}
+.abogado-obras a{color:var(--brass-ink);border-bottom:1px solid var(--brass-line);transition:border-color .25s var(--ease)}
+.abogado-obras a:hover{border-bottom-color:var(--brass)}
+.abogado-obras cite{font-style:italic}
+
 /* ============ LINAJE ============ */
 .linaje-head{margin-top:3rem;font-family:"IBM Plex Mono",monospace;font-size:.7rem;font-weight:400;letter-spacing:.24em;text-transform:uppercase;color:var(--brass-ink);padding-bottom:.8rem;border-bottom:1px solid var(--line)}
 .linaje{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-top:0;list-style:none}
@@ -497,12 +502,32 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   background:var(--brass);color:var(--ink);padding:.95em 1.6em;border:1px solid var(--brass)}
 .no-script-nav{display:none}
 
+.linaje-note a{color:var(--brass-soft);border-bottom:1px solid var(--brass-line)}
+.linaje-note a:hover{border-bottom-color:var(--brass)}
+
+/* ============ OBRAS ============ */
+.obras-lead{margin-top:1.4rem;font-size:1.2rem;max-width:48ch;color:var(--text-soft)}
+.obras-list{list-style:none;margin-top:2.6rem;display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
+.obra{background:var(--parchment);transition:background-color .4s var(--ease)}
+.obra:hover{background:var(--paper)}
+.obra-link{display:grid;grid-template-rows:auto 1fr;gap:1.6rem;height:100%;padding:clamp(1.4rem,3vw,2.2rem);position:relative}
+.obra-link::before{content:"";position:absolute;left:-1px;top:0;bottom:0;width:2px;background:var(--brass);transform:scaleY(0);transform-origin:top;transition:transform .4s var(--ease)}
+.obra-link:hover::before{transform:scaleY(1)}
+.obra-link:hover .art-toggle .arr{transform:translateX(4px)}
+.obra-tapa{width:clamp(9rem,40%,13rem);height:auto;border:1px solid var(--line-strong);box-shadow:0 1rem 2rem -1rem rgba(21,37,28,.4);transition:transform .5s var(--ease)}
+.obra-link:hover .obra-tapa{transform:translateY(-4px)}
+.obra-text{display:flex;flex-direction:column;align-items:flex-start}
+.obra-title{margin-top:.7rem;font-family:"Fraunces",serif;font-weight:400;font-size:clamp(1.35rem,1rem + 1vw,1.8rem);letter-spacing:-.012em;line-height:1.12;color:var(--ink)}
+.obra-sub{margin-top:.45rem;font-family:"Fraunces",serif;font-style:italic;font-weight:340;font-size:1.02rem;line-height:1.4;color:var(--ink-2)}
+.obra-copete{margin-top:.9rem;color:var(--text-soft);font-size:.98rem;line-height:1.6}
+.obra-text .art-toggle{margin-top:auto;padding-top:1.2rem}
+
 /* ============ RESPONSIVE ============ */
 @media (max-width:1024px){
   .abogado-card{grid-template-columns:1fr;gap:1.4rem}
 }
-/* Con seis secciones la barra ya no entra por debajo de ~1000px: pasa al menú. */
-@media (max-width:1000px){
+/* Con siete secciones la barra ya no entra por debajo de ~1100px: pasa al menú. */
+@media (max-width:1100px){
   .nav{display:none}
   .head-cta{display:none}
   .js-enabled .nav-toggle{display:block}
@@ -530,6 +555,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   .titulo-links{grid-column:1/-1;justify-self:start;justify-items:start;margin-top:.7rem;
     grid-auto-flow:column;gap:1.4rem}
   .linaje{grid-template-columns:1fr}
+  .obras-list{grid-template-columns:1fr}
 }
 @media (max-width:720px){
   .foot-top{grid-template-columns:1fr}
