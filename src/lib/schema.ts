@@ -135,3 +135,36 @@ export const nodoPreguntas = (
     acceptedAnswer: { '@type': 'Answer', text: a.join(' ') },
   })),
 });
+
+// Un libro del titular. El autor es la misma entidad Person de todo el sitio,
+// así Google asocia la obra al abogado y no a un homónimo.
+export const nodoObra = (o: {
+  slug: string;
+  titulo: string;
+  subtitulo: string;
+  copete: string;
+  editorial: string;
+  tapa: { src: string };
+  paginas?: number;
+  isbn?: string;
+  anio?: string;
+}) => {
+  const url = publicUrl(`/obras/${o.slug}/`);
+  const tapa = absoluteUrl(o.tapa.src);
+  return {
+    '@type': 'Book',
+    '@id': `${url}#libro`,
+    name: o.titulo,
+    alternativeHeadline: o.subtitulo,
+    description: o.copete,
+    url,
+    inLanguage: 'es-AR',
+    bookFormat: 'https://schema.org/Paperback',
+    author: { '@id': ID.abogado },
+    publisher: { '@type': 'Organization', name: o.editorial },
+    ...(tapa ? { image: tapa } : {}),
+    ...(o.paginas ? { numberOfPages: o.paginas } : {}),
+    ...(o.isbn ? { isbn: o.isbn } : {}),
+    ...(o.anio ? { datePublished: o.anio } : {}),
+  };
+};

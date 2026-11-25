@@ -1,0 +1,313 @@
+---
+// src/pages/obras/[slug].astro
+// Una página por libro. Los datos salen de src/data/obras.ts; para sumar una
+// obra nueva alcanza con agregarla ahí.
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import { publicUrl } from '../../config/site';
+import { abogado } from '../../data/estudio';
+import { obrasEnOrden, pedidoUrl, type Obra } from '../../data/obras';
+import { nodoSitio, nodoEstudio, nodoAbogado, nodoMigas, nodoObra } from '../../lib/schema';
+import '../../styles/articulo.css';
+
+export function getStaticPaths() {
+  return obrasEnOrden().map((obra) => ({ params: { slug: obra.slug }, props: { obra } }));
+}
+
+const { obra } = Astro.props as { obra: Obra };
+const serie = obrasEnOrden();
+const otras = serie.filter((o) => o.slug !== obra.slug);
+const ruta = `/obras/${obra.slug}/`;
+const url = publicUrl(ruta);
+const pedido = pedidoUrl(obra);
+
+const ficha = [
+  { k: 'Autor', v: abogado.nombre },
+  { k: 'Editorial', v: obra.editorial },
+  { k: 'Género', v: obra.genero },
+  ...(obra.paginas ? [{ k: 'Extensión', v: `${obra.paginas} páginas` }] : []),
+  ...(obra.anio ? [{ k: 'Edición', v: obra.anio }] : []),
+  ...(obra.isbn ? [{ k: 'ISBN', v: obra.isbn }] : []),
+  { k: 'Obra', v: `${obra.orden} de ${serie.length} · serie «El tiempo útil»` },
+];
+
+const schema = [
+  nodoSitio(),
+  nodoEstudio(),
+  nodoAbogado(),
+  nodoObra(obra),
+  nodoMigas(url, [
+    { nombre: 'Inicio', url: publicUrl('/') },
+    { nombre: 'Obras', url: publicUrl('/#obras') },
+    { nombre: obra.titulo },
+  ]),
+];
+---
+
+<Base
+  title={`${obra.titulo} — ${abogado.nombre} | Estudio Farfán`}
+  description={`«${obra.titulo}. ${obra.subtitulo}», libro de ${abogado.nombre} (${obra.editorial}). ${obra.copete}`}
+  ogTitle={`${obra.titulo} — ${abogado.nombre}`}
+  ogDescription={obra.copete}
+  ruta={ruta}
+  schema={schema}
+  whatsapp={pedido}
+  bodyId="top"
+>
+  <a class="skip" href="#contenido">Saltar al contenido</a>
+
+  <Header
+    variant="document"
+    backLinks={[
+      { href: '/#obras', label: 'Obras', direction: 'back' },
+      { href: '/articulos/', label: 'Doctrina' },
+    ]}
+    ctaLabel="Consulta"
+  />
+
+  <main id="contenido" tabindex="-1">
+    <div class="obra-masthead">
+      <div class="obra-grid">
+        <figure class="obra-tapa">
+          <Image
+            src={obra.tapa}
+            alt={obra.tapaAlt}
+            width={720}
+            widths={[360, 540, 720]}
+            sizes="(max-width:760px) 62vw, 20rem"
+            loading="eager"
+            fetchpriority="high"
+          />
+        </figure>
+
+        <div class="obra-intro">
+          <p class="eyebrow">§ Obras · {obra.genero}</p>
+          <h1 class="doc-title">{obra.titulo}</h1>
+          <p class="doc-deck">{obra.subtitulo}</p>
+          <div class="doc-meta">
+            <span>Por <b>{abogado.nombre}</b></span>
+            <span>{obra.editorial}</span>
+            {obra.paginas && <span>{obra.paginas} páginas</span>}
+          </div>
+          <p class="obra-copete">{obra.copete}</p>
+          <div class="obra-acciones">
+            <a class="btn btn-ink" href={pedido} target="_blank" rel="noopener" data-wa-origen="obra"
+              >Solicitar un ejemplar <span class="arr" aria-hidden="true">→</span></a
+            >
+            <span class="obra-nota">Por WhatsApp, al estudio</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reading">
+      <article class="prose">
+        <section class="doc-sec" id="contratapa">
+          <h2 class="doc-h2"><span class="doc-h2-num">I</span>De la contratapa</h2>
+          <blockquote class="obra-contratapa">
+            <span class="obra-sello">Nuevo libro de {obra.editorial}</span>
+            {obra.contratapa.map((p) => <p>{p}</p>)}
+          </blockquote>
+        </section>
+
+        <section class="fuentes" id="ficha" aria-label="Ficha técnica">
+          <h2>Ficha técnica</h2>
+          <dl>
+            {ficha.map((f) => (
+              <div>
+                <dt>{f.k}</dt>
+                <dd>{f.v}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+
+        <section class="fuentes" id="serie" aria-label="La serie">
+          <h2>La serie «El tiempo útil»</h2>
+          <p class="obra-serie-lead">
+            El anteproyecto propone la ley; los fundamentos explican por qué hace falta.
+            Las dos obras parten de la misma pregunta sobre el tiempo dentro del proceso
+            judicial.
+          </p>
+          <ul class="obra-serie">
+            {otras.map((o) => (
+              <li>
+                <a href={`/obras/${o.slug}/`}>
+                  <Image src={o.tapa} alt="" width={160} widths={[80, 160]} sizes="5rem" loading="lazy" />
+                  <span>
+                    <span class="k">{o.genero}</span>
+                    <span class="t">{o.titulo}</span>
+                    <span class="s">{o.subtitulo}</span>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+          <p class="obra-serie-lead">
+            En la misma línea, el artículo <a href="/articulos/el-tiempo-que-la-ley-no-manda-perder/"
+              >«El tiempo que la ley no manda perder»</a
+            > analiza una práctica concreta de los juzgados civiles de Jujuy que alarga el
+            trámite.
+          </p>
+        </section>
+
+        <aside class="doc-cta">
+          <span class="k">Pedidos</span>
+          <h2>Solicite su ejemplar.</h2>
+          <p>
+            Los ejemplares se piden directamente al estudio por WhatsApp. Escríbanos y le
+            indicamos cómo retirarlo o recibirlo.
+          </p>
+          <div class="cta-actions">
+            <a class="btn btn-brass" href={pedido} target="_blank" rel="noopener" data-wa-origen="cierre"
+              >Pedir por WhatsApp <span class="arr" aria-hidden="true">→</span></a
+            >
+            <a class="btn btn-ghost" href="/#obras">Ver las obras</a>
+          </div>
+        </aside>
+      </article>
+    </div>
+  </main>
+
+  <Footer
+    variant="document"
+    links={[
+      { href: '/#obras', label: 'Volver a Obras', direction: 'back' },
+      { href: '/articulos/', label: 'Doctrina', direction: 'forward' },
+    ]}
+  />
+</Base>
+
+<style>
+  .obra-masthead {
+    max-width: 62rem;
+    margin-inline: auto;
+    padding-block: clamp(2.4rem, 6vw, 4.4rem) clamp(1.4rem, 3vw, 2.2rem);
+    padding-left: max(var(--pad), env(safe-area-inset-left, 0px));
+    padding-right: max(var(--pad), env(safe-area-inset-right, 0px));
+  }
+  .obra-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 20rem) minmax(0, 1fr);
+    gap: clamp(1.8rem, 5vw, 4rem);
+    align-items: start;
+  }
+  .obra-tapa img {
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--line-strong);
+    box-shadow: 0 1.4rem 2.6rem -1.2rem rgba(21, 37, 28, 0.38);
+  }
+  .obra-intro .doc-title {
+    max-width: 16ch;
+  }
+  .obra-copete {
+    margin-top: 1.4rem;
+    color: var(--text-soft);
+    font-size: 1.04rem;
+    line-height: 1.62;
+    max-width: 52ch;
+  }
+  .obra-acciones {
+    margin-top: 1.8rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.9rem 1.4rem;
+  }
+  .btn-ink {
+    background: var(--ink);
+    color: var(--bone);
+    border-color: var(--ink);
+  }
+  .btn-ink:hover {
+    background: transparent;
+    color: var(--ink);
+  }
+  .obra-nota {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-soft);
+  }
+  .prose .obra-contratapa {
+    font-family: var(--font-serif);
+    font-style: normal;
+  }
+  .obra-sello {
+    display: block;
+    font-family: var(--font-mono);
+    font-style: normal;
+    font-size: 0.66rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--brass-ink);
+  }
+  .prose .obra-contratapa p {
+    margin-top: 0.9rem;
+    font-size: 1.06rem;
+    line-height: 1.6;
+    color: var(--ink-2);
+  }
+  .obra-serie-lead {
+    color: var(--text-soft);
+    font-size: 0.98rem;
+  }
+  .obra-serie {
+    list-style: none;
+    margin-top: 1.3rem;
+    display: grid;
+    gap: 1rem;
+  }
+  .obra-serie a {
+    display: grid;
+    grid-template-columns: 5rem 1fr;
+    gap: 1.2rem;
+    align-items: center;
+    padding: 1rem;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    transition: background-color 0.3s var(--ease);
+  }
+  .obra-serie a:hover {
+    background: var(--bone);
+  }
+  .obra-serie img {
+    width: 5rem;
+    height: auto;
+    border: 1px solid var(--line);
+  }
+  .obra-serie .k {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--brass-ink);
+  }
+  .obra-serie .t {
+    display: block;
+    margin-top: 0.3rem;
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    color: var(--ink);
+  }
+  .obra-serie .s {
+    display: block;
+    margin-top: 0.2rem;
+    font-size: 0.92rem;
+    color: var(--text-soft);
+    line-height: 1.45;
+  }
+  @media (max-width: 760px) {
+    .obra-grid {
+      grid-template-columns: 1fr;
+    }
+    .obra-tapa {
+      width: min(62vw, 17rem);
+    }
+  }
+</style>

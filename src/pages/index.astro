@@ -9,7 +9,8 @@ import { publicUrl } from '../config/site';
 import { estudio } from '../data/estudio';
 import { alt, fachada, retrato } from '../data/imagenes';
 import { articulosPorFecha } from '../data/articulos';
-import { nodoSitio, nodoEstudio, nodoAbogado } from '../lib/schema';
+import { obrasEnOrden } from '../data/obras';
+import { nodoSitio, nodoEstudio, nodoAbogado, nodoObra } from '../lib/schema';
 import { sinMonto, totalSinMonto, porcentajes } from '../lib/inicio';
 import '../styles/home.css';
 
@@ -17,8 +18,10 @@ const materias = (await getCollection('materias')).sort(
   (a, b) => a.data.orden - b.data.orden,
 );
 const articulos = articulosPorFecha();
+const obras = obrasEnOrden();
 const navLinks = [
   { href: '#estudio', label: 'El estudio' },
+  { href: '#obras', label: 'Obras' },
   { href: '/honorarios/', label: 'Honorarios' },
   { href: '/inicio-de-juicio/', label: 'Inicio de juicio' },
   { href: '#articulos', label: 'Artículos' },
@@ -76,6 +79,7 @@ const schema = [
     },
   },
   nodoAbogado(),
+  ...obras.map(nodoObra),
   {
     '@type': 'ItemList',
     '@id': publicUrl('/#materias-lista'),
@@ -287,6 +291,14 @@ const schema = [
                 personal que eso implica y el respaldo de setenta años de oficio familiar
                 detrás del apellido.
               </p>
+              <p class="abogado-obras">
+                Autor de {obras.map((o, i) => (
+                  <>
+                    {i > 0 && (i === obras.length - 1 ? ' y ' : ', ')}
+                    <a href={`/obras/${o.slug}/`}><cite>{o.titulo}</cite></a>
+                  </>
+                ))}.
+              </p>
               <p class="abogado-mat">M.P. 4692</p>
             </div>
           </div>
@@ -316,10 +328,12 @@ const schema = [
             <li class="linaje-gen current">
               <div class="linaje-year">Hoy</div>
               <p class="linaje-rol">Continuidad del estudio</p>
-              <p class="linaje-name">Una nueva generación</p>
+              <p class="linaje-name">Juan Ignacio Farfán</p>
               <p class="linaje-note">
                 La práctica continúa con el mismo principio: distintas áreas de trabajo y
-                una sola mirada sobre cada caso.
+                una sola mirada sobre cada caso. Lleva ese planteo a dos libros sobre el
+                tiempo dentro del proceso judicial: <a href="#obras">un anteproyecto de ley
+                y sus fundamentos</a>.
               </p>
             </li>
           </ol>
@@ -327,7 +341,61 @@ const schema = [
       </div>
     </section>
 
-    {/* ============ § II — DE LA DOCTRINA ============ */}
+    {/* ============ § II — DE LAS OBRAS ============ */}
+    {/* Los libros del titular. Datos en src/data/obras.ts; cada tarjeta lleva
+        a /obras/<slug>/, donde está la contratapa y el pedido por WhatsApp. */}
+    <section
+      class="section"
+      id="obras"
+      style="scroll-margin-top:calc(5.5rem + env(safe-area-inset-top, 0px))"
+    >
+      <div class="wrap codex">
+        <div class="codex-margin">
+          <div class="codex-run">
+            <span class="sec-no serif">§ II</span>
+            <span class="eyebrow">De las obras</span>
+          </div>
+        </div>
+        <div class="codex-body">
+          <h2 class="section-head reveal">El tiempo <em>útil</em>.</h2>
+          <p class="intro-lead reveal obras-lead">
+            ¿De qué sirve una sentencia justa si llega cuando ya nada de lo que motivó el
+            reclamo sigue igual? Dos libros de Juan Ignacio Farfán, publicados por
+            Editorial Cuadernos del Duende: un anteproyecto de ley y sus fundamentos.
+          </p>
+
+          <ol class="obras-list">
+            {obras.map((o) => (
+              <li class="obra reveal">
+                <a class="obra-link" href={`/obras/${o.slug}/`}>
+                  <Image
+                    class="obra-tapa"
+                    src={o.tapa}
+                    alt={o.tapaAlt}
+                    width={480}
+                    widths={[240, 360, 480]}
+                    sizes="(max-width:640px) 9rem, 13rem"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <div class="obra-text">
+                    <span class="art-date">{o.genero}</span>
+                    <h3 class="obra-title">{o.titulo}</h3>
+                    <p class="obra-sub">{o.subtitulo}</p>
+                    <p class="obra-copete">{o.copete}</p>
+                    <span class="art-toggle">
+                      Conocer la obra <span class="arr" aria-hidden="true">→</span>
+                    </span>
+                  </div>
+                </a>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    {/* ============ § III — DE LA DOCTRINA ============ */}
     <section
       class="section"
       id="articulos"
@@ -336,7 +404,7 @@ const schema = [
       <div class="wrap codex">
         <div class="codex-margin">
           <div class="codex-run">
-            <span class="sec-no serif">§ II</span>
+            <span class="sec-no serif">§ III</span>
             <span class="eyebrow">De la doctrina</span>
           </div>
         </div>
@@ -365,7 +433,7 @@ const schema = [
       </div>
     </section>
 
-    {/* ============ § III — DE LAS MATERIAS ============ */}
+    {/* ============ § IV — DE LAS MATERIAS ============ */}
     <section
       class="section"
       id="materias"
@@ -374,7 +442,7 @@ const schema = [
       <div class="wrap codex">
         <div class="codex-margin">
           <div class="codex-run">
-            <span class="sec-no serif">§ III</span>
+            <span class="sec-no serif">§ IV</span>
             <span class="eyebrow">De las materias</span>
           </div>
         </div>
@@ -427,7 +495,7 @@ const schema = [
       </div>
     </section>
 
-    {/* ============ § IV — DE LAS CONSULTAS ============ */}
+    {/* ============ § V — DE LAS CONSULTAS ============ */}
     <section
       class="section"
       id="contacto"
@@ -436,7 +504,7 @@ const schema = [
       <div class="wrap codex">
         <div class="codex-margin">
           <div class="codex-run">
-            <span class="sec-no serif">§ IV</span>
+            <span class="sec-no serif">§ V</span>
             <span class="eyebrow">De las consultas</span>
           </div>
         </div>

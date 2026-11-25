@@ -37,6 +37,8 @@ body{font-size:clamp(1rem,.55rem + .6vw,1.0625rem);line-height:1.68;font-weight:
 .abstract{margin-top:2.4rem;border-left:2px solid var(--brass);background:var(--bone);padding:1.4rem 1.5rem}
 .abstract .lbl{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--brass-ink)}
 .abstract p{margin-top:.65rem;color:var(--text-soft);font-size:1.02rem;line-height:1.62;max-width:60ch;text-align:justify;hyphens:auto;-webkit-hyphens:auto}
+.abstract p a{color:var(--brass-ink);border-bottom:1px solid var(--brass-line)}
+.abstract p a:hover{border-bottom-color:var(--brass)}
 
 /* ============ CITA DESTACADA ============ */
 .cita{margin-top:2.4rem}
